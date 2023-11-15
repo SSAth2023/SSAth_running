@@ -10,7 +10,8 @@ CREATE TABLE IF NOT EXISTS User (
 
 CREATE TABLE IF NOT EXISTS RunningPath (   
 	map_id INT AUTO_INCREMENT PRIMARY KEY,   
-    user_id VARCHAR(20) REFERENCES User(user_id) ON DELETE CASCADE,   
+    user_id VARCHAR(20) REFERENCES User(user_id) ON DELETE CASCADE, 
+    title VARCHAR(30),
     `path` TEXT,   
     `description` VARCHAR(3000),
     distance INT,   
