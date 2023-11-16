@@ -4,7 +4,7 @@ import com.ssath.map.model.dto.Bookmark;
 
 public interface BookmarkService {
 	
-	public boolean selectBookmark(int mapId, String userId);
+	public boolean selectBookmark(String mapId, String userId);
 	
 	public int selectBookmarks(int mapId);
 	

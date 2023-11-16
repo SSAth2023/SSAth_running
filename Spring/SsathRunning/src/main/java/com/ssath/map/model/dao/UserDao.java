@@ -9,7 +9,7 @@ public interface UserDao {
 	//특정 유저 정보 출력
 	public User selectUser(String userId);
 	
-	//유저들의 정보 출력
+	//모든 유저 정보 출력
 	public List<User> selectUsers();
 	
 	//회원 가입
