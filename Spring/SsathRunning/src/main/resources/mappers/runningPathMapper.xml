@@ -14,16 +14,22 @@
 	</resultMap>
 
 	<!-- 전체 경로 조회 -->
-	<select id="selectPaths" resultType="RunningPath">
+	<select id="selectPaths" resultType="RunningPath" parameterType="RunningPath">
 		SELECT map_id, user_id, title, path, description, distance, date_format(reg_date, '%Y-%M-%d') as regDate 
-		FROM RunningPath;
+		FROM RunningPath
+		ORDER BY (6371 * 2 * ASIN(SQRT(
+        POWER(SIN((RADIANS(SUBSTRING(${location}, locate('lat', ${location})+5,locate(",",${location})-locate(":",${location})-1)) - RADIANS(SUBSTRING(path, locate('lat', path)+5,locate(",",path)-locate(":",path)-1))) / 2), 2) +
+        COS(RADIANS(SUBSTRING(path, locate('lat', path)+5,locate(",",path)-locate(":",path)-1))) * COS(RADIANS(SUBSTRING(${location}, locate('lat', ${location})+5,locate(",",${location})-locate(":",${location})-1))) 
+        * POWER(SIN((RADIANS(SUBSTRING(${location}, locate('lng', ${location})+5,length(${location})-locate("lng",${location}))) - RADIANS(SUBSTRING(path, locate('lng', path)+5,length(path)-locate("lng",path)))) / 2), 2)
+    )))
+		LIMIT 5
 	</select>
 
 	<!-- 상세 경로 조회 -->
 	<select id="selectOnePath" resultMap="runningPathMap" parameterType="int">
 		SELECT *
 		FROM RunningPath
-		WHERE map_id = #{mapId};
+		WHERE map_id = #{mapId}
 	</select>
 
 	<!-- 경로 등록 -->

@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,7 +26,7 @@ public class BookmarkRestController {
 	
 	@Autowired
 	public void setBookmarkService(BookmarkService bookmarkService) {
-		this.bookmarkService=bookmarkService;
+		this.bookmarkService = bookmarkService;
 	}
 	
 	@GetMapping({"/bookmark/{mapId}/{userId}"})
@@ -43,7 +44,7 @@ public class BookmarkRestController {
 		return new ResponseEntity<Integer>(cnt,HttpStatus.OK);
 	}
 	
-	@PostMapping("/bookmark/update")
+	@PutMapping("/bookmark/update")
 	public ResponseEntity<String> update(@RequestBody Bookmark bookmark){
 		int result = bookmarkService.updateBookmark(bookmark);
 		if(result == 0)
