@@ -37,8 +37,12 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public String LoginUser(String userId, String password) {
-		return userDao.loginUser(userId, password);
+	public String loginUser(String userId, String password) {
+		User tmp = userDao.selectUser(userId);
+		if(tmp != null&&tmp.getPassword().equals(password)) {
+			return userDao.loginUser(userId, password);
+		}
+		return null;
 	}
 
 	@Override

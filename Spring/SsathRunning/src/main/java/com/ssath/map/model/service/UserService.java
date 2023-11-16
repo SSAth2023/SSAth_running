@@ -14,7 +14,7 @@ public interface UserService {
 	
 	public int deleteUser(int userId);
 	
-	public String LoginUser(String userId, String password);
+	public String loginUser(String userId, String password);
 	
 	public boolean logoutUser();
 
