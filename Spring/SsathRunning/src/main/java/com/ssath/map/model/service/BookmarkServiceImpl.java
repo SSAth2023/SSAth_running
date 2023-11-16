@@ -1,10 +1,12 @@
 package com.ssath.map.model.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.ssath.map.model.dao.BookmarkDao;
 import com.ssath.map.model.dto.Bookmark;
 
+@Service
 public class BookmarkServiceImpl implements BookmarkService {
 
 	private BookmarkDao bookmarkDao;

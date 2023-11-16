@@ -1,0 +1,27 @@
+2023 11 15 수정 사항
+1. class diagram
+- SearchCondition: loacation -> location 오기 수정
+- RunningPath Dao, Service, Controller: searchRunningPath 반환 값 RunningPath -> List<RunningPath> 및 ResponseEntity<?>로 수정
+- SessionInterceptor 추가
+
+2. Spring
+
+update 필요 사항
+1. Spring
+- controller
+- jwtUtil
+- mappers
+
+_____________________________________
+
+2023 11 16 저녁 update
+
+1. BookmarkServiceImpl 빈 등록이 안되어있던 점 해결
+2. controller delete 메서드들의 매핑 방식을 delete로, update 메서드들의 매핑 방식을 put으로 변경
+3. RunningPath 전체 조회 방식을 현재 위치 기반으로 바꾸기 위해 거리 계산을 통한 정렬 적용, 매개변수로 RunningPath 추가
+4. 까리한 배너 추가!
+
+update 필요 사항
+
+1. 클래스 다이어그램 수정(service selectRunningPaths, controller list()의 매개변수 추가)
+2. 유저 부분 추가하기로 한 컨텐츠 추가

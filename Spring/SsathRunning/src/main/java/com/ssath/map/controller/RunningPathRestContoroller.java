@@ -34,15 +34,17 @@ public class RunningPathRestContoroller {
 		this.runningPathService=runningPathService;
 	}
 	
+	// 현재 위치에 기반하여 가까운 러닝 경로들 가져오기
 	@GetMapping("/path")
-	public ResponseEntity<?> list() {
-		List<RunningPath> list = runningPathService.selectPaths();
+	public ResponseEntity<?> list(RunningPath runningPath) {
+		List<RunningPath> list = runningPathService.selectPaths(runningPath);
 		
 		if(list == null || list.isEmpty()) return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		
 		return new ResponseEntity<List<RunningPath>>(list, HttpStatus.OK);
 	}
 	
+	// 한 개의 러닝 경로 가져오기
 	@GetMapping("/path/{mapId}")
 	public ResponseEntity<RunningPath> detail(@PathVariable int mapId) {
 		RunningPath runningPath = runningPathService.selectOnePath(mapId);
@@ -50,6 +52,7 @@ public class RunningPathRestContoroller {
 		return new ResponseEntity<RunningPath>(runningPath, HttpStatus.OK);
 	}
 	
+	// 러닝 경로 생성
 	@PostMapping("/path/create")
 	public ResponseEntity<?> create(@RequestBody RunningPath runningPath) {
 		int result = runningPathService.createRunningPath(runningPath);
@@ -60,6 +63,7 @@ public class RunningPathRestContoroller {
 		return new ResponseEntity<RunningPath>(runningPath, HttpStatus.OK);
 	}
 	
+	// 러닝 경로 삭제
 	@DeleteMapping("/path/delete")
 	public ResponseEntity<String> delete(@PathVariable int mapId) {
 		int result = runningPathService.deleteRunningPath(mapId);
@@ -69,6 +73,7 @@ public class RunningPathRestContoroller {
 		return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 	}
 	
+	// 러닝 경로 수정
 	@PutMapping("/path/update")
 	public ResponseEntity<String> update(@RequestBody RunningPath runningPath) {
 		int result = runningPathService.updateRunningPath(runningPath);
@@ -78,6 +83,7 @@ public class RunningPathRestContoroller {
 		return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 	}
 	
+	// 검색한 장소에서 가장 근접한 러닝 경로 조회
 	@GetMapping("/path/search")
 	public ResponseEntity<?> select(@RequestBody SearchCondition location) {
 		List<RunningPath> list = runningPathService.searchRunningPath(location);

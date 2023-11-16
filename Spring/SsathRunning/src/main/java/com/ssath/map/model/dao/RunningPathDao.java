@@ -11,7 +11,7 @@ public interface RunningPathDao {
 	public RunningPath selectOnePath(int mapId);
 	
 	//모든 러닝 경로 추출
-	public List<RunningPath> selectPaths();
+	public List<RunningPath> selectPaths(RunningPath runningPath);
 	
 	//러닝 경로 추가
 	public int createRunningPath(RunningPath runningPath);

@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-SsathRunningApplication<SsathRunning>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.ssath.map.SsathRunningApplication",
+            "projectName": "SsathRunning",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
