@@ -8,7 +8,7 @@ public interface CommentService {
 	
 	public Comment selectComment(int commentId);
 	
-	public List<Comment> selectComment();
+	public List<Comment> selectComments(int mapId);
 	
 	public int createComment(Comment comment);
 	

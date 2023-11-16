@@ -10,7 +10,7 @@ public interface CommentDao {
 	public Comment selectComment(int commentId);
 	
 	//모든 댓글 조회
-	public List<Comment> selectComments();
+	public List<Comment> selectComments(int mapId);
 	
 	//댓글 작성
 	public int createComment(Comment comment);

@@ -24,8 +24,8 @@ public class CommentServiceImpl implements CommentService {
 	}
 
 	@Override
-	public List<Comment> selectComment() {
-		return commentDao.selectComments();
+	public List<Comment> selectComments(int mapId) {
+		return commentDao.selectComments(mapId);
 	}
 
 	@Override

@@ -23,10 +23,10 @@ import springfox.documentation.annotations.ApiIgnore;
 @RestController
 @Api(tags="유저 컨트롤러")
 @RequestMapping("/api")
-public class UserRestRestController {
+public class UserRestController {
 	
-	private String SUCCESS = "SUCCESS";
-	private String FAIL = "FAIL";
+	private final String SUCCESS = "SUCCESS";
+	private final String FAIL = "FAIL";
 	
 	private UserService userService;
 	
@@ -36,7 +36,7 @@ public class UserRestRestController {
 	}
 	
 	//특정 유저 정보 출력
-	@GetMapping("/user/{id}")
+	@GetMapping("/user/{userId}")
 	public ResponseEntity<User> detail(@PathVariable String userId){
 		User user = userService.selectUser(userId);
 		
@@ -56,7 +56,16 @@ public class UserRestRestController {
 	@PostMapping("/user/signup")
 	public ResponseEntity<String> signup(@RequestBody User user){
 		int result = userService.createUser(user);
-		if(result != 0)
+		if(result == 0)
+			return new ResponseEntity<String>(FAIL,HttpStatus.NO_CONTENT);
+		return new ResponseEntity<String>(SUCCESS,HttpStatus.OK);
+	}
+	
+	//회원 탈퇴
+	@GetMapping("/user/delete/{userId}")
+	public ResponseEntity<String> delete(@PathVariable int userId){
+		int result = userService.deleteUser(userId);
+		if(result == 0)
 			return new ResponseEntity<String>(FAIL,HttpStatus.NO_CONTENT);
 		return new ResponseEntity<String>(SUCCESS,HttpStatus.OK);
 	}
@@ -70,6 +79,7 @@ public class UserRestRestController {
 		return new ResponseEntity<String>(name,HttpStatus.OK);
 	}
 	
+	//로그아웃
 	@GetMapping("/user/logout")
 	public ResponseEntity<Boolean> logout(@ApiIgnore HttpSession session){
 		session.invalidate();

@@ -15,7 +15,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 	}
 	
 	@Override
-	public boolean selectBookmark(int mapId, String userId) {
+	public boolean selectBookmark(String mapId, String userId) {
 		return bookmarkDao.selectBookmark(mapId, userId);
 	}
 	
