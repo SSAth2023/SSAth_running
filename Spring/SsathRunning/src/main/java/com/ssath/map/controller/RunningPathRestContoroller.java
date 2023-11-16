@@ -38,7 +38,7 @@ public class RunningPathRestContoroller {
 	public ResponseEntity<?> list() {
 		List<RunningPath> list = runningPathService.selectPaths();
 		
-		if(list.isEmpty()) return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+		if(list == null || list.isEmpty()) return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		
 		return new ResponseEntity<List<RunningPath>>(list, HttpStatus.OK);
 	}
@@ -81,7 +81,7 @@ public class RunningPathRestContoroller {
 	@GetMapping("/path/search")
 	public ResponseEntity<?> select(@RequestBody SearchCondition location) {
 		List<RunningPath> list = runningPathService.searchRunningPath(location);
-		if(list.isEmpty()) return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+		if(list == null || list.isEmpty()) return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		
 		return new ResponseEntity<List<RunningPath>>(list, HttpStatus.OK);
 	}
