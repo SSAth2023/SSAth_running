@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssath.map.model.dao.RunningPathDao">
+	<resultMap type="RunningPath" id="runningPathMap">
+		<result column="map_id" property="mapId"/>
+		<result column="user_id" property="userId"/>
+		<result column="title" property="title"/>
+		<result column="path" property="path"/>
+		<result column="description" property="description"/>
+		<result column="distance" property="distance"/>
+		<result column="reg_date" property="regDate"/>
+	</resultMap>
+
+	<!-- 전체 경로 조회 -->
+	<select id="selectPaths" resultType="RunningPath">
+		SELECT map_id, user_id, title, path, description, distance, date_format(reg_date, '%Y-%M-%d') as regDate 
+		FROM RunningPath;
+	</select>
+
+	<!-- 상세 경로 조회 -->
+	<select id="selectOnePath" resultMap="runningPathMap" parameterType="int">
+		SELECT *
+		FROM RunningPath
+		WHERE map_id = #{mapId};
+	</select>
+
+	<!-- 경로 등록 -->
+	<insert id="createRunningPath" parameterType="RunningPath" keyProperty="userId" useGeneratedKeys="true">
+		INSERT INTO RunningPath (map_id, user_id, title, path, description, distance, reg_date)
+		VALUES (#{id}, #{title}, #{path}, #{description}, #{distance}, now())
+	</insert>
+	
+	<!-- 경로 삭제 -->
+	<delete id="deleteRunningPath" parameterType="int">
+		DELETE FROM RunningPath
+		WHERE map_id = #{mapId}
+	</delete>
+	
+	<!-- 런닝 경로 수정 -->
+	<update id="updateRunningPath" parameterType="RunningPath">
+		UPDATE RunningPath
+		SET title = #{title}, description = #{description}, reg_date = now()
+		WHERE map_id = #{mapId}
+	</update>
+	
+	<!-- 검색기능  -->
+	<select id="searchRunningPath" resultType="RunningPath" parameterType="SearchCondition">
+		SELECT map_id, user_id, title, path, description, distance, date_format(reg_date, '%Y-%M-%d') as regDate
+		FROM RunningPath
+		ORDER BY (6371 * 2 * ASIN(SQRT(
+        POWER(SIN((RADIANS(SUBSTRING(${location}, locate('lat', ${location})+5,locate(",",${location})-locate(":",${location})-1)) - RADIANS(SUBSTRING(path, locate('lat', path)+5,locate(",",path)-locate(":",path)-1))) / 2), 2) +
+        COS(RADIANS(SUBSTRING(path, locate('lat', path)+5,locate(",",path)-locate(":",path)-1))) * COS(RADIANS(SUBSTRING(${location}, locate('lat', ${location})+5,locate(",",${location})-locate(":",${location})-1))) 
+        * POWER(SIN((RADIANS(SUBSTRING(${location}, locate('lng', ${location})+5,length(${location})-locate("lng",${location}))) - RADIANS(SUBSTRING(path, locate('lng', path)+5,length(path)-locate("lng",path)))) / 2), 2)
+    )))
+		LIMIT 5
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+
+
+</mapper>
