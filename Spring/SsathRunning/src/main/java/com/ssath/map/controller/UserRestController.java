@@ -1,6 +1,8 @@
 package com.ssath.map.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ssath.map.model.dto.User;
 import com.ssath.map.model.service.UserService;
+import com.ssath.map.util.JwtUtil;
 
 import io.swagger.annotations.Api;
 import springfox.documentation.annotations.ApiIgnore;
@@ -29,7 +32,13 @@ public class UserRestController {
 	private final String SUCCESS = "SUCCESS";
 	private final String FAIL = "FAIL";
 	
+	private JwtUtil util;
 	private UserService userService;
+
+	@Autowired
+	public void setJwtUtil(JwtUtil util) {
+		this.util = util;
+	}
 	
 	@Autowired
 	public void setUserService(UserService userService) {
@@ -74,11 +83,18 @@ public class UserRestController {
 	
 	//로그인
 	@PostMapping("/user/login")
-	public ResponseEntity<String> login(@RequestBody User user, @ApiIgnore HttpSession session){
+	public ResponseEntity<Map<String,Object>> login(@RequestBody User user, @ApiIgnore HttpSession session){
+		Map<String,Object> result = new HashMap<String, Object>();
 		String name = userService.loginUser(user.getUserId(), user.getPassword());
-		if(name == null)
-			return new ResponseEntity<String>(FAIL,HttpStatus.NO_CONTENT);
-		return new ResponseEntity<String>(name,HttpStatus.OK);
+		if(name == null || name != user.getName()) {
+			result.put("access-token", null);
+			result.put("message", "FAIL");
+			return new ResponseEntity<Map<String,Object>>(result,HttpStatus.NO_CONTENT);
+		}
+		result.put("access-token", util.createToken("id", user.getUserId()));
+		result.put("message", "SUCCESS");
+		return new ResponseEntity<Map<String,Object>>(result,HttpStatus.ACCEPTED);
+		
 	}
 	
 	//로그아웃

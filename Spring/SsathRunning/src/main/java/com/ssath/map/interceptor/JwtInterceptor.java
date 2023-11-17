@@ -13,18 +13,20 @@ import com.ssath.map.util.JwtUtil;
 public class JwtInterceptor implements HandlerInterceptor{
 	private static final String HEADER_AUTH = "access-token";
 	
+	private JwtUtil jwtUtil;
 	
 	@Autowired
-	private JwtUtil jwtUtil;
+	public void setJwtUtil(JwtUtil jwtUtil) {
+		this.jwtUtil = jwtUtil;
+	}
 	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		
-		//
+		//get방식 중 미리 던저보는 요청들은 true
 		if(request.getMethod().equals("OPTIONS"))
 			return true;
-		
 		
 		String token = request.getHeader(HEADER_AUTH);
 		
@@ -33,7 +35,7 @@ public class JwtInterceptor implements HandlerInterceptor{
 			return true;
 		}
 		
-		throw new Exception("유효하지 않은 접근이다.");
+		throw new Exception("유효하지 않은 접근입니다.");
 		
 	}
 }
