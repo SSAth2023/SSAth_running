@@ -1,37 +1,19 @@
 @font-face {
   font-family: "LINESeedKR-Bd";
-  src: url("@/assets/font/LINE_SEEDKR_2023.09.09/OTF/LINESeedKR-Bd.otf")
-      format("opentype"),
-    url("@/assets/font/LINE_SEEDKR_2023.09.09/TTF/LINESeedKR-Bd.ttf")
-      format("truetype"),
-    url("@/assets/font/LINE_SEEDKR_2023.09.09/Web/eot/LINESeedKR-Bd.eot")
-      format("embedded-opentype"),
-    url("@/assets/font/LINE_SEEDKR_2023.09.09/Web/woff/LINESeedKR-Bd.woff")
-      format("woff");
+  src: url("../assets/font/LINE_SeedKR_2023.09.06/Web/woff/LINESeedKR-Bd.woff")
+    format("woff");
 }
 
 @font-face {
   font-family: "LINESeedKR-Rg";
-  src: url("@/assets/font/LINE_SEEDKR_2023.09.09/OTF/LINESeedKR-Rg.otf")
-      format("opentype"),
-    url("@/assets/font/LINE_SEEDKR_2023.09.09/TTF/LINESeedKR-Rg.ttf")
-      format("truetype"),
-    url("@/assets/font/LINE_SEEDKR_2023.09.09/Web/eot/LINESeedKR-Rg.eot")
-      format("embedded-opentype"),
-    url("@/assets/font/LINE_SEEDKR_2023.09.09/Web/woff/LINESeedKR-Rg.woff")
-      format("woff");
+  src: url("../assets/font/LINE_SeedKR_2023.09.06/Web/woff/LINESeedKR-Rg.woff")
+    format("woff");
 }
 
 @font-face {
   font-family: "LINESeedKR-Th";
-  src: url("@/assets/font/LINE_SEEDKR_2023.09.09/OTF/LINESeedKR-Th.otf")
-      format("opentype"),
-    url("@/assets/font/LINE_SEEDKR_2023.09.09/TTF/LINESeedKR-Th.ttf")
-      format("truetype"),
-    url("@/assets/font/LINE_SEEDKR_2023.09.09/Web/eot/LINESeedKR-Th.eot")
-      format("embedded-opentype"),
-    url("@/assets/font/LINE_SEEDKR_2023.09.09/Web/woff/LINESeedKR-Th.woff")
-      format("woff");
+  src: url("../assets/font/LINE_SeedKR_2023.09.06/Web/woff/LINESeedKR-Th.woff")
+    format("woff");
 }
 
 * {
