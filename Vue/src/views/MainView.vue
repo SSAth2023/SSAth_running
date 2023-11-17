@@ -6,7 +6,7 @@
 </template>
 
 <script setup>
-import GoogleMap from "../components/runningPath/GoogleMap.vue";
+import GoogleMap from "../components/map/GoogleMap.vue";
 import Sidebar from "../components/sidebar/Sidebar.vue";
 </script>
 
