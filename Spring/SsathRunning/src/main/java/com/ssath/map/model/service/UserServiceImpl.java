@@ -2,6 +2,7 @@ package com.ssath.map.model.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ssath.map.model.dao.UserDao;
@@ -12,6 +13,7 @@ public class UserServiceImpl implements UserService {
 	
 	private UserDao userDao;
 	
+	@Autowired
 	public void setUserDao(UserDao userDao) {
 		this.userDao = userDao;
 	}
@@ -32,7 +34,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public int deleteUser(int userId) {
+	public int deleteUser(String userId) {
 		return userDao.deleteUser(userId);
 	}
 

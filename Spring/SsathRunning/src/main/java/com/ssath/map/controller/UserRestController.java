@@ -38,9 +38,10 @@ public class UserRestController {
 	
 	//특정 유저 정보 출력
 	@GetMapping("/user/{userId}")
-	public ResponseEntity<User> detail(@PathVariable String userId){
+	public ResponseEntity<?> detail(@PathVariable String userId){
 		User user = userService.selectUser(userId);
-		
+		if(user == null)
+			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 	
@@ -64,7 +65,7 @@ public class UserRestController {
 	
 	//회원 탈퇴
 	@DeleteMapping("/user/delete/{userId}")
-	public ResponseEntity<String> delete(@PathVariable int userId){
+	public ResponseEntity<String> delete(@PathVariable String userId){
 		int result = userService.deleteUser(userId);
 		if(result == 0)
 			return new ResponseEntity<String>(FAIL,HttpStatus.NO_CONTENT);

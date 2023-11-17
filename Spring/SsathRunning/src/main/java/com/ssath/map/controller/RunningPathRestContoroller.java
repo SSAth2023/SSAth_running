@@ -36,8 +36,8 @@ public class RunningPathRestContoroller {
 	
 	// 현재 위치에 기반하여 가까운 러닝 경로들 가져오기
 	@GetMapping("/path")
-	public ResponseEntity<?> list(RunningPath runningPath) {
-		List<RunningPath> list = runningPathService.selectPaths(runningPath);
+	public ResponseEntity<?> list(String location) {
+		List<RunningPath> list = runningPathService.selectPaths(location);
 		
 		if(list == null || list.isEmpty()) return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		
@@ -65,7 +65,7 @@ public class RunningPathRestContoroller {
 	
 	// 러닝 경로 삭제
 	@DeleteMapping("/path/delete")
-	public ResponseEntity<String> delete(@PathVariable int mapId) {
+	public ResponseEntity<String> delete(int mapId) {
 		int result = runningPathService.deleteRunningPath(mapId);
 		
 		if(result == 0) return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);

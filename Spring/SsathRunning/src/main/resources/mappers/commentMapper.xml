@@ -2,36 +2,44 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ssafy.board.model.dao.CommentDao">
+<mapper namespace="com.ssath.map.model.dao.CommentDao">
+	<resultMap type="Comment" id="commentMap">
+		<result column="comment_id" property="commentId"/>
+		<result column="map_id" property="mapId"/>
+		<result column="user_id" property="userId"/>
+		<result column="content" property="content"/>
+		<result column="com_reg_date" property="comRegDate"/>
+	</resultMap>
 
 	<!-- 댓글 상세조회 -->
-	<select id="selectComment" parameterType="int">
+	<select id="selectComment" resultType="Comment" parameterType="int">
 		SELECT 
-			* 
+			comment_id commentId, map_id mapId, user_id userId, content, date_format(com_reg_date, '%Y-%M-%d') as comRegDate
 		FROM COMMENT
-		WHERE comment_id = #{commentId} 
+		WHERE comment_id = ${commentId} 
 	</select>
 	
 	<!-- 모든 댓글 조회 -->
-	<select id="selectComments" parameterType="int">
-		SELECT * FROM COMMENT
-		WHERE map_id = #{mapId}
+	<select id="selectComments" resultMap="commentMap" parameterType="int">
+		SELECT comment_id, map_id, user_id, content, date_format(com_reg_date, '%Y-%M-%d')
+		FROM COMMENT
+		WHERE map_id = ${mapId}
 	</select>
 	
 	<!-- 댓글 작성 -->
 	<insert id="createComment" parameterType="Comment">
-		INSERT INTO COMMENT VALUES(#{commentId}, #{mapId}, #{userId}, #{content}, #{comRegDate})
+		INSERT INTO COMMENT VALUES(0, ${mapId}, ${userId}, #{content}, now())
 	</insert>
 	
 	<!-- 댓글 삭제 -->
 	<delete id="deleteComment" parameterType="int">
 		DELETE FROM COMMENT
-		WHERE comment_id = #{commentId}
+		WHERE comment_id = ${commentId}
 	</delete>
 	
 	<!-- 댓글 수정 -->
 	<update id="updateComment">
-		UPDATE COMMENT SET content = #{content}, reg_date = now()
+		UPDATE COMMENT SET content = #{content}, com_reg_date = now()
 		WHERE comment_id = #{commentId} AND map_id = #{mapId}
 	</update>
 	

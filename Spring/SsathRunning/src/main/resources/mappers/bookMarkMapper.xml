@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ssafy.board.model.dao.BookmarkDao">
+<mapper namespace="com.ssath.map.model.dao.BookmarkDao">
 
 	<!-- 북마크 -->
 	<insert id="selectBookmark" parameterType="String">
@@ -10,11 +10,11 @@
 	</insert>
 	
 	<!-- 코스 별 좋아요 출력  -->
-	<select id="selectBookmarks" parameterType="int">
+	<select id="selectBookmarks" resultType="int" parameterType="int">
 		SELECT COUNT(*) CNT 
 		FROM BOOKMARK
-		WHERE map_id = #{mapId} AND marked = true
-		GROUP BY ${mapId}
+		WHERE map_id = ${mapId} AND marked = true
+		GROUP BY map_id
 	</select>
 	
 	<!-- 좋아요 업데이트 -->
