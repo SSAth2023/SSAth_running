@@ -25,8 +25,8 @@ public class RunningPathServiceImpl implements RunningPathService {
 	}
 	
 	@Override
-	public List<RunningPath> selectPaths(RunningPath runningPath){
-		return runningPathDao.selectPaths(runningPath);
+	public List<RunningPath> selectPaths(String location){
+		return runningPathDao.selectPaths(location);
 	}
 	
 	@Override

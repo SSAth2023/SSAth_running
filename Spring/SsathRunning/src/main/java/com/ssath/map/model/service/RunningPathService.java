@@ -9,7 +9,7 @@ public interface RunningPathService {
 	
 	public RunningPath selectOnePath(int mapId);
 	
-	public List<RunningPath> selectPaths(RunningPath runningPath);
+	public List<RunningPath> selectPaths(String location);
 	
 	public int createRunningPath(RunningPath runningPath);
 	

@@ -12,7 +12,7 @@ public interface UserService {
 	
 	public int createUser(User user);
 	
-	public int deleteUser(int userId);
+	public int deleteUser(String userId);
 	
 	public String loginUser(String userId, String password);
 	

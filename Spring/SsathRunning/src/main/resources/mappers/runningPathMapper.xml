@@ -14,15 +14,27 @@
 	</resultMap>
 
 	<!-- 전체 경로 조회 -->
-	<select id="selectPaths" resultType="RunningPath" parameterType="RunningPath">
-		SELECT map_id, user_id, title, path, description, distance, date_format(reg_date, '%Y-%M-%d') as regDate 
-		FROM RunningPath
-		ORDER BY (6371 * 2 * ASIN(SQRT(
-        POWER(SIN((RADIANS(SUBSTRING(${location}, locate('lat', ${location})+5,locate(",",${location})-locate(":",${location})-1)) - RADIANS(SUBSTRING(path, locate('lat', path)+5,locate(",",path)-locate(":",path)-1))) / 2), 2) +
-        COS(RADIANS(SUBSTRING(path, locate('lat', path)+5,locate(",",path)-locate(":",path)-1))) * COS(RADIANS(SUBSTRING(${location}, locate('lat', ${location})+5,locate(",",${location})-locate(":",${location})-1))) 
-        * POWER(SIN((RADIANS(SUBSTRING(${location}, locate('lng', ${location})+5,length(${location})-locate("lng",${location}))) - RADIANS(SUBSTRING(path, locate('lng', path)+5,length(path)-locate("lng",path)))) / 2), 2)
-    )))
-		LIMIT 5
+	<select id="selectPaths" resultMap="runningPathMap" parameterType="String">
+		SELECT
+			map_id, user_id, title, path, description,
+			distance,
+			date_format(reg_date, '%Y-%M-%d') as regDate,
+			(6371 * 2 * 
+			ASIN(
+				SQRT(
+					POWER(SIN((RADIANS(SUBSTRING(#{location}, locate('lat', #{location})+5,locate(",",#{location})-locate(":",#{location})-1)) - RADIANS(SUBSTRING(path, locate('lat', path)+5,locate(",",path)-locate(":",path)-1))) / 2), 2) 
+					+COS(RADIANS(SUBSTRING(path, locate('lat', path)+5,locate(",",path)-locate(":",path)-1))) 
+					*COS(RADIANS(SUBSTRING(#{location}, locate('lat', #{location})+5,locate(",",#{location})-locate(":",#{location})-1))) 
+					*POWER(SIN((RADIANS(SUBSTRING(#{location}, locate('lng', #{location})+5,length(#{location})-locate("lng",#{location}))) 
+					- RADIANS(SUBSTRING(path, locate('lng', path)+5,length(path)-locate("lng",path)))) / 2), 2)
+					)
+				)
+			) AS dist
+		FROM
+			RunningPath
+		ORDER BY
+			dist
+		LIMIT 5;
 	</select>
 
 	<!-- 상세 경로 조회 -->
@@ -33,34 +45,46 @@
 	</select>
 
 	<!-- 경로 등록 -->
-	<insert id="createRunningPath" parameterType="RunningPath" keyProperty="userId" useGeneratedKeys="true">
+	<insert id="createRunningPath" parameterType="RunningPath">
 		INSERT INTO RunningPath (map_id, user_id, title, path, description, distance, reg_date)
-		VALUES (#{id}, #{title}, #{path}, #{description}, #{distance}, now())
+		VALUES (#{mapId}, #{userId}, #{title}, #{path}, #{description}, #{distance}, now())
 	</insert>
 	
 	<!-- 경로 삭제 -->
 	<delete id="deleteRunningPath" parameterType="int">
 		DELETE FROM RunningPath
-		WHERE map_id = #{mapId}
+		WHERE map_id = ${mapId}
 	</delete>
 	
 	<!-- 런닝 경로 수정 -->
 	<update id="updateRunningPath" parameterType="RunningPath">
 		UPDATE RunningPath
 		SET title = #{title}, description = #{description}, reg_date = now()
-		WHERE map_id = #{mapId}
+		WHERE map_id = ${mapId}
 	</update>
 	
 	<!-- 검색기능  -->
-	<select id="searchRunningPath" resultType="RunningPath" parameterType="SearchCondition">
-		SELECT map_id, user_id, title, path, description, distance, date_format(reg_date, '%Y-%M-%d') as regDate
-		FROM RunningPath
-		ORDER BY (6371 * 2 * ASIN(SQRT(
-        POWER(SIN((RADIANS(SUBSTRING(${location}, locate('lat', ${location})+5,locate(",",${location})-locate(":",${location})-1)) - RADIANS(SUBSTRING(path, locate('lat', path)+5,locate(",",path)-locate(":",path)-1))) / 2), 2) +
-        COS(RADIANS(SUBSTRING(path, locate('lat', path)+5,locate(",",path)-locate(":",path)-1))) * COS(RADIANS(SUBSTRING(${location}, locate('lat', ${location})+5,locate(",",${location})-locate(":",${location})-1))) 
-        * POWER(SIN((RADIANS(SUBSTRING(${location}, locate('lng', ${location})+5,length(${location})-locate("lng",${location}))) - RADIANS(SUBSTRING(path, locate('lng', path)+5,length(path)-locate("lng",path)))) / 2), 2)
-    )))
-		LIMIT 5
+	<select id="searchRunningPath" resultMap="runningPathMap" parameterType="SearchCondition">
+		SELECT
+			map_id, user_id, title, path, description,
+			distance,
+			date_format(reg_date, '%Y-%M-%d') as reg_date,
+			(6371 * 2 * 
+			ASIN(
+				SQRT(
+					POWER(SIN((RADIANS(SUBSTRING(#{location}, locate('lat', #{location})+5,locate(",",#{location})-locate(":",#{location})-1)) - RADIANS(SUBSTRING(path, locate('lat', path)+5,locate(",",path)-locate(":",path)-1))) / 2), 2) 
+					+COS(RADIANS(SUBSTRING(path, locate('lat', path)+5,locate(",",path)-locate(":",path)-1))) 
+					*COS(RADIANS(SUBSTRING(#{location}, locate('lat', #{location})+5,locate(",",#{location})-locate(":",#{location})-1))) 
+					*POWER(SIN((RADIANS(SUBSTRING(#{location}, locate('lng', #{location})+5,length(#{location})-locate("lng",#{location}))) 
+					- RADIANS(SUBSTRING(path, locate('lng', path)+5,length(path)-locate("lng",path)))) / 2), 2)
+					)
+				)
+			) AS dist
+		FROM
+			RunningPath
+		ORDER BY
+			dist
+		LIMIT 5;
 	</select>
 	
 	

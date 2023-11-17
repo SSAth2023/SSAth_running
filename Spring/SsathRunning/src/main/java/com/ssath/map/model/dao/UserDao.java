@@ -16,7 +16,7 @@ public interface UserDao {
 	public int createUser(User user);
 	
 	//회원 탈퇴
-	public int deleteUser(int userId);
+	public int deleteUser(String userId);
 	
 	//로그인
 	public String loginUser(String userId, String password);
