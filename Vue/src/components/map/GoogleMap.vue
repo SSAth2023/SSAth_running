@@ -6,7 +6,7 @@
         type="text"
         class="form-control"
         v-model="searchInput"
-        placeholder="Enter building name"
+        placeholder="Enter building name dkmfeiwmsdklnfoiwenklsdnflwsn"
       />
       <button class="btn btn-outline-secondary" @click="search">검색</button>
     </div>
