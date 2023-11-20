@@ -11,7 +11,6 @@
     >
       <h5>hi</h5>
     </div>
-
     <nav aria-label="Page navigation">
       <ul class="pagination d-flex justify-content-center">
         <li class="page-item">
@@ -46,33 +45,6 @@
   </div>
 </template>
 
-<script setup>
-import { useRunningPathStore } from "../../stores/runningPath";
-import { onMounted, computed, ref } from "vue";
-
-const store = useRunningPathStore();
-
-onMounted(() => {
-  store.getRunningPathList();
-});
-
-const perPage = 5;
-
-const currentPage = ref(1);
-
-const pageCount = computed(() => {
-  return Math.ceil(store.runningPathList.length / perPage);
-});
-const clickPage = function (page) {
-  currentPage.value = page;
-};
-
-const currentPageRunningPathList = computed(() => {
-  return store.runningPathList.slice(
-    (currentPage.value - 1) * perPage,
-    currentPage.value * perPage
-  );
-});
-</script>
+<script setup></script>
 
 <style scoped></style>

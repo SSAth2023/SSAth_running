@@ -2,34 +2,31 @@ import { createRouter, createWebHistory } from "vue-router";
 import MainView from "../views/MainView.vue";
 import LoginView from "../views/LoginView.vue";
 import SignupView from "../views/SignupView.vue";
-import RunningPathList from "../components/runningpath/RunningPathList.vue";
 import RunningPathCreate from "../components/runningpath/RunningPathCreate.vue";
+import RunningPathList from "../components/runningpath/RunningPathList.vue";
 import RunningPathDetail from "../components/runningpath/RunningPathDetail.vue";
 import RunningPathUpdate from "../components/runningpath/RunningPathUpdate.vue";
-import AllPath from "@/components/map/AllPath.vue"
-import createRunningPath from "@/components/map/CreateMap.vue";
+import AllPath from "@/components/map/AllPath.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: "/path",
+      path: "/",
       name: "home",
       component: MainView,
+    },
+    {
+      path: "/path",
+      name: "path",
       children: [
         {
           path: "",
           name: "AllPath",
-          component: AllPath
-        },
-        {
-          path: "create",
-          name: "CreatePath",
-          component: createRunningPath
-        },
-        {
-          name: "runningPathList",
-          component: RunningPathList,
+          components: {
+            default: AllPath,
+            sidebar: RunningPathList,
+          },
         },
         {
           path: "create",
@@ -39,7 +36,10 @@ const router = createRouter({
         {
           path: ":mapId",
           name: "runningPathDetail",
-          component: RunningPathDetail,
+          components: {
+            default: AllPath,
+            sidebar: RunningPathDetail,
+          },
         },
         {
           path: "update",
