@@ -1,10 +1,22 @@
 <template>
   <div class="header">
-    <button type="button" class="btn btn-outline-warning btn-lg">Login</button>
+    <button type="button" class="btn btn-outline-warning btn-lg" @click="login">
+      Login
+    </button>
+    <Searchbar />
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import Searchbar from "../search/Searchbar.vue";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+
+const login = () => {
+  router.push("login");
+};
+</script>
 
 <style scoped>
 .header {
