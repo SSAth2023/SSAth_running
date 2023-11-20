@@ -1,23 +1,25 @@
 <template>
   <div>
-    <div class="input-group mb-3">
+    <div class="input-group mb-3" style="height: 5vh">
       <input
         type="text"
         class="form-control"
+        @keyup.enter="search"
         v-model="searchInput"
         placeholder="Enter building name"
       />
       <button class="btn btn-outline-secondary" @click="search">검색</button>
     </div>
-    <label>제목</label><br />
-    <input v-model="title" /><br />
-    <label>내용</label><br />
-    <textarea v-model="description"></textarea>
-    <br />
-    <label>경로</label>
-
-    <div id="map" style="height: 500px"></div>
-    <button @click="createRunningPath">추가</button>
+    <div>
+      <label>제목</label><br />
+      <input v-model="title" /><br />
+      <label>내용</label><br />
+      <textarea v-model="description"></textarea>
+      <br />
+      <label>경로</label>
+    </div>
+    <div id="map" style="height: 80vh"></div>
+    <button @click="createRunningPath" style="height: 3vh">추가</button>
   </div>
 </template>
 
