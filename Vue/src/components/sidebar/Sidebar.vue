@@ -3,7 +3,7 @@
     <div class="slide-bar" :style="{ marginLeft: slideBarWidth }">
       <SidebarHeader />
       <hr />
-      <RunningPathList />
+      <RouterView name="sidebar" />
     </div>
     <button
       class="btn toggle-button"
