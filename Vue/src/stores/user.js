@@ -25,8 +25,9 @@ export const useUserStore = defineStore("user", () => {
 
   //회원 가입
   const signup = function (user) {
+    console.log(user);
     axios({
-      url: REST_USER_API,
+      url: `${REST_USER_API}/signup`,
       method: "POST",
       header: {
         "Content-Type": "application/json",
@@ -55,19 +56,25 @@ export const useUserStore = defineStore("user", () => {
 
   //로그인
   const loginUser = function (user) {
+    console.log(user);
     axios({
-      url: REST_USER_API,
+      url: `${REST_USER_API}/login`,
       method: "POST",
       header: {
         "Content-Type": "application/json",
       },
       data: user,
     })
-      .then(() => {
-        router.push({ name: "path" });
+      .then((res) => {
+        if (res.data["access-token"] == null)
+          alert("아이디 또는 비밀번호가 일치하지 않습니다.")
+        else {
+          alert("로그인 성공")
+          router.push({ name: "home" });
+        }
       })
       .catch(() => {
-        alert("수정필요");
+        alert("로그인 실패");
       });
   };
 
