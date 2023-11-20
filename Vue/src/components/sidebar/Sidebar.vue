@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <div class="slide-bar" :style="{ marginLeft: slideBarWidth }">
-      <!-- 슬라이드바 컨텐츠 -->
+      <SidebarHeader />
+      <hr />
+      <RunningPathList />
     </div>
     <button
       class="btn toggle-button"
@@ -17,6 +19,9 @@
 </template>
 
 <script>
+import RunningPathList from "../runningpath/RunningPathList.vue";
+import SidebarHeader from "./SidebarHeader.vue";
+
 export default {
   data() {
     return {
@@ -30,6 +35,7 @@ export default {
       this.buttonMargin = this.buttonMargin === "1vw" ? "30vw" : "1vw";
     },
   },
+  components: { SidebarHeader, RunningPathList },
 };
 </script>
 
@@ -51,7 +57,8 @@ body {
   z-index: 1;
   top: 0;
   left: 0;
-  background-color: #111;
+  background-color: white;
+  border: 1px double #818181;
   overflow-x: hidden;
   padding-top: 20px;
   transition: margin-left 0.5s;
