@@ -7,6 +7,9 @@ import RunningPathCreate from "../components/runningpath/RunningPathCreate.vue";
 import RunningPathList from "../components/runningpath/RunningPathList.vue";
 import RunningPathDetail from "../components/runningpath/RunningPathDetail.vue";
 import RunningPathUpdate from "../components/runningpath/RunningPathUpdate.vue";
+import CommentList from "../components/comment/CommentList.vue";
+import commentUpdate from "../components/comment/CommentUpdate.vue";
+import commentInsertBlock from "../components/comment/CommentInsertBlock.vue";
 import AllPath from "@/components/map/AllPath.vue";
 
 const router = createRouter({
@@ -63,6 +66,24 @@ const router = createRouter({
       path: "/comment",
       name: "comment",
       component: CommentView,
+      children: [
+        {
+          path: "list/:mapid",
+          name: "commentList",
+          component: CommentList
+        },
+        {
+          path: "create",
+          name: "commentCreate",
+          component: commentInsertBlock
+        },
+        {
+
+          path: "update",
+          name: "commentUpdate",
+          component: commentUpdate
+        },
+      ]
     },
   ],
 });

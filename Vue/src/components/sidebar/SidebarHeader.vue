@@ -8,7 +8,6 @@
 </template>
 
 <script setup>
-import Searchbar from "../search/Searchbar.vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();

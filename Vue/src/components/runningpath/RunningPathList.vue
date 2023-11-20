@@ -76,7 +76,7 @@ const store = useRunningPathStore();
 
 let computedDistances = reactive({});
 
-onMounted(() => {
+onMounted(async () => {
   const storedDistances = localStorage.getItem("computedDistances");
 
   if (storedDistances) {
