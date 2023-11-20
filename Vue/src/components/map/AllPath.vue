@@ -13,14 +13,7 @@
 
     <!-- 지도를 표시하는 부분 -->
     <RouterLink :to="`/path/create`">경로 추가</RouterLink>
-    <div id="map" style="height: 500px"></div>
-
-    <!-- <div v-for="(pathData, index) in runningPathList.value" :key="index">
-      <google-map-polyline
-        :path="JSON.parse(pathData.path)"
-        :options="polylineOptions"
-      ></google-map-polyline>
-    </div> -->
+    <div id="map" style="height: 100vh"></div>
   </div>
 </template>
 

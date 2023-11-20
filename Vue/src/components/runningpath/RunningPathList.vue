@@ -15,7 +15,7 @@
           >
           <p class="text-black fs-4 fw-normal m-0 px-3 py-2">
             약 {{ computedDistances[runningPath.mapId] }}km 내,
-            {{ runningPath.distance }}km
+            {{ (runningPath.distance / 1000).toFixed(2) }}km
           </p>
           <p class="text-black fs-6 fw-normal m-0 px-3 py-2">
             {{ runningPath.description }}
@@ -92,14 +92,6 @@ onMounted(() => {
   }
 
   store.getRunningPathList();
-
-  store.runningPathList.forEach(async (runningPath) => {
-    try {
-      await tempDist(runningPath.path, runningPath.mapId);
-    } catch (error) {
-      console.error("거리 계산 중 오류 발생:", error);
-    }
-  });
 });
 
 const num = 1;
