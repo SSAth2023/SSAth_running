@@ -55,6 +55,7 @@ export const useUserStore = defineStore("user", () => {
   };
 
   //로그인
+  const userName = ref("");
   const loginUser = function (user) {
     console.log(user);
     axios({
@@ -70,6 +71,10 @@ export const useUserStore = defineStore("user", () => {
           alert("아이디 또는 비밀번호가 일치하지 않습니다.")
         else {
           alert("로그인 성공")
+          sessionStorage.setItem("access-token", res.data["access-token"]);
+          const token = res.data["access-token"].split(".");
+          console.log(JSON.parse(atob(token[1])));
+          userName.value = JSON.parse(atob(token[1]));
           router.push({ name: "home" });
         }
       })
@@ -98,6 +103,7 @@ export const useUserStore = defineStore("user", () => {
     signup,
     deleteUser,
     loginUser,
+    userName,
     logoutUser,
   };
 });
