@@ -1,13 +1,10 @@
 <template>
   <div class="header">
     <button type="button" class="btn btn-outline-warning btn-lg">Login</button>
-    <Searchbar />
   </div>
 </template>
 
-<script setup>
-import Searchbar from "../search/Searchbar.vue";
-</script>
+<script setup></script>
 
 <style scoped>
 .header {
