@@ -4,19 +4,16 @@ import router from "@/router";
 import axios from "axios";
 
 const REST_PATH_API = "http://localhost:8080/api/path";
-
 export const useRunningPathStore = defineStore("runningPath", () => {
   const runningPathList = ref([]);
 
-  const getRunningPathList = () => {
-    axios
-      .get(REST_PATH_API)
-      .then((res) => {
-        runningPathList.value = res.data;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  const getRunningPathList = async () => {
+    try {
+      const res = await axios.get(REST_PATH_API);
+      runningPathList.value = res.data;
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const runningPath = ref({});
