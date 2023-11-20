@@ -6,6 +6,8 @@ import RunningPathList from "../components/runningpath/RunningPathList.vue";
 import RunningPathCreate from "../components/runningpath/RunningPathCreate.vue";
 import RunningPathDetail from "../components/runningpath/RunningPathDetail.vue";
 import RunningPathUpdate from "../components/runningpath/RunningPathUpdate.vue";
+import AllPath from "@/components/map/AllPath.vue"
+import createRunningPath from "@/components/map/CreateMap.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -17,6 +19,15 @@ const router = createRouter({
       children: [
         {
           path: "",
+          name: "AllPath",
+          component: AllPath
+        },
+        {
+          path: "create",
+          name: "CreatePath",
+          component: createRunningPath
+        },
+        {
           name: "runningPathList",
           component: RunningPathList,
         },
