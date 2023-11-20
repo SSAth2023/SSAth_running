@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import RunningPathList from "../runningpath/RunningPathList.vue";
+const RunningPathList = () => import("../runningpath/RunningPathList.vue");
 import SidebarHeader from "./SidebarHeader.vue";
 
 export default {

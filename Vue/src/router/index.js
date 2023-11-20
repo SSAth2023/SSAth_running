@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import MainView from "../views/MainView.vue";
 import LoginView from "../views/LoginView.vue";
 import SignupView from "../views/SignupView.vue";
+import CommentView from "../views/CommentView.vue";
 import RunningPathCreate from "../components/runningpath/RunningPathCreate.vue";
 import RunningPathList from "../components/runningpath/RunningPathList.vue";
 import RunningPathDetail from "../components/runningpath/RunningPathDetail.vue";
@@ -57,6 +58,11 @@ const router = createRouter({
       path: "/signup",
       name: "signup",
       component: SignupView,
+    },
+    {
+      path: "/comment",
+      name: "comment",
+      component: CommentView,
     },
   ],
 });

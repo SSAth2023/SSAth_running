@@ -25,12 +25,14 @@ export const useRunningPathStore = defineStore("runningPath", () => {
   };
 
   const createRunningPath = (runningPath) => {
-    axios
-      .post(`${REST_PATH_API}/create`, runningPath, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
+    axios({
+      url: `${REST_PATH_API}/create`,
+      method: "POST",
+      header: {
+        "Content-Type": "application/json",
+      },
+      data: runningPath,
+    })
       .then(() => {
         router.push({ name: "home" });
       })
