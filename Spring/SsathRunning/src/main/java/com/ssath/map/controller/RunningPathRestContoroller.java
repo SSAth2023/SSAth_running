@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,7 +19,6 @@ import com.ssath.map.model.dto.SearchCondition;
 import com.ssath.map.model.service.RunningPathService;
 
 import io.swagger.annotations.Api;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @RestController
 @Api(tags="러닝 경로 컨트롤러")
@@ -55,6 +55,7 @@ public class RunningPathRestContoroller {
 	// 러닝 경로 생성
 	@PostMapping("/path/create")
 	public ResponseEntity<?> create(@RequestBody RunningPath runningPath) {
+		System.out.println(runningPath);
 		int result = runningPathService.createRunningPath(runningPath);
 		
 		if(result == 0) 
