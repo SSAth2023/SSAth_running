@@ -15,7 +15,7 @@ import io.jsonwebtoken.UnsupportedJwtException;
 public class JwtUtil {
 	
 	//수정 필요
-	private static final String SALT = "SSAFIT";
+	private static final String SALT = "SSAth";
 	
 	//예외 처리, 파라미터 수정 필요
 	public String createToken(String key, String value) {

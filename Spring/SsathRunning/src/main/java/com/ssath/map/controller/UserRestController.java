@@ -83,10 +83,10 @@ public class UserRestController {
 	
 	//로그인
 	@PostMapping("/user/login")
-	public ResponseEntity<Map<String,Object>> login(@RequestBody User user, @ApiIgnore HttpSession session){
+	public ResponseEntity<Map<String,Object>> login(@RequestBody User user){
 		Map<String,Object> result = new HashMap<String, Object>();
 		String name = userService.loginUser(user.getUserId(), user.getPassword());
-		if(name == null || name != user.getName()) {
+		if(name == null) {
 			result.put("access-token", null);
 			result.put("message", "FAIL");
 			return new ResponseEntity<Map<String,Object>>(result,HttpStatus.NO_CONTENT);
