@@ -20,12 +20,19 @@
     </div>
     <div id="map" style="height: 80vh"></div>
     <button @click="createRunningPath" style="height: 3vh">추가</button>
+    <button
+      class="btn btn-outline-secondary current-location-button"
+      @click="moveToCurrentLocation"
+    >
+      현재 위치로 이동
+    </button>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from "vue";
 import { useRunningPathStore } from "../../stores/runningPath";
+import { mapStyle } from "../common/mapStyle";
 
 const runningPathStore = useRunningPathStore();
 const drawnCourse = ref();
@@ -76,6 +83,9 @@ onMounted(() => {
   map.value = new google.maps.Map(document.getElementById("map"), {
     center: { lat: 6.009, lng: 116.008 },
     zoom: 15,
+    options: {
+      styles: mapStyle,
+    },
   });
 
   if (navigator.geolocation) {
@@ -156,5 +166,12 @@ onMounted(() => {
 </script>
 
 <style scoped>
-/* 부트스트랩 클래스나 추가적인 스타일은 여기에 작성 */
+.current-location-button {
+  position: absolute;
+  background-color: white;
+  border: 0cm;
+  top: 87px; /* 조정 가능한 값 */
+  right: 60px; /* 조정 가능한 값 */
+  z-index: 1000; /* 다른 요소 위로 표시하기 위한 z-index 설정 */
+}
 </style>

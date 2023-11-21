@@ -86,23 +86,15 @@ public class UserRestController {
 	public ResponseEntity<Map<String,Object>> login(@RequestBody User user){
 		Map<String,Object> result = new HashMap<String, Object>();
 		String name = userService.loginUser(user.getUserId(), user.getPassword());
-		System.out.println(name);
 		if(name == null) {
 			result.put("access-token", null);
 			result.put("message", "FAIL");
 			return new ResponseEntity<Map<String,Object>>(result,HttpStatus.NO_CONTENT);
 		}
-		result.put("access-token", util.createToken("name", name));
+		result.put("access-token", util.createToken("userId", user.getUserId()));
 		result.put("message", "SUCCESS");
 		return new ResponseEntity<Map<String,Object>>(result,HttpStatus.ACCEPTED);
 		
 	}
-	
-	//로그아웃
-	@GetMapping("/user/logout")
-	public ResponseEntity<Boolean> logout(@ApiIgnore HttpSession session){
-		session.invalidate();
-		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
-	}
-	
+
 }
