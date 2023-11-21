@@ -1,9 +1,13 @@
 <template>
   <div>
-    <h2>comment</h2>
+    <RunningPathDetail />
+    <CommentList />
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import CommentList from "../components/comment/CommentList.vue";
+import RunningPathDetail from "../components/runningpath/RunningPathDetail.vue";
+</script>
 
 <style scoped></style>

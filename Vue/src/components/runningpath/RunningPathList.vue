@@ -15,7 +15,7 @@
           >
           <p class="text-black fs-4 fw-normal m-0 px-3 py-2">
             약 {{ computedDistances[runningPath.mapId] }}km 내,
-            {{ (runningPath.distance / 1000).toFixed(2) }}km
+            {{ (runningPath.distance / 1000).toFixed(2) }}km 코스
           </p>
           <p class="text-black fs-6 fw-normal m-0 px-3 py-2">
             {{ runningPath.description }}
@@ -73,29 +73,38 @@ import { useRunningPathStore } from "../../stores/runningPath";
 import { onMounted, computed, ref, reactive, watch } from "vue";
 
 const store = useRunningPathStore();
-
-let computedDistances = reactive({});
+const computedDistances = reactive({});
 
 onMounted(() => {
   const storedDistances = localStorage.getItem("computedDistances");
+  store.getRunningPathList();
 
   if (storedDistances) {
-    computedDistances = reactive(JSON.parse(storedDistances));
+    computedDistances.value = reactive(JSON.parse(storedDistances));
+    localStorage.setItem(
+      "computedDistances",
+      JSON.stringify(computedDistances.value)
+    );
   } else {
-    store.runningPathList.forEach(async (runningPath) => {
-      try {
-        await tempDist(runningPath.path, runningPath.mapId);
-      } catch (error) {
-        console.error("거리 계산 중 오류 발생:", error);
-      }
+    store.getRunningPathList();
+  }
+});
+
+watch(
+  () => store.runningPathList,
+  (newRunningPathList) => {
+    newRunningPathList.forEach((runningPath) => {
+      tempDist(runningPath.path, runningPath.mapId);
     });
   }
+);
 
-  store.getRunningPathList();
+watch(computedDistances, (newVal) => {
+  localStorage.setItem("computedDistances", JSON.stringify(newVal));
 });
 
 const num = 1;
-const perPage = 5;
+const perPage = 3;
 
 const currentPage = ref(1);
 
@@ -141,49 +150,34 @@ function toRadians(degrees) {
 }
 
 function tempDist(path, mapId) {
-  return new Promise((resolve, reject) => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const location = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          };
-          const tmpPath = location;
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition((position) => {
+      const location = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude,
+      };
 
-          path = "{" + path + "}";
-          const selectedPath = JSON.parse(path);
+      const tmpPath = location;
+      const selectedPath = JSON.parse(path);
 
-          const distance = getDistance(
-            selectedPath.lat,
-            selectedPath.lng,
-            tmpPath.lat,
-            tmpPath.lng
-          );
-
-          // computedDistances에 설정
-          computedDistances[mapId] = Math.round(distance);
-
-          resolve(distance);
-
-          // 스토리지에 데이터 저장
-          localStorage.setItem(
-            "computedDistances",
-            JSON.stringify(computedDistances)
-          );
-        },
-        (error) => {
-          console.error("위치 수집 여부 거절");
-          reject(error);
-        }
+      const distance = getDistance(
+        selectedPath[0].lat,
+        selectedPath[0].lng,
+        tmpPath.lat,
+        tmpPath.lng
       );
-    }
-  });
-}
 
-watch(computedDistances, (newVal) => {
-  localStorage.setItem("computedDistances", JSON.stringify(newVal));
-});
+      // computedDistances에 설정
+      computedDistances[mapId] = Math.round(distance);
+
+      // 스토리지에 데이터 저장
+      localStorage.setItem(
+        "computedDistances",
+        JSON.stringify(computedDistances)
+      );
+    });
+  }
+}
 </script>
 
 <style scoped>

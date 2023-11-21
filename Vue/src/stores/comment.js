@@ -10,7 +10,7 @@ export const useCommentStore = defineStore("comment", () => {
 
   const getCommentList = (mapId) => {
     axios
-      .get(`${REST_COMMENT_API}/${mapId}`)
+      .get(`${REST_COMMENT_API}/list/${mapId}`)
       .then((res) => {
         console.log(res.data);
         commentList.value = res.data;
