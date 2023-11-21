@@ -1,5 +1,9 @@
 <template>
   <div class="header">
+    <div v-if="userName !== ''" class="welcome-message bg-info text-white">
+      <p class="mb-0">환영합니다, {{ userName.userId }}님!</p>
+    </div>
+
     <button
       v-if="userName === ''"
       type="button"
@@ -9,7 +13,7 @@
       Login
     </button>
     <button
-      v-if="userName != ''"
+      v-if="userName !== ''"
       type="button"
       class="btn btn-outline-warning btn-lg"
       @click="logout"
@@ -21,7 +25,6 @@
 </template>
 
 <script setup>
-// import Searchbar from "../search/Searchbar.vue";
 import { computed, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useUserStore } from "../../stores/user";
@@ -31,12 +34,35 @@ const userStore = useUserStore();
 const userName = computed(() => userStore.userName);
 
 const login = () => {
-  router.push("login");
+  return new Promise((resolve, reject) => {
+    if (confirm("로그인 화면으로 이동하시겠습니까?")) {
+      resolve(); 
+    } else {
+      reject();
+    }
+  })
+    .then(() => {
+      router.push("/login");
+    })
+    .catch(() => {
+    });
+  
 };
 
 const logout = () => {
-  sessionStorage.clear();
-  userStore.userName = "";
+  return new Promise((resolve, reject) => {
+    if (confirm("로그아웃 하시겠습니까?")) {
+      resolve(); 
+    } else {
+      reject();
+    }
+  })
+    .then(() => {
+      sessionStorage.clear();
+      userStore.userName = "";
+    })
+    .catch(() => {
+    });
 };
 
 onMounted(() => {
@@ -57,5 +83,10 @@ onMounted(() => {
   margin-left: 18vw;
   width: 10vw;
   height: 5vh;
+}
+
+.welcome-message {
+  padding: 1rem;
+  border-radius: 0.25rem;
 }
 </style>
