@@ -12,7 +12,6 @@ export const useCommentStore = defineStore("comment", () => {
     axios
       .get(`${REST_COMMENT_API}/list/${mapId}`)
       .then((res) => {
-        console.log(res.data);
         commentList.value = res.data;
       })
       .catch((err) => {
@@ -45,9 +44,16 @@ export const useCommentStore = defineStore("comment", () => {
       });
   };
 
-  const updateComment = () => {
-    axios.put(REST_COMMENT_API, comment.value).then(() => {
-      router.push({ name: "commentList" });
+  const updateComment = (commentId) => {
+    axios.put(`${REST_COMMENT_API}/update`, comment.value).then(() => {
+      commentList.value = commentList.value.map((temp) => {
+        if (temp.commentId === commentId) {
+          temp.content = comment.value.content;
+        }
+        return temp;
+      });
+      console.log("ERROR!!!!");
+      router.push({ name: "comment" });
     });
   };
 

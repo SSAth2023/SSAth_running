@@ -53,7 +53,7 @@ public class CommentRestController {
 	//댓글 작성
 	@PostMapping("/comment/create")
 	public ResponseEntity<String> create(@RequestBody Comment comment){
-		System.out.println(comment);
+
 		int result = commentService.createComment(comment);
 		if(result == 0)
 			return new ResponseEntity<String>(FAIL,HttpStatus.NO_CONTENT);
