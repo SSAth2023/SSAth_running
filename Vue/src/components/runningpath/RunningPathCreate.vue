@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="input-group mb-3" style="height: 5vh">
+    <div class="input-group mb-3 input-search">
       <input
         type="text"
         class="form-control"
@@ -8,8 +8,15 @@
         v-model="searchInput"
         placeholder="Enter building name"
       />
-      <button class="btn btn-outline-secondary" @click="search">검색</button>
+      <button
+        class="btn btn-outline-secondary"
+        style="border: none"
+        @click="search"
+      >
+        검색
+      </button>
     </div>
+    <div id="map" style="height: 80vh"></div>
     <div>
       <label>제목</label><br />
       <input v-model="title" /><br />
@@ -18,7 +25,6 @@
       <br />
       <label>경로</label>
     </div>
-    <div id="map" style="height: 80vh"></div>
     <button @click="createRunningPath" style="height: 3vh">추가</button>
     <button
       class="btn btn-outline-secondary current-location-button"
@@ -33,6 +39,7 @@
 import { ref, onMounted } from "vue";
 import { useRunningPathStore } from "../../stores/runningPath";
 import { mapStyle } from "../common/mapStyle";
+import { useUserStore } from "../../stores/user";
 
 const runningPathStore = useRunningPathStore();
 const drawnCourse = ref();
@@ -40,6 +47,7 @@ const map = ref(null);
 const searchInput = ref("");
 const title = ref("");
 const description = ref("");
+const userStore = useUserStore();
 
 const search = () => {
   if (searchInput.value.trim() !== "") {
@@ -69,8 +77,7 @@ const search = () => {
 const createRunningPath = () => {
   console.log(drawnCourse.value[drawnCourse.value.length - 1]);
   const path = {
-    // userId:localStorage.getItem("userId"),
-    userId: 1234,
+    userId: userStore.userName["userId"],
     title: title.value,
     path: JSON.stringify(drawnCourse.value),
     description: description.value,
@@ -170,8 +177,17 @@ onMounted(() => {
   position: absolute;
   background-color: white;
   border: 0cm;
-  top: 87px; /* 조정 가능한 값 */
-  right: 60px; /* 조정 가능한 값 */
-  z-index: 1000; /* 다른 요소 위로 표시하기 위한 z-index 설정 */
+  top: 10px;
+  right: 60px;
+  z-index: 1000;
+}
+.input-search {
+  position: absolute;
+  background-color: white;
+  border: 0cm;
+  top: 10px;
+  left: 43%;
+  width: 300px;
+  z-index: 1000;
 }
 </style>

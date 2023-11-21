@@ -1,31 +1,28 @@
 <template>
   <div>
-    <div id="map" style="height: 100vh"></div>
-    <router-link
-      :to="`/path/update/${runningPathDetail.mapId}`"
-      :path="runningPathDetail"
-      class="btn btn-outline-secondary running-path-update"
-    >
-      수정
-    </router-link>
-    <button
-      class="btn btn-outline-secondary running-path-delete"
-      @click="runnigPathDelete"
-    >
-      삭제
-    </button>
+    <div class="input-group mb-3 input-search"></div>
+    <div id="map" style="height: 80vh"></div>
+    <div>
+      <label>제목</label><br />
+      <input type="text" v-model="title" /><br />
+      <label>내용</label><br />
+      <textarea v-model="description"></textarea>
+      <br />
+      <label>경로</label>
+    </div>
+    <button @click="updateRunningPath">저장</button>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted, computed } from "vue";
 import { useRunningPathStore } from "../../stores/runningPath";
+import { useUserStore } from "../../stores/user";
 import { mapStyle } from "../common/mapStyle";
-import { useRoute, useRouter } from "vue-router";
-import axios from "axios";
+import { useRoute } from "vue-router";
 
 const route = useRoute();
-const router = useRouter();
+const userStore = useUserStore();
 const runningPathStore = useRunningPathStore();
 const map = ref(null);
 const infoWindow = ref(null);
@@ -37,12 +34,18 @@ const polylineOptions = ref({
 
 const runningPathDetail = computed(() => runningPathStore.runningPath);
 
-const runnigPathDelete = () => {
-  axios
-    .delete(`http://localhost:8080/api/path/delete/${route.params.mapId}`)
-    .then(() => {
-      router.push({ name: "home" });
-    });
+const title = runningPathDetail.value.title;
+const description = runningPathDetail.value.description;
+
+const updateRunningPath = () => {
+  const path = {
+    userId: userStore.userName["userId"],
+    title: title,
+    path: runningPathDetail.value.path,
+    description: description,
+    distance: runningPathDetail.value.distance,
+  };
+  runningPathStore.updateRunningPath(path);
 };
 
 onMounted(async () => {
@@ -138,20 +141,21 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-.running-path-delete {
+.current-location-button {
   position: absolute;
   background-color: white;
   border: 0cm;
-  bottom: 25px;
+  top: 10px;
   right: 60px;
   z-index: 1000;
 }
-.running-path-update {
+.input-search {
   position: absolute;
   background-color: white;
   border: 0cm;
-  bottom: 25px;
-  right: 117px;
+  top: 10px;
+  left: 43%;
+  width: 300px;
   z-index: 1000;
 }
 </style>
