@@ -91,17 +91,10 @@ public class UserRestController {
 			result.put("message", "FAIL");
 			return new ResponseEntity<Map<String,Object>>(result,HttpStatus.NO_CONTENT);
 		}
-		result.put("access-token", util.createToken("id", user.getUserId()));
+		result.put("access-token", util.createToken("userId", user.getUserId()));
 		result.put("message", "SUCCESS");
 		return new ResponseEntity<Map<String,Object>>(result,HttpStatus.ACCEPTED);
 		
 	}
-	
-	//로그아웃
-	@GetMapping("/user/logout")
-	public ResponseEntity<Boolean> logout(@ApiIgnore HttpSession session){
-		session.invalidate();
-		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
-	}
-	
+
 }
