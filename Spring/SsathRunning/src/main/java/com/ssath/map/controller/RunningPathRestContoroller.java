@@ -65,8 +65,8 @@ public class RunningPathRestContoroller {
 	}
 	
 	// 러닝 경로 삭제
-	@DeleteMapping("/path/delete")
-	public ResponseEntity<String> delete(int mapId) {
+	@DeleteMapping("/path/delete/{mapId}")
+	public ResponseEntity<String> delete(@PathVariable int mapId) {
 		int result = runningPathService.deleteRunningPath(mapId);
 		
 		if(result == 0) return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
@@ -77,6 +77,7 @@ public class RunningPathRestContoroller {
 	// 러닝 경로 수정
 	@PutMapping("/path/update")
 	public ResponseEntity<String> update(@RequestBody RunningPath runningPath) {
+		System.out.println(runningPath);
 		int result = runningPathService.updateRunningPath(runningPath);
 	
 		if(result == 0) return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);

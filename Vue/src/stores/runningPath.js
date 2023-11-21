@@ -44,9 +44,10 @@ export const useRunningPathStore = defineStore("runningPath", () => {
       });
   };
 
-  const updateRunningPath = () => {
-    axios.put(REST_PATH_API, runningPath.value).then(() => {
-      router.push({ name: "runningPathList" });
+  const updateRunningPath = (runningPath) => {
+    console.log(runningPath);
+    axios.put(`${REST_PATH_API}/update`, runningPath).then(() => {
+      router.push({ name: "home" });
     });
   };
 
