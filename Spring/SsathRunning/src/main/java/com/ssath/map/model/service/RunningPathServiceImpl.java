@@ -48,5 +48,10 @@ public class RunningPathServiceImpl implements RunningPathService {
 	public List<RunningPath> searchRunningPath(SearchCondition location) {
 		return runningPathDao.searchRunningPath(location);
 	}
+
+	@Override
+	public List<RunningPath> selectBookmarkedPaths(String userId) {
+		return runningPathDao.selectBookmarkedPaths(userId);
+	}
 	
 }

@@ -61,6 +61,17 @@ export const useRunningPathStore = defineStore("runningPath", () => {
       });
   };
 
+  const bookmarkedRunningPath = ref([]);
+
+  const getBookmakredRunningPath = async (userId) => {
+    try {
+      const res = await axios.get(`${REST_PATH_API}/bookmark/${userId}`);
+      runningPath.value = res.data;
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return {
     runningPathList,
     getRunningPathList,
@@ -69,5 +80,7 @@ export const useRunningPathStore = defineStore("runningPath", () => {
     createRunningPath,
     updateRunningPath,
     searchRunningPathList,
+    bookmarkedRunningPath,
+    getBookmakredRunningPath
   };
 });

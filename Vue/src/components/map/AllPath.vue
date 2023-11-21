@@ -1,34 +1,19 @@
 <template>
   <div>
-    <!-- 검색 입력과 버튼을 담는 부트스트랩의 입력 그룹 -->
+    <div id="map" style="height: 100vh"></div>
+
+    <!--검색-->
     <div class="input-group mb-3 input-search">
-      <input
-        type="text"
-        class="form-control"
-        @keyup.enter="search"
-        v-model="searchInput"
-        placeholder="Enter building name"
-      />
-      <button
-        class="btn btn-outline-secondary"
-        style="border: none"
-        @click="search"
-      >
+      <input type="text" class="form-control" @keyup.enter="search" v-model="searchInput"
+        placeholder="Enter building name" />
+      <button class="btn btn-outline-secondary" style="border: none" @click="search">
         검색
       </button>
     </div>
-
-    <!-- 지도를 표시하는 부분 -->
-    <RouterLink
-      class="btn btn-outline-secondary running-path-create"
-      :to="`/path/create`"
-      >경로 추가</RouterLink
-    >
-    <div id="map" style="height: 100vh"></div>
-    <button
-      class="btn btn-outline-secondary current-location-button"
-      @click="moveToCurrentLocation"
-    >
+    <!--경로 추가-->
+    <RouterLink class="btn btn-outline-secondary running-path-create" :to="`/path/create`">경로 추가</RouterLink>
+    <!--현재 위치-->
+    <button class="btn btn-outline-secondary current-location-button" @click="moveToCurrentLocation">
       현재 위치로 이동
     </button>
   </div>
@@ -50,6 +35,17 @@ const polylineOptions = ref({
   strokeOpacity: 0.7,
   strokeWeight: 4,
 });
+const polylineOptionsOver = ref({
+  strokeColor: "#000080",
+  strokeOpacity: 0.7,
+  strokeWeight: 6,
+});
+const pathArrow = {
+  path: google.maps.SymbolPath.FORWARD_OPEN_ARROW,
+  scale: 3,
+  strokeColor: "#FFFFHH",
+  strokeWeight: 5,
+}
 
 const search = () => {
   if (searchInput.value.trim() !== "") {
@@ -100,10 +96,14 @@ const moveToCurrentLocation = () => {
 };
 
 const addEvent = (polyline, runningPath) => {
+
+
+  let count = 0;
+  let interval;
+
   google.maps.event.addListener(polyline, "mouseover", (event) => {
-    const contentString = `<div style="border: none"> 코스 : ${
-      runningPath.title
-    }<br> 거리 : ${(runningPath.distance / 1000).toFixed(2)} km</div>`;
+    const contentString = `<div style="border: none"> 코스 : ${runningPath.title
+      }<br> 거리 : ${(runningPath.distance / 1000).toFixed(2)} km</div>`;
     if (!infoWindow.value) {
       infoWindow.value = new google.maps.InfoWindow();
     }
@@ -113,13 +113,43 @@ const addEvent = (polyline, runningPath) => {
       lng: JSON.parse(runningPath.path)[0]["lng"],
     });
     infoWindow.value.setOptions({
-      pixelOffset: new google.maps.Size(0, -30), // 마커 위에 표시되도록 조정
-      disableAutoPan: true, // 자동 팬 비활성화
+      disableAutoPan: true
     });
     infoWindow.value.open(map.value);
+    interval = setInterval(() => {
+      polyline.setOptions({
+        strokeColor: polylineOptionsOver.value.strokeColor,
+        strokeOpacity: polylineOptionsOver.value.strokeOpacity,
+        strokeWeight: polylineOptionsOver.value.strokeWeight,
+        icons: [
+          {
+            icon: pathArrow,
+            offset: count + "%",
+          },
+          {
+            icon: pathArrow,
+            offset: count + 1 + "%",
+          },
+          {
+            icon: pathArrow,
+            offset: count + 2 + "%",
+          },
+        ],
+      });
+      count += 0.02;
+      if (count > 100) count = 0;
+    }, 1);
+
   });
 
   google.maps.event.addListener(polyline, "mouseout", () => {
+    clearInterval(interval)
+    polyline.setOptions({
+      strokeColor: polylineOptions.value.strokeColor,
+      strokeOpacity: polylineOptions.value.strokeOpacity,
+      strokeWeight: polylineOptions.value.strokeWeight,
+      icons: [],
+    })
     if (infoWindow.value) {
       infoWindow.value.close();
     }
@@ -159,7 +189,6 @@ onMounted(async () => {
     );
   }
 
-  // runningPathList에 저장된 초기 경로를 지도에 표시
   if (runningPathList.value.length > 0) {
     runningPathList.value.forEach((runningPath) => {
       if (map.value) {
@@ -187,6 +216,7 @@ onMounted(async () => {
   right: 60px;
   z-index: 1000;
 }
+
 .custom-info-window {
   background-color: white;
   padding: 10px;

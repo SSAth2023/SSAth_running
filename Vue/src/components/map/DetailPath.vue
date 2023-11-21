@@ -1,17 +1,15 @@
 <template>
   <div>
     <div id="map" style="height: 100vh"></div>
-    <router-link
-      :to="`/path/update/${runningPathDetail.mapId}`"
-      :path="runningPathDetail"
-      class="btn btn-outline-secondary running-path-update"
-    >
+    <!--수정-->
+    <router-link v-if="userStore.userName['userId'] === runningPathDetail.userId"
+      :to="`/path/update/${runningPathDetail.mapId}`" :path="runningPathDetail"
+      class="btn btn-outline-secondary running-path-update">
       수정
     </router-link>
-    <button
-      class="btn btn-outline-secondary running-path-delete"
-      @click="runnigPathDelete"
-    >
+    <!--삭제-->
+    <button v-if="userStore.userName['userId'] === runningPathDetail.userId"
+      class="btn btn-outline-secondary running-path-delete" @click="runnigPathDelete">
       삭제
     </button>
   </div>
@@ -20,6 +18,7 @@
 <script setup>
 import { ref, onMounted, computed } from "vue";
 import { useRunningPathStore } from "../../stores/runningPath";
+import { useUserStore } from "../../stores/user";
 import { mapStyle } from "../common/mapStyle";
 import { useRoute, useRouter } from "vue-router";
 import axios from "axios";
@@ -27,13 +26,22 @@ import axios from "axios";
 const route = useRoute();
 const router = useRouter();
 const runningPathStore = useRunningPathStore();
+const userStore = useUserStore();
 const map = ref(null);
 const infoWindow = ref(null);
+let count = 0;
+let interval;
 const polylineOptions = ref({
-  strokeColor: "#008000",
+  strokeColor: "#000080",
   strokeOpacity: 0.7,
-  strokeWeight: 4,
+  strokeWeight: 6,
 });
+const pathArrow = {
+  path: google.maps.SymbolPath.FORWARD_OPEN_ARROW,
+  scale: 3,
+  strokeColor: "#FFFFHH",
+  strokeWeight: 5,
+}
 
 const runningPathDetail = computed(() => runningPathStore.runningPath);
 
@@ -70,6 +78,26 @@ onMounted(async () => {
         strokeWeight: polylineOptions.value.strokeWeight,
         map: map.value,
       });
+      interval = setInterval(() => {
+        polyline.setOptions({
+          icons: [
+            {
+              icon: pathArrow,
+              offset: count + "%",
+            },
+            {
+              icon: pathArrow,
+              offset: count + 1 + "%",
+            },
+            {
+              icon: pathArrow,
+              offset: count + 2 + "%",
+            },
+          ],
+        });
+        count += 0.02;
+        if (count > 100) count = 0;
+      }, 1);
     }
 
     const markerStart = new google.maps.Marker({
@@ -94,10 +122,10 @@ onMounted(async () => {
     const markerEnd = new google.maps.Marker({
       position: new google.maps.LatLng(
         JSON.parse(runningPathDetail.value.path)[
-          JSON.parse(runningPathDetail.value.path).length - 1
+        JSON.parse(runningPathDetail.value.path).length - 1
         ]["lat"],
         JSON.parse(runningPathDetail.value.path)[
-          JSON.parse(runningPathDetail.value.path).length - 1
+        JSON.parse(runningPathDetail.value.path).length - 1
         ]["lng"]
       ),
       title: "도착점",
@@ -117,11 +145,10 @@ onMounted(async () => {
       },
     });
 
-    const contentString = `<div style="border: none"> 코스 : ${
-      runningPathDetail.value.title
-    }<br> 거리 : ${(runningPathDetail.value.distance / 1000).toFixed(
-      2
-    )} km</div>`;
+    const contentString = `<div style="border: none"> 코스 : ${runningPathDetail.value.title
+      }<br> 거리 : ${(runningPathDetail.value.distance / 1000).toFixed(
+        2
+      )} km</div>`;
     infoWindow.value = new google.maps.InfoWindow();
     infoWindow.value.setContent(contentString);
     infoWindow.value.setPosition({
@@ -129,7 +156,6 @@ onMounted(async () => {
       lng: JSON.parse(runningPathDetail.value.path)[0]["lng"],
     });
     infoWindow.value.setOptions({
-      pixelOffset: new google.maps.Size(0, -30),
       disableAutoPan: true,
     });
     infoWindow.value.open(map.value);
@@ -146,6 +172,7 @@ onMounted(async () => {
   right: 60px;
   z-index: 1000;
 }
+
 .running-path-update {
   position: absolute;
   background-color: white;

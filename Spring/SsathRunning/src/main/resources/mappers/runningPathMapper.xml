@@ -87,7 +87,11 @@
 		LIMIT 5;
 	</select>
 	
-	
+	<select id="selectBookmarkedPaths" resultMap="runningPathMap" parameterType="String">
+		SELECT * FROM
+		runningPath A
+		WHERE A.map_id IN (SELECT map_id FROM marked WHERE user_id=#{userId} AND marked=1)
+	</select>
 	
 	
 	
