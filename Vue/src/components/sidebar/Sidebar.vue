@@ -4,6 +4,7 @@
       <SidebarHeader />
       <hr />
       <RouterView name="sidebar" />
+      <RouterView name="comment" />
     </div>
     <button
       class="btn toggle-button"

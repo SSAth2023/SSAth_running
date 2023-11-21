@@ -14,21 +14,21 @@
 	<!-- 댓글 상세조회 -->
 	<select id="selectComment" resultType="Comment" parameterType="int">
 		SELECT 
-			comment_id commentId, map_id mapId, user_id userId, content, date_format(com_reg_date, '%Y-%M-%d') as comRegDate
+			comment_id commentId, map_id mapId, user_id userId, content, DATE_FORMAT(com_reg_date, '%Y-%m-%d %T') as comRegDate
 		FROM COMMENT
 		WHERE comment_id = ${commentId} 
 	</select>
 	
 	<!-- 모든 댓글 조회 -->
 	<select id="selectComments" resultMap="commentMap" parameterType="int">
-		SELECT comment_id, map_id, user_id, content, date_format(com_reg_date, '%Y-%M-%d')
+		SELECT comment_id, map_id, user_id, content, DATE_FORMAT(com_reg_date, '%Y-%m-%d %T') com_reg_date
 		FROM COMMENT
 		WHERE map_id = ${mapId}
 	</select>
 	
 	<!-- 댓글 작성 -->
 	<insert id="createComment" parameterType="Comment">
-		INSERT INTO COMMENT VALUES(0, ${mapId}, ${userId}, #{content}, now())
+		INSERT INTO COMMENT VALUES(0, ${mapId}, #{userId}, #{content}, now())
 	</insert>
 	
 	<!-- 댓글 삭제 -->

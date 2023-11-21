@@ -66,9 +66,12 @@ const router = createRouter({
       ],
     },
     {
-      path: "/comment",
+      path: "/comment/:mapId",
       name: "comment",
-      component: CommentView,
+      components: {
+        default: AllPath,
+        comment: CommentView,
+      },
     },
   ],
 });
