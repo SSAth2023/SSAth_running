@@ -24,6 +24,7 @@
 		SELECT comment_id, map_id, user_id, content, DATE_FORMAT(com_reg_date, '%Y-%m-%d %T') com_reg_date
 		FROM COMMENT
 		WHERE map_id = ${mapId}
+		ORDER BY comment_id DESC
 	</select>
 	
 	<!-- 댓글 작성 -->
