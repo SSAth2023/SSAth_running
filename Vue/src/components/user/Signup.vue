@@ -1,9 +1,9 @@
 <template>
-  <div class="container">
-    <img class="logo" @click="back" src="../../assets/image/S S A T H.png"/>
+  <div class="container2">
+    <img class="logo2" @click="back" src="../../assets/image/S S A T H.png" />
     <div class="card bg-light border border-1 border-black">
       <div class="card-body">
-        <h2 class="card-title text-start">회원 가입</h2>
+        <h2 class="card-title text-start title">회원 가입</h2>
         <form @submit.prevent="regist">
           <div class="mb-3">
             <label for="id" class="form-label">아이디</label>
@@ -11,11 +11,21 @@
           </div>
           <div class="mb-3">
             <label for="password" class="form-label">비밀번호</label>
-            <input type="password" id="password" v-model="password" class="form-control" />
+            <input
+              type="password"
+              id="password"
+              v-model="password"
+              class="form-control"
+            />
           </div>
           <div class="mb-3">
             <label for="password2" class="form-label">비밀번호 확인</label>
-            <input type="password" id="password2" v-model="password2" class="form-control" />
+            <input
+              type="password"
+              id="password2"
+              v-model="password2"
+              class="form-control"
+            />
           </div>
           <div class="mb-3">
             <label for="name" class="form-label">이름</label>
@@ -81,13 +91,12 @@ const regist = () => {
 
   if (Array.isArray(users.value) && users.value.length > 0) {
     const userExists = users.value.some((user) => user.userId === id.value);
-    
+
     if (userExists) {
       alert("이미 존재하는 아이디입니다.");
       return;
     }
   }
-
 
   const user = {
     userId: id.value,
@@ -101,8 +110,12 @@ const regist = () => {
 
 const back = () => {
   return new Promise((resolve, reject) => {
-    if (confirm("이전화면으로 돌아가시겠습니까?\n(작성한 정보는 저장되지 않습니다.)")) {
-      resolve(); 
+    if (
+      confirm(
+        "이전화면으로 돌아가시겠습니까?\n(작성한 정보는 저장되지 않습니다.)"
+      )
+    ) {
+      resolve();
     } else {
       reject();
     }
@@ -110,25 +123,25 @@ const back = () => {
     .then(() => {
       router.push("/");
     })
-    .catch(() => {
-      
-    });
+    .catch(() => {});
 };
 </script>
 
 <style>
-.card-title {
-  margin-bottom: 5vh;
-}
-.container {
+form {
   margin-top: 5vh;
 }
 
-.logo {
+.container2 {
+  margin: 10vh;
+}
+
+.logo2 {
   width: 15vw;
   height: 10vh;
   cursor: pointer;
   margin-bottom: 5vh;
+  margin-top: 5vh;
 }
 
 .up {
