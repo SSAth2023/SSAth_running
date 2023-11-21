@@ -12,12 +12,59 @@
         </tr>
       </thead>
       <tbody class="table-group-divider">
-        <tr v-for="comment in currentPageCommentList" :key="comment.comment_id">
-          <th>{{ num++ }}</th>
+        <tr
+          v-for="(comment, index) in currentPageCommentList"
+          :key="comment.commentId"
+        >
+          <th>{{ index + 1 + (currentPage - 1) * perPage }}</th>
           <th>
             {{ comment.userId }}
           </th>
-          <th>{{ comment.content }}</th>
+          <th>
+            {{ comment.content
+            }}<button
+              type="button"
+              class="btn btn-warning"
+              style="
+                margin: 1px;
+                --bs-btn-padding-y: 0.25rem;
+                --bs-btn-padding-x: 0.5rem;
+                --bs-btn-font-size: 0.75rem;
+              "
+              @click="modeChange(comment.commentId)"
+              v-if="comment.userId === userStore.userName['userId'] && !mode"
+            >
+              수정
+            </button>
+            <button
+              type="button"
+              class="btn btn-warning"
+              style="
+                margin: 1px;
+                --bs-btn-padding-y: 0.25rem;
+                --bs-btn-padding-x: 0.5rem;
+                --bs-btn-font-size: 0.75rem;
+              "
+              v-if="comment.userId === userStore.userName['userId'] && mode"
+              @click="mode = false"
+            >
+              취소
+            </button>
+            <button
+              type="button"
+              class="btn btn-danger"
+              style="
+                margin: 1px;
+                --bs-btn-padding-y: 0.25rem;
+                --bs-btn-padding-x: 0.5rem;
+                --bs-btn-font-size: 0.75rem;
+              "
+              v-if="comment.userId === userStore.userName['userId']"
+              @click="deleteComment(comment.commentId)"
+            >
+              삭제
+            </button>
+          </th>
           <th>{{ formatDateTime(comment.comRegDate) }}</th>
         </tr>
       </tbody>
@@ -54,7 +101,8 @@
       </ul>
     </nav>
     <hr />
-    <CommentInsertBlock />
+    <CommentInsertBlock v-if="!mode" />
+    <CommentUpdateBlock v-if="mode" />
   </div>
 </template>
 
@@ -62,18 +110,19 @@
 import { useCommentStore } from "@/stores/comment";
 import { onMounted, computed, ref } from "vue";
 import CommentInsertBlock from "./CommentInsertBlock.vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
+import { useUserStore } from "../../stores/user";
+import CommentUpdateBlock from "./CommentUpdateBlock.vue";
+import axios from "axios";
 
 const route = useRoute();
+const router = useRouter();
 const store = useCommentStore();
-const num = 1;
+const userStore = useUserStore();
+const mode = ref(false);
 
 onMounted(() => {
   store.getCommentList(route.params.mapId);
-  console.log(store.commentList);
-  store.commentList.forEach((comment) => {
-    console.log(comment);
-  });
 });
 
 const perPage = 5;
@@ -111,6 +160,39 @@ const formatDateTime = function (datetime) {
 
 const padZero = function (value) {
   return value < 10 ? `0${value}` : value;
+};
+
+const modeChange = (commentId) => {
+  if (!mode.value) mode.value = true;
+
+  store.comment = store.getComment(commentId);
+};
+
+const deleteComment = (commentId) => {
+  return new Promise((resolve, reject) => {
+    if (confirm("삭제하시겠습니까?")) {
+      axios
+        .delete(`http://localhost:8080/api/comment/delete/${commentId}`)
+        .then(() => {
+          resolve(); // 확인일 경우 resolve 호출
+        })
+        .catch((error) => {
+          reject(error); // 삭제 요청 실패 시 reject 호출
+        });
+    } else {
+      reject(); // 취소일 경우 reject 호출
+    }
+  })
+    .then(() => {
+      // 삭제 성공 시의 로직
+      router.push({
+        name: "runningPathDetail",
+        params: { mapId: route.params.mapId },
+      });
+    })
+    .catch(() => {
+      // 취소 또는 삭제 실패 시의 로직
+    });
 };
 </script>
 

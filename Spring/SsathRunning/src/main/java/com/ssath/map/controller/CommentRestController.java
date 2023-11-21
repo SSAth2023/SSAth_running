@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -51,7 +52,7 @@ public class CommentRestController {
 	
 	//댓글 작성
 	@PostMapping("/comment/create")
-	public ResponseEntity<String> create(Comment comment){
+	public ResponseEntity<String> create(@RequestBody Comment comment){
 		int result = commentService.createComment(comment);
 		if(result == 0)
 			return new ResponseEntity<String>(FAIL,HttpStatus.NO_CONTENT);
@@ -69,7 +70,7 @@ public class CommentRestController {
 	
 	//댓글 수정
 	@PutMapping("/comment/update")
-	public ResponseEntity<String> update(Comment comment){
+	public ResponseEntity<String> update(@RequestBody Comment comment){
 		int result = commentService.updateComment(comment);
 		if(result == 0)
 			return new ResponseEntity<String>(FAIL,HttpStatus.NO_CONTENT);
