@@ -1,49 +1,40 @@
 <template>
-  <div class="container2">
-    <img
-      class="logo2 mx-auto d-block img-fluid img-thumbnail border border-dark-subtle"
-      @click="back"
-      src="../../assets/image/S S A T H.png"
-    />
-    <div class="card bg-light border border-1 border-black">
-      <div class="card-body">
-        <h2 class="card-title text-start title">회원 가입</h2>
-        <form @submit.prevent="regist">
-          <div class="mb-3">
-            <label for="id" class="form-label">아이디</label>
-            <input type="text" id="id" v-model="id" class="form-control" />
+  <div class="running-page">
+    <div class="running-container">
+      <div class="running-card">
+        <div class="running-background"></div>
+        <div class="running-card-content">
+          <div class="running-header">
+            <img class="running-logo" @click="back" src="../../assets/image/S S A T H.png" alt="Running Logo" />
+            <h2 class="running-title">회원 가입</h2>
           </div>
-          <div class="mb-3">
-            <label for="password" class="form-label">비밀번호</label>
-            <input
-              type="password"
-              id="password"
-              v-model="password"
-              class="form-control"
-            />
+          <form @submit.prevent="regist" class="running-form">
+            <div class="running-form-group">
+              <label for="id" class="running-label">아이디</label>
+              <input type="text" id="id" v-model="id" class="running-input" />
+            </div>
+            <div class="running-form-group">
+              <label for="password" class="running-label">비밀번호</label>
+              <input type="password" id="password" v-model="password" class="running-input" />
+            </div>
+            <div class="running-form-group">
+              <label for="password2" class="running-label">비밀번호 확인</label>
+              <input type="password" id="password2" v-model="password2" class="running-input" />
+            </div>
+            <div class="running-form-group">
+              <label for="name" class="running-label">이름</label>
+              <input type="text" id="name" v-model="name" class="running-input" />
+            </div>
+            <div class="running-form-group">
+              <label for="age" class="running-label">나이</label>
+              <input type="number" id="age" v-model="age" class="running-input" />
+            </div>
+            <button type="submit" class="running-button primary">등록</button>
+          </form>
+          <div class="running-footer">
+            <button class="running-button secondary" @click="back">이전</button>
           </div>
-          <div class="mb-3">
-            <label for="password2" class="form-label">비밀번호 확인</label>
-            <input
-              type="password"
-              id="password2"
-              v-model="password2"
-              class="form-control"
-            />
-          </div>
-          <div class="mb-3">
-            <label for="name" class="form-label">이름</label>
-            <input type="text" id="name" v-model="name" class="form-control" />
-          </div>
-          <div class="mb-3">
-            <label for="age" class="form-label">나이</label>
-            <input type="number" id="age" v-model="age" class="form-control" />
-          </div>
-          <button type="submit" class="btn btn-primary">등록</button>
-        </form>
-      </div>
-      <div class="card-footer text-muted text-end">
-        <button class="btn btn-outline-secondary" @click="back">이전</button>
+        </div>
       </div>
     </div>
   </div>
@@ -73,12 +64,7 @@ const isPasswordValid = (pwd) => {
 };
 
 const regist = () => {
-  if (
-    id.value === "" ||
-    password.value === "" ||
-    name.value === "" ||
-    age.value === ""
-  ) {
+  if (id.value === "" || password.value === "" || name.value === "" || age.value === "") {
     alert("모든 내용을 입력해주세요");
     return;
   }
@@ -114,11 +100,7 @@ const regist = () => {
 
 const back = () => {
   return new Promise((resolve, reject) => {
-    if (
-      confirm(
-        "이전화면으로 돌아가시겠습니까?\n(작성한 정보는 저장되지 않습니다.)"
-      )
-    ) {
+    if (confirm("이전화면으로 돌아가시겠습니까?\n(작성한 정보는 저장되지 않습니다.)")) {
       resolve();
     } else {
       reject();
@@ -127,29 +109,126 @@ const back = () => {
     .then(() => {
       router.push("/");
     })
-    .catch(() => {});
+    .catch(() => { });
 };
 </script>
 
 <style>
-form {
-  margin-top: 5vh;
+.running-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('https://img.freepik.com/free-photo/sunset-on-the-aegean-sea-coast-ship-and-land-in-the-distance-water-greece_1268-16901.jpg?w=1380&t=st=1700672640~exp=1700673240~hmac=e9f88b9c5e62170f068b88bc803747758821ec036211ee225d5868e3d18405de');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.5;
+  z-index: 0;
 }
 
-.container2 {
-  margin: 10vh;
-}
-
-.logo2 {
-  width: 20vw;
-  height: 15vh;
-  cursor: pointer;
-  margin-bottom: 5vh;
-  margin-top: 5vh;
-}
-
-.up {
+.running-page {
   display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f5f5f5;
+}
+
+.running-container {
+  max-width: 800px;
+}
+
+.running-card {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.running-header {
+  display: flex;
+  align-items: center;
   justify-content: space-between;
+  padding: 20px;
+}
+
+.running-logo {
+  width: 60px;
+  height: auto;
+  cursor: pointer;
+}
+
+.running-title {
+  font-size: 1.5em;
+  margin-left: 20px;
+  color: #2c3e50;
+}
+
+.running-form {
+  padding: 20px;
+}
+
+.running-form-group {
+  margin-bottom: 20px;
+}
+
+.running-label {
+  display: block;
+  font-size: 0.9em;
+  margin-bottom: 5px;
+  color: #555;
+}
+
+.running-input {
+  height: 35px;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1em;
+}
+
+.running-button {
+  height: 35px;
+  width: 100%;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: bold;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.running-button.primary {
+  background-color: #3498db;
+  color: #fff;
+}
+
+.running-button.secondary {
+  background-color: #95a5a6;
+  color: #fff;
+}
+
+.running-link {
+  display: block;
+  text-align: center;
+  color: #3498db;
+  text-decoration: none;
+  font-size: 0.9em;
+  margin-top: 10px;
+}
+
+.running-footer {
+  text-align: right;
+  padding: 10px 20px;
+}
+
+.running-card-content {
+  width: 500px;
+  background-color: #ffffff;
+  position: relative;
+  opacity: 0.9;
+  z-index: 1;
 }
 </style>
