@@ -5,6 +5,8 @@
       <hr />
       <RouterView name="sidebar" />
       <RouterView name="comment" />
+      <hr />
+      <SidebarFooter />
     </div>
     <button
       class="btn toggle-button"
@@ -27,6 +29,7 @@
 
 <script>
 const RunningPathList = () => import("../runningpath/RunningPathList.vue");
+import SidebarFooter from "./SidebarFooter.vue";
 import SidebarHeader from "./SidebarHeader.vue";
 
 export default {
@@ -42,7 +45,7 @@ export default {
       this.buttonMargin = this.buttonMargin === "1vw" ? "30vw" : "1vw";
     },
   },
-  components: { SidebarHeader, RunningPathList },
+  components: { SidebarHeader, RunningPathList, SidebarFooter },
 };
 </script>
 
