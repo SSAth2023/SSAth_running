@@ -9,8 +9,9 @@ export const useRunningPathStore = defineStore("runningPath", () => {
 
   const getRunningPathList = async (location) => {
     console.log(location);
+    console.log(location.value);
     try {
-      const res = await axios.post(REST_PATH_API, location);
+      const res = await axios.post(REST_PATH_API, location.value);
       runningPathList.value = res.data;
     } catch (err) {
       console.error(err);

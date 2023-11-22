@@ -62,7 +62,6 @@
             <button
               type="button"
               class="btn btn-primary"
-              data-bs-dismiss="modal"
               @click="createRunningPath"
             >
               등록

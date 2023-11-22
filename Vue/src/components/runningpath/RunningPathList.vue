@@ -9,7 +9,7 @@
       <div class="path">
         <div>
           <RouterLink
-            class="text-center text-black fs-3 fw-normal m-0 px-3 py-2"
+            class="text-center text-black fs-3 fw-bold m-0 px-3 py-2"
             :to="`/path/${runningPath.mapId}`"
             >{{
               index + 1 + (currentPage - 1) * perPage + ". " + runningPath.title
@@ -175,8 +175,10 @@ function tempDist(path, mapId) {
         tmpPath.lng
       );
 
+      console.log(distance);
+
       // computedDistances에 설정
-      computedDistances[mapId] = Math.round(distance);
+      computedDistances[mapId] = Math.round(distance * 100) / 100;
 
       // 스토리지에 데이터 저장
       localStorage.setItem(

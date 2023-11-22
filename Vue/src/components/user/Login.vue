@@ -4,7 +4,11 @@
       <div class="card-body">
         <div class="up">
           <h2 class="card-title text-start">로그인</h2>
-          <img class="logo" @click="back" src="../../assets/image/S S A T H.png"/>
+          <img
+            class="logo img-fluid"
+            @click="back"
+            src="../../assets/image/S S A T H.png"
+          />
         </div>
         <form @submit.prevent="login">
           <div class="mb-3">
@@ -13,10 +17,17 @@
           </div>
           <div class="mb-3">
             <label for="password" class="form-label">Password</label>
-            <input type="password" id="password" v-model="password" class="form-control" />
+            <input
+              type="password"
+              id="password"
+              v-model="password"
+              class="form-control"
+            />
           </div>
           <button type="submit" class="btn btn-primary">로그인</button>
-          <RouterLink to="/login/signup" class="btn btn-link">회원가입</RouterLink>
+          <RouterLink to="/login/signup" class="btn btn-link"
+            >회원가입</RouterLink
+          >
         </form>
       </div>
       <div class="card-footer text-muted text-end">
@@ -48,8 +59,12 @@ const login = () => {
 
 const back = () => {
   return new Promise((resolve, reject) => {
-    if (confirm("이전화면으로 돌아가시겠습니까?\n(지워진 아이디와 비밀번호는 다시 적히지 않습니다.)")) {
-      resolve(); 
+    if (
+      confirm(
+        "이전화면으로 돌아가시겠습니까?\n(지워진 아이디와 비밀번호는 다시 적히지 않습니다.)"
+      )
+    ) {
+      resolve();
     } else {
       reject();
     }
@@ -57,9 +72,7 @@ const back = () => {
     .then(() => {
       router.push("/");
     })
-    .catch(() => {
-      
-    });
+    .catch(() => {});
 };
 </script>
 
