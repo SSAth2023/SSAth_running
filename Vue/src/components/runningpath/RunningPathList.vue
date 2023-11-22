@@ -112,7 +112,6 @@ watch(computedDistances, (newVal) => {
   localStorage.setItem("computedDistances", JSON.stringify(newVal));
 });
 
-const num = 1;
 const perPage = 3;
 
 const currentPage = ref(1);

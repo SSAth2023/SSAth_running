@@ -99,6 +99,7 @@ const search = () => {
 const runningPathList = computed(() => runningPathStore.runningPathList);
 
 const moveToCurrentLocation = () => {
+  console.log(navigator.geolocation);
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
       (position) => {
