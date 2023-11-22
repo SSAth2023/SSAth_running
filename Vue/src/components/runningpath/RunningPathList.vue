@@ -3,7 +3,7 @@
     <div class="bg-info-subtle rounded-1">가까운 코스</div>
     <hr />
     <div
-      v-for="runningPath in currentPageRunningPathList"
+      v-for="(runningPath, index) in currentPageRunningPathList"
       :key="runningPath.mapId"
     >
       <div class="path">
@@ -11,7 +11,7 @@
           <RouterLink
             class="text-center text-black fs-3 fw-normal m-0 px-3 py-2"
             :to="`/path/${runningPath.mapId}`"
-            >{{ num++ + ". " + runningPath.title }}</RouterLink
+            >{{ (index + 1 + (currentPage - 1) * perPage) + ". " + runningPath.title }}</RouterLink
           >
           <p class="text-black fs-4 fw-normal m-0 px-3 py-2">
             약 {{ computedDistances[runningPath.mapId] }}km 내,

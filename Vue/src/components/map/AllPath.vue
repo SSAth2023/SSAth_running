@@ -4,9 +4,18 @@
 
     <!--검색-->
     <div class="input-group mb-3 input-search">
-      <input type="text" class="form-control" @keyup.enter="search" v-model="searchInput"
-        placeholder="Enter building name" />
-      <button class="btn btn-outline-secondary" style="border: none" @click="search">
+      <input
+        type="text"
+        class="form-control"
+        @keyup.enter="search"
+        v-model="searchInput"
+        placeholder="검색하고 싶은 장소가 있으신가요?"
+      />
+      <button
+        class="btn btn-outline-secondary"
+        style="border: none"
+        @click="search"
+      >
         검색
       </button>
     </div>

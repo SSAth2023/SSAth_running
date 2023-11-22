@@ -6,7 +6,7 @@
         class="form-control"
         @keyup.enter="search"
         v-model="searchInput"
-        placeholder="Enter building name"
+        placeholder="검색하고 싶은 장소가 있으신가요?"
       />
       <button
         class="btn btn-outline-secondary"
