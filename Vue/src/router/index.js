@@ -9,7 +9,7 @@ import Login from "../components/user/Login.vue";
 import AllPath from "@/components/map/AllPath.vue";
 import DetailPath from "@/components/map/DetailPath.vue";
 import UpdatePath from "@/components/map/UpdatePath.vue";
-import BookmarkedPath from "@/components/map/BookmarkPath.vue"
+import BookmarkedPath from "@/components/map/BookmarkPath.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -49,7 +49,7 @@ const router = createRouter({
           name: "bookmarkedRunningPath",
           components: {
             default: BookmarkedPath,
-            sidebar: RunningPathDetail,//수정필요
+            sidebar: RunningPathDetail, //수정필요
           },
         },
         {
@@ -78,7 +78,7 @@ const router = createRouter({
       path: "/comment/:mapId",
       name: "comment",
       components: {
-        default: AllPath,
+        default: DetailPath,
         comment: CommentView,
       },
     },

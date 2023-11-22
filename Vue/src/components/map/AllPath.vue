@@ -20,9 +20,16 @@
       </button>
     </div>
     <!--경로 추가-->
-    <RouterLink class="btn btn-outline-secondary running-path-create" :to="`/path/create`">경로 추가</RouterLink>
+    <RouterLink
+      class="btn btn-outline-secondary running-path-create"
+      :to="`/path/create`"
+      >경로 추가</RouterLink
+    >
     <!--현재 위치-->
-    <button class="btn btn-outline-secondary current-location-button" @click="moveToCurrentLocation">
+    <button
+      class="btn btn-outline-secondary current-location-button"
+      @click="moveToCurrentLocation"
+    >
       현재 위치로 이동
     </button>
   </div>
@@ -54,7 +61,7 @@ const pathArrow = {
   scale: 3,
   strokeColor: "#FFFFHH",
   strokeWeight: 5,
-}
+};
 
 const search = () => {
   if (searchInput.value.trim() !== "") {
@@ -86,6 +93,7 @@ const runningPathList = computed(() => runningPathStore.runningPathList);
 console.log(runningPathStore.runningPathList);
 
 const moveToCurrentLocation = () => {
+  console.log(navigator.geolocation);
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
       (position) => {
@@ -105,14 +113,13 @@ const moveToCurrentLocation = () => {
 };
 
 const addEvent = (polyline, runningPath) => {
-
-
   let count = 0;
   let interval;
 
   google.maps.event.addListener(polyline, "mouseover", (event) => {
-    const contentString = `<div style="border: none"> 코스 : ${runningPath.title
-      }<br> 거리 : ${(runningPath.distance / 1000).toFixed(2)} km</div>`;
+    const contentString = `<div style="border: none"> 코스 : ${
+      runningPath.title
+    }<br> 거리 : ${(runningPath.distance / 1000).toFixed(2)} km</div>`;
     if (!infoWindow.value) {
       infoWindow.value = new google.maps.InfoWindow();
     }
@@ -122,7 +129,7 @@ const addEvent = (polyline, runningPath) => {
       lng: JSON.parse(runningPath.path)[0]["lng"],
     });
     infoWindow.value.setOptions({
-      disableAutoPan: true
+      disableAutoPan: true,
     });
     infoWindow.value.open(map.value);
     interval = setInterval(() => {
@@ -148,17 +155,16 @@ const addEvent = (polyline, runningPath) => {
       count += 0.02;
       if (count > 100) count = 0;
     }, 1);
-
   });
 
   google.maps.event.addListener(polyline, "mouseout", () => {
-    clearInterval(interval)
+    clearInterval(interval);
     polyline.setOptions({
       strokeColor: polylineOptions.value.strokeColor,
       strokeOpacity: polylineOptions.value.strokeOpacity,
       strokeWeight: polylineOptions.value.strokeWeight,
       icons: [],
-    })
+    });
     if (infoWindow.value) {
       infoWindow.value.close();
     }

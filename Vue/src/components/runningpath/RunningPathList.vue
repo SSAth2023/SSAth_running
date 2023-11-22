@@ -11,7 +11,9 @@
           <RouterLink
             class="text-center text-black fs-3 fw-normal m-0 px-3 py-2"
             :to="`/path/${runningPath.mapId}`"
-            >{{ (index + 1 + (currentPage - 1) * perPage) + ". " + runningPath.title }}</RouterLink
+            >{{
+              index + 1 + (currentPage - 1) * perPage + ". " + runningPath.title
+            }}</RouterLink
           >
           <p class="text-black fs-4 fw-normal m-0 px-3 py-2">
             약 {{ computedDistances[runningPath.mapId] }}km 내,
@@ -103,7 +105,6 @@ watch(computedDistances, (newVal) => {
   localStorage.setItem("computedDistances", JSON.stringify(newVal));
 });
 
-const num = 1;
 const perPage = 3;
 
 const currentPage = ref(1);
