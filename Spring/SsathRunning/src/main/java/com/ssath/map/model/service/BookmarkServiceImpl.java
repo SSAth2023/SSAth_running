@@ -17,8 +17,8 @@ public class BookmarkServiceImpl implements BookmarkService {
 	}
 	
 	@Override
-	public boolean selectBookmark(String mapId, String userId) {
-		return bookmarkDao.selectBookmark(mapId, userId);
+	public int createBookmark(String mapId, String userId) {
+		return bookmarkDao.createBookmark(mapId, userId);
 	}
 	
 	@Override
@@ -27,8 +27,18 @@ public class BookmarkServiceImpl implements BookmarkService {
 	}
 	
 	@Override
-	public int updateBookmark(Bookmark bookmark) {
-		return bookmarkDao.updateBookmark(bookmark);
+	public int updateBookmark(String mapId, String userId) {
+		return bookmarkDao.updateBookmark(mapId, userId);
+	}
+
+	@Override
+	public int existsBookmark(String mapId, String userId) {
+		return bookmarkDao.existsBookmark(mapId, userId);
+	}
+
+	@Override
+	public int selectBookmark(String mapId, String userId) {
+		return bookmarkDao.selectBookmark(mapId, userId);
 	}
 
 }

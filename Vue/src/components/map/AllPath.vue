@@ -21,6 +21,7 @@
     </div>
     <!--경로 추가-->
     <RouterLink
+      v-if="userStore.userName != ''"
       class="btn btn-outline-secondary running-path-create"
       :to="`/path/create`"
       >경로 추가</RouterLink
@@ -38,14 +39,17 @@
 <script setup>
 import { ref, onMounted, computed } from "vue";
 import { useRunningPathStore } from "../../stores/runningPath";
+import { useUserStore } from "../../stores/user";
 import { mapStyle } from "../common/mapStyle";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
 const runningPathStore = useRunningPathStore();
+const userStore = useUserStore();
 const map = ref(null);
 const searchInput = ref("");
 const infoWindow = ref(null);
+const curlocationToPost = ref(null);
 const polylineOptions = ref({
   strokeColor: "#008000",
   strokeOpacity: 0.7,
@@ -80,17 +84,19 @@ const search = () => {
           results[0].geometry.location
         ) {
           const location = results[0].geometry.location;
+          curlocationToPost.value = JSON.stringify(location);
+          console.log(curlocationToPost);
           map.value.setCenter(location);
         } else {
           console.error("장소를 찾을 수 없습니다.");
         }
       }
     );
+    runningPathStore.getRunningPathList(curlocationToPost);
   }
 };
 
 const runningPathList = computed(() => runningPathStore.runningPathList);
-console.log(runningPathStore.runningPathList);
 
 const moveToCurrentLocation = () => {
   console.log(navigator.geolocation);
@@ -101,7 +107,10 @@ const moveToCurrentLocation = () => {
           lat: position.coords.latitude,
           lng: position.coords.longitude,
         };
+        curlocationToPost.value = `"lat":${position.coords.latitude},"lng":${position.coords.longitude}`;
+        console.log(curlocationToPost);
         map.value.setCenter(location);
+        runningPathStore.getRunningPathList(curlocationToPost);
       },
       (error) => {
         console.error("위치 수집 여부 거절");
@@ -187,8 +196,6 @@ onMounted(async () => {
     },
   });
 
-  await runningPathStore.getRunningPathList();
-
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
       (position) => {
@@ -196,6 +203,8 @@ onMounted(async () => {
           lat: position.coords.latitude,
           lng: position.coords.longitude,
         };
+        curlocationToPost.value = `"lat":${position.coords.latitude},"lng":${position.coords.longitude}`;
+        console.log(curlocationToPost);
         map.value.setCenter(location);
       },
       (error) => {
@@ -203,6 +212,8 @@ onMounted(async () => {
       }
     );
   }
+
+  await runningPathStore.getRunningPathList(curlocationToPost);
 
   if (runningPathList.value.length > 0) {
     runningPathList.value.forEach((runningPath) => {

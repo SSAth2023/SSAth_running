@@ -29,7 +29,7 @@
           >
         </div>
         <div class="favor">
-          <img src="@/assets/image/Favorite.png" />
+          <i style="font-size: 27px" class="bi bi-suit-heart" @click="like"></i>
           <p class="text-center text-black fs-6 fw-normal m-0 px-3 py-2">13</p>
         </div>
       </div>
@@ -72,13 +72,20 @@
 
 <script setup>
 import { useRunningPathStore } from "../../stores/runningPath";
+import { useUserStore } from "../../stores/user";
+import { useBookmarkStore } from "../../stores/bookmark";
 import { onMounted, computed, ref, reactive, watch } from "vue";
 
 const store = useRunningPathStore();
+const userStore = useUserStore();
+const bookmarkStore = useBookmarkStore();
 const computedDistances = reactive({});
+
+// const like = function()
 
 onMounted(() => {
   const storedDistances = localStorage.getItem("computedDistances");
+
   store.getRunningPathList();
 
   if (storedDistances) {

@@ -19,8 +19,6 @@ import io.swagger.annotations.Api;
 @RequestMapping("/api")
 public class BookmarkRestController {
 	
-	private final String SUCCESS = "SUCCESS";	
-	private final String FAIL = "FAIL";	
 	private BookmarkService bookmarkService;
 	
 	@Autowired
@@ -29,11 +27,17 @@ public class BookmarkRestController {
 	}
 	
 	@GetMapping({"/bookmark/{mapId}/{userId}"})
-	public ResponseEntity<Boolean> detail(@PathVariable("mapId") String mapId, @PathVariable("userId") String userId){
-		boolean result = bookmarkService.selectBookmark(mapId, userId);
-		if(result)
-			return new ResponseEntity<Boolean>(result,HttpStatus.OK);
-		return new ResponseEntity<Boolean>(result,HttpStatus.NO_CONTENT);
+	public ResponseEntity<Integer> like(@PathVariable("mapId") String mapId, @PathVariable("userId") String userId){
+		int result = 0;
+		if(bookmarkService.existsBookmark(mapId,userId)>0) {
+			bookmarkService.updateBookmark(mapId, userId);
+			result = bookmarkService.selectBookmark(mapId, userId);
+		}
+		else
+			result = bookmarkService.createBookmark(mapId, userId);
+		if(result>0)
+			return new ResponseEntity<Integer>(1,HttpStatus.OK);
+		return new ResponseEntity<Integer>(0,HttpStatus.NO_CONTENT);
 	}
 	
 	@GetMapping("/bookmark/list/{mapId}")
@@ -42,13 +46,6 @@ public class BookmarkRestController {
 		
 		return new ResponseEntity<Integer>(cnt,HttpStatus.OK);
 	}
-	
-	@PutMapping("/bookmark/update")
-	public ResponseEntity<String> update(@RequestBody Bookmark bookmark){
-		int result = bookmarkService.updateBookmark(bookmark);
-		if(result == 0)
-			return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
-		return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
-	}
+
 	
 }

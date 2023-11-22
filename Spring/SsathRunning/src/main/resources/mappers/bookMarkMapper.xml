@@ -5,7 +5,7 @@
 <mapper namespace="com.ssath.map.model.dao.BookmarkDao">
 
 	<!-- 북마크 -->
-	<insert id="selectBookmark" parameterType="String">
+	<insert id="createBookmark" parameterType="String">
 		INSERT INTO BOOKMARK VALUES(#{mapId},#{userId},true)
 	</insert>
 	
@@ -23,5 +23,21 @@
 		SET marked = NOT marked
 		WHERE map_id = #{mapId} AND user_id = #{userId}
 	</update>
+	
+	<!-- 좋아요 생성 여부 확인 -->
+	<select id="existsBookmark" resultType="int" parameterType="String">
+		SELECT COUNT(*) CNT
+		FROM BOOKMARK
+		WHERE map_id = #{mapId} AND user_id = #{userId}
+		GROUP BY map_id, user_id
+	</select>
+	
+	<!-- 좋아요 여부 확인 -->
+	<select id="selectBookmark" resultType="int" parameterType="String">
+		SELECT marked
+		FROM BOOKMARK
+		WHERE map_id = #{mapId} AND user_id = #{userId}
+		GROUP BY map_id, user_id
+	</select>
 	
 </mapper>
