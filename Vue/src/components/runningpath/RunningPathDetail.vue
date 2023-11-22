@@ -6,7 +6,7 @@
           <div class="bg-info-subtle rounded-1">
             {{ store.runningPath.title }}
           </div>
-          <img src="@/assets/image/Favorite.png" />
+          <img class="img-fluid" src="@/assets/image/Favorite.png" />
           <p class="text-center text-black fs-6 fw-normal m-0 px-3 py-2">13</p>
         </div>
         <p class="text-black fs-4 fw-normal m-0 px-3 py-2">

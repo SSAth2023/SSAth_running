@@ -3,24 +3,25 @@
     <div v-if="userName !== ''" class="welcome-message bg-info text-white">
       <p class="mb-0">환영합니다, {{ userName.userId }}님!</p>
     </div>
-
-    <button
-      v-if="userName === ''"
-      type="button"
-      class="btn btn-outline-warning btn-lg"
-      @click="login"
-    >
-      Login
-    </button>
-    <button
-      v-if="userName !== ''"
-      type="button"
-      class="btn btn-outline-warning btn-lg"
-      @click="logout"
-    >
-      Logout
-    </button>
-    <Searchbar />
+    <div class="button-head">
+      <button class="btn btn-secondary" @click="back">이전화면으로</button>
+      <button
+        v-if="userName === ''"
+        type="button"
+        class="btn btn-outline-warning btn-lg"
+        @click="login"
+      >
+        Login
+      </button>
+      <button
+        v-if="userName !== ''"
+        type="button"
+        class="btn btn-outline-warning btn-lg"
+        @click="logout"
+      >
+        Logout
+      </button>
+    </div>
   </div>
 </template>
 
@@ -36,7 +37,7 @@ const userName = computed(() => userStore.userName);
 const login = () => {
   return new Promise((resolve, reject) => {
     if (confirm("로그인 화면으로 이동하시겠습니까?")) {
-      resolve(); 
+      resolve();
     } else {
       reject();
     }
@@ -44,15 +45,13 @@ const login = () => {
     .then(() => {
       router.push("/login");
     })
-    .catch(() => {
-    });
-  
+    .catch(() => {});
 };
 
 const logout = () => {
   return new Promise((resolve, reject) => {
     if (confirm("로그아웃 하시겠습니까?")) {
-      resolve(); 
+      resolve();
     } else {
       reject();
     }
@@ -61,8 +60,7 @@ const logout = () => {
       sessionStorage.clear();
       userStore.userName = "";
     })
-    .catch(() => {
-    });
+    .catch(() => {});
 };
 
 onMounted(() => {
@@ -71,18 +69,21 @@ onMounted(() => {
     userStore.userName = JSON.parse(atob(token[1]));
   }
 });
+
+const back = () => {
+  router.go(-1);
+};
 </script>
 
 <style scoped>
+.button-head {
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+  margin-top: 3vh;
+}
 .header {
   background-color: white;
-}
-
-.btn {
-  margin: 1.5vh;
-  margin-left: 18vw;
-  width: 10vw;
-  height: 5vh;
 }
 
 .welcome-message {

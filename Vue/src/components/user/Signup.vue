@@ -1,6 +1,10 @@
 <template>
   <div class="container2">
-    <img class="logo2" @click="back" src="../../assets/image/S S A T H.png" />
+    <img
+      class="logo2 mx-auto d-block img-fluid img-thumbnail border border-dark-subtle"
+      @click="back"
+      src="../../assets/image/S S A T H.png"
+    />
     <div class="card bg-light border border-1 border-black">
       <div class="card-body">
         <h2 class="card-title text-start title">회원 가입</h2>
@@ -137,8 +141,8 @@ form {
 }
 
 .logo2 {
-  width: 15vw;
-  height: 10vh;
+  width: 20vw;
+  height: 15vh;
   cursor: pointer;
   margin-bottom: 5vh;
   margin-top: 5vh;
