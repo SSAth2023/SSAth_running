@@ -1,22 +1,81 @@
 <template>
   <div>
     <div id="map" style="height: 100vh"></div>
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">
+              러닝 경로 수정
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div>
+                <label class="form-label">경로 이름</label><br />
+                <input class="form-control" v-model="title" /><br />
+              </div>
+              <div>
+                <label class="form-label">경로 설명</label><br />
+                <textarea class="form-control" v-model="description"></textarea>
+              </div>
+              <br />
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              취소
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              data-bs-dismiss="modal"
+              @click="updateRunningPath"
+            >
+              수정
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
     <!--수정-->
-    <router-link v-if="userStore.userName['userId'] === runningPathDetail.userId"
-      :to="`/path/update/${runningPathDetail.mapId}`" :path="runningPathDetail"
-      class="btn btn-outline-secondary running-path-update">
+    <button
+      v-if="userStore.userName['userId'] === runningPathDetail.userId"
+      data-bs-toggle="modal"
+      data-bs-target="#exampleModal"
+      class="btn btn-outline-secondary running-path-update"
+    >
       수정
-    </router-link>
+    </button>
     <!--삭제-->
-    <button v-if="userStore.userName['userId'] === runningPathDetail.userId"
-      class="btn btn-outline-secondary running-path-delete" @click="runnigPathDelete">
+    <button
+      v-if="userStore.userName['userId'] === runningPathDetail.userId"
+      class="btn btn-outline-secondary running-path-delete"
+      @click="runnigPathDelete"
+    >
       삭제
     </button>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted, computed, watch } from "vue";
 import { useRunningPathStore } from "../../stores/runningPath";
 import { useUserStore } from "../../stores/user";
 import { mapStyle } from "../common/mapStyle";
@@ -31,6 +90,7 @@ const map = ref(null);
 const infoWindow = ref(null);
 let count = 0;
 let interval;
+
 const polylineOptions = ref({
   strokeColor: "#000080",
   strokeOpacity: 0.7,
@@ -41,15 +101,66 @@ const pathArrow = {
   scale: 3,
   strokeColor: "#FFFFHH",
   strokeWeight: 5,
-}
+};
 
 const runningPathDetail = computed(() => runningPathStore.runningPath);
+const title = ref(runningPathDetail.value.title);
+const description = ref(runningPathDetail.value.description);
+
+watch(runningPathDetail, (newVal) => {
+  title.value = newVal.title;
+  description.value = newVal.description;
+});
+
+const updateRunningPath = () => {
+  return new Promise((resolve, reject) => {
+    if (confirm("수정을 완료하시겠습니까?")) {
+      const path = {
+        mapId: runningPathDetail.value.mapId,
+        userId: runningPathDetail.value.userId,
+        title: title.value,
+        path: runningPathDetail.value.path,
+        description: description.value,
+        distance: runningPathDetail.value.distance,
+      };
+      runningPathStore.updateRunningPath(path);
+
+      resolve(); // 사용자가 확인을 선택한 경우 resolve 호출
+    } else {
+      reject(); // 사용자가 취소를 선택한 경우 reject 호출
+    }
+  })
+    .then(() => {
+      alert("경로 정보가 수정되었습니다.");
+      router.push({
+        name: "runningPathDetail",
+        params: { mapId: route.params.mapId },
+      });
+    })
+    .catch(() => {
+      // 사용자가 취소를 선택하거나 업데이트 실패 시의 로직
+    });
+};
 
 const runnigPathDelete = () => {
-  axios
-    .delete(`http://localhost:8080/api/path/delete/${route.params.mapId}`)
+  return new Promise((resolve, reject) => {
+    if (confirm("정말 삭제하시겠습니까?")) {
+      axios
+        .delete(`http://localhost:8080/api/path/delete/${route.params.mapId}`)
+        .then(() => {
+          router.push({ name: "home" });
+        });
+      resolve(); // 사용자가 확인을 선택한 경우 resolve 호출
+    } else {
+      reject(); // 사용자가 취소를 선택한 경우 reject 호출
+    }
+  })
     .then(() => {
-      router.push({ name: "home" });
+      alert("경로가 삭제되었습니다.");
+      router.push("/");
+    })
+    .catch(() => {
+      // 사용자가 취소를 선택하거나 업데이트 실패 시의 로직
     });
 };
 
@@ -122,10 +233,10 @@ onMounted(async () => {
     const markerEnd = new google.maps.Marker({
       position: new google.maps.LatLng(
         JSON.parse(runningPathDetail.value.path)[
-        JSON.parse(runningPathDetail.value.path).length - 1
+          JSON.parse(runningPathDetail.value.path).length - 1
         ]["lat"],
         JSON.parse(runningPathDetail.value.path)[
-        JSON.parse(runningPathDetail.value.path).length - 1
+          JSON.parse(runningPathDetail.value.path).length - 1
         ]["lng"]
       ),
       title: "도착점",
@@ -145,10 +256,11 @@ onMounted(async () => {
       },
     });
 
-    const contentString = `<div style="border: none"> 코스 : ${runningPathDetail.value.title
-      }<br> 거리 : ${(runningPathDetail.value.distance / 1000).toFixed(
-        2
-      )} km</div>`;
+    const contentString = `<div style="border: none"> 코스 : ${
+      runningPathDetail.value.title
+    }<br> 거리 : ${(runningPathDetail.value.distance / 1000).toFixed(
+      2
+    )} km</div>`;
     infoWindow.value = new google.maps.InfoWindow();
     infoWindow.value.setContent(contentString);
     infoWindow.value.setPosition({

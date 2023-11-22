@@ -12,7 +12,13 @@
       :style="{ marginLeft: buttonMargin }"
     >
       <img
+        v-if="slideBarWidth !== '0px'"
         src="../../assets/image/free-icon-right-arrow-271228.png"
+        alt="Open Slide Bar"
+      />
+      <img
+        v-if="slideBarWidth === '0px'"
+        src="../../assets/image/free-icon-left-arrow-271220.png"
         alt="Open Slide Bar"
       />
     </button>

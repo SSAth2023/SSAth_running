@@ -16,16 +16,74 @@
         검색
       </button>
     </div>
-    <div id="map" style="height: 80vh"></div>
-    <div>
-      <label>제목</label><br />
-      <input v-model="title" /><br />
-      <label>내용</label><br />
-      <textarea v-model="description"></textarea>
-      <br />
-      <label>경로</label>
+    <div id="map" style="height: 100vh"></div>
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">
+              러닝 경로 등록
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div>
+                <label class="form-label">경로 이름</label><br />
+                <input class="form-control" v-model="title" /><br />
+              </div>
+              <div>
+                <label class="form-label">경로 설명</label><br />
+                <textarea class="form-control" v-model="description"></textarea>
+              </div>
+              <br />
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              취소
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              data-bs-dismiss="modal"
+              @click="createRunningPath"
+            >
+              등록
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
-    <button @click="createRunningPath" style="height: 3vh">추가</button>
+    <!-- Button trigger modal -->
+    <button
+      v-if="isDrawingComplete"
+      type="button"
+      class="btn btn-success btn-lg create-button"
+      data-bs-toggle="modal"
+      data-bs-target="#exampleModal"
+    >
+      경로 지정 완료
+    </button>
+    <button v-else class="btn btn-secondary btn-lg create-button" disabled>
+      경로를 모두 그렸으면 마지막 지점을 한번 더 클릭하세요
+    </button>
     <button
       class="btn btn-outline-secondary current-location-button"
       @click="moveToCurrentLocation"
@@ -48,6 +106,7 @@ const searchInput = ref("");
 const title = ref("");
 const description = ref("");
 const userStore = useUserStore();
+const isDrawingComplete = ref(false);
 
 const search = () => {
   if (searchInput.value.trim() !== "") {
@@ -75,15 +134,29 @@ const search = () => {
   }
 };
 const createRunningPath = () => {
-  console.log(drawnCourse.value[drawnCourse.value.length - 1]);
-  const path = {
-    userId: userStore.userName["userId"],
-    title: title.value,
-    path: JSON.stringify(drawnCourse.value),
-    description: description.value,
-    distance: drawnCourse.value[drawnCourse.value.length - 1].totalDistance,
-  };
-  runningPathStore.createRunningPath(path);
+  return new Promise((resolve, reject) => {
+    if (confirm("경로를 등록하시겠습니까?")) {
+      console.log(drawnCourse.value[drawnCourse.value.length - 1]);
+      const path = {
+        userId: userStore.userName["userId"],
+        title: title.value,
+        path: JSON.stringify(drawnCourse.value),
+        description: description.value,
+        distance: drawnCourse.value[drawnCourse.value.length - 1].totalDistance,
+      };
+      runningPathStore.createRunningPath(path);
+      resolve(); // 사용자가 확인을 선택한 경우 resolve 호출
+    } else {
+      reject(); // 사용자가 취소를 선택한 경우 reject 호출
+    }
+  })
+    .then(() => {
+      alert("경로가 등록되었습니다.");
+      router.push("/");
+    })
+    .catch(() => {
+      // 사용자가 취소를 선택한 경우 또는 댓글 등록 실패 시의 로직
+    });
 };
 
 onMounted(() => {
@@ -166,6 +239,7 @@ onMounted(() => {
       }
 
       drawnCourse.value = coordinates;
+      isDrawingComplete.value = true;
       console.log("Drawn path coordinates:", drawnCourse.value, " ");
     }
   );
@@ -188,6 +262,13 @@ onMounted(() => {
   top: 10px;
   left: 43%;
   width: 300px;
+  z-index: 1000;
+}
+
+.create-button {
+  position: absolute;
+  bottom: 20px;
+  right: 60px;
   z-index: 1000;
 }
 </style>
