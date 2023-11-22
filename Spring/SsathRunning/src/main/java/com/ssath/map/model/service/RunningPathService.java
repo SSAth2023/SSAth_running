@@ -9,7 +9,7 @@ public interface RunningPathService {
 	
 	public RunningPath selectOnePath(int mapId);
 	
-	public List<RunningPath> selectPaths(String location);
+	public List<RunningPath> selectPaths(RunningPath runningPath);
 	
 	public int createRunningPath(RunningPath runningPath);
 	
@@ -19,6 +19,6 @@ public interface RunningPathService {
 	
 	public List<RunningPath> searchRunningPath(SearchCondition location);
 	
-	public List<RunningPath> selectBookmarkedPaths(String userId);
+	public List<RunningPath> selectBookmarkedPaths(RunningPath runningPath);
 	
 }

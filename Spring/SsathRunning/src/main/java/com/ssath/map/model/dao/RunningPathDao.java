@@ -11,7 +11,7 @@ public interface RunningPathDao {
 	public RunningPath selectOnePath(int mapId);
 	
 	//모든 러닝 경로 추출
-	public List<RunningPath> selectPaths(String location);
+	public List<RunningPath> selectPaths(RunningPath runningPath);
 	
 	//러닝 경로 추가
 	public int createRunningPath(RunningPath runningPath);
@@ -26,6 +26,6 @@ public interface RunningPathDao {
 	public List<RunningPath> searchRunningPath(SearchCondition location);
 	
 	//좋아요 누른 경로 출력
-	public List<RunningPath> selectBookmarkedPaths(String userId);
+	public List<RunningPath> selectBookmarkedPaths(RunningPath runningPath);
 
 }

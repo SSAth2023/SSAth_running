@@ -1,25 +1,14 @@
 <template>
   <div>
     <div id="map" style="height: 100vh"></div>
-    <div
-      class="modal fade"
-      id="exampleModal"
-      tabindex="-1"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
             <h1 class="modal-title fs-5" id="exampleModalLabel">
               러닝 경로 수정
             </h1>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
             <form>
@@ -35,19 +24,10 @@
             </form>
           </div>
           <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
               취소
             </button>
-            <button
-              type="button"
-              class="btn btn-primary"
-              data-bs-dismiss="modal"
-              @click="updateRunningPath"
-            >
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="updateRunningPath">
               수정
             </button>
           </div>
@@ -55,12 +35,8 @@
       </div>
     </div>
     <!--수정-->
-    <button
-      v-if="userStore.userName['userId'] === runningPathDetail.userId"
-      data-bs-toggle="modal"
-      data-bs-target="#exampleModal"
-      class="btn btn-outline-secondary running-path-update"
-    >
+    <button v-if="userStore.userName['userId'] === runningPathDetail.userId" data-bs-toggle="modal"
+      data-bs-target="#exampleModal" class="btn btn-outline-secondary running-path-update">
       수정
     </button>
     <!--삭제-->
@@ -230,10 +206,10 @@ onMounted(async () => {
     const markerEnd = new google.maps.Marker({
       position: new google.maps.LatLng(
         JSON.parse(runningPathDetail.value.path)[
-          JSON.parse(runningPathDetail.value.path).length - 1
+        JSON.parse(runningPathDetail.value.path).length - 1
         ]["lat"],
         JSON.parse(runningPathDetail.value.path)[
-          JSON.parse(runningPathDetail.value.path).length - 1
+        JSON.parse(runningPathDetail.value.path).length - 1
         ]["lng"]
       ),
       title: "도착점",
@@ -253,11 +229,10 @@ onMounted(async () => {
       },
     });
 
-    const contentString = `<div style="border: none"> 코스 : ${
-      runningPathDetail.value.title
-    }<br> 거리 : ${(runningPathDetail.value.distance / 1000).toFixed(
-      2
-    )} km</div>`;
+    const contentString = `<div style="border: none"> 코스 : ${runningPathDetail.value.title
+      }<br> 거리 : ${(runningPathDetail.value.distance / 1000).toFixed(
+        2
+      )} km</div>`;
     infoWindow.value = new google.maps.InfoWindow();
     infoWindow.value.setContent(contentString);
     infoWindow.value.setPosition({

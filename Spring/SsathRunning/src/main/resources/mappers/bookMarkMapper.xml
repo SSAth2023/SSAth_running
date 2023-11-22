@@ -6,7 +6,7 @@
 
 	<!-- 북마크 -->
 	<insert id="createBookmark" parameterType="String">
-		INSERT INTO BOOKMARK VALUES(#{mapId},#{userId},true)
+		INSERT INTO BOOKMARK VALUES(${mapId},#{userId},true)
 	</insert>
 	
 	<!-- 코스 별 좋아요 출력  -->
@@ -21,7 +21,7 @@
 	<update id="updateBookmark" parameterType="Bookmark">
 		UPDATE BOOKMARK
 		SET marked = NOT marked
-		WHERE map_id = #{mapId} AND user_id = #{userId}
+		WHERE map_id = ${mapId} AND user_id = #{userId}
 	</update>
 	
 	<!-- 좋아요 생성 여부 확인 -->
@@ -35,7 +35,7 @@
 	<select id="selectBookmark" resultType="int" parameterType="String">
 		SELECT marked
 		FROM BOOKMARK
-		WHERE map_id = #{mapId} AND user_id = #{userId}
+		WHERE map_id = ${mapId} AND user_id = #{userId}
 		GROUP BY map_id, user_id
 	</select>
 	
