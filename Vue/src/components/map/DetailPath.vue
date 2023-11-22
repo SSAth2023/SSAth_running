@@ -40,8 +40,11 @@
       수정
     </button>
     <!--삭제-->
-    <button v-if="userStore.userName['userId'] === runningPathDetail.userId"
-      class="btn btn-outline-secondary running-path-delete" @click="runnigPathDelete">
+    <button
+      v-if="userStore.userName['userId'] === runningPathDetail.userId"
+      class="btn btn-outline-secondary running-path-delete"
+      @click="runningPathDelete"
+    >
       삭제
     </button>
   </div>
@@ -115,7 +118,7 @@ const updateRunningPath = () => {
     });
 };
 
-const runnigPathDelete = () => {
+const runningPathDelete = () => {
   return new Promise((resolve, reject) => {
     if (confirm("정말 삭제하시겠습니까?")) {
       axios
