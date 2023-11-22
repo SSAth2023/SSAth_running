@@ -1,5 +1,7 @@
 package com.ssath.map.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssath.map.model.dto.RunningPath;
@@ -37,9 +40,15 @@ public class RunningPathRestContoroller {
 	// 현재 위치에 기반하여 가까운 러닝 경로들 가져오기
 	@PostMapping("/path")
 	public ResponseEntity<?> list(@RequestBody String location) {
-		System.out.println(location);
-		List<RunningPath> list = runningPathService.selectPaths(location);
-		
+		List<RunningPath> list = null;
+		try {
+			String deLocation = URLDecoder.decode(location,"UTF-8");
+			System.out.println(deLocation.substring(0, deLocation.length()-1));
+			list = runningPathService.selectPaths(location);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		System.out.println(list);
 		if(list == null || list.isEmpty()) return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		
 		return new ResponseEntity<List<RunningPath>>(list, HttpStatus.OK);

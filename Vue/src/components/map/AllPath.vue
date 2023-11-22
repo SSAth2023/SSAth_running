@@ -196,23 +196,29 @@ onMounted(async () => {
     },
   });
 
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const location = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        };
-        curlocationToPost.value = `"lat":${position.coords.latitude},"lng":${position.coords.longitude}`;
-        console.log(curlocationToPost);
-        map.value.setCenter(location);
-      },
-      (error) => {
-        console.error("위치 수집 여부 거절");
-      }
-    );
-  }
+  // 위치 수집 Promise 생성
+  const getLocation = () => {
+    return new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const location = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          };
+          curlocationToPost.value = `"lat":${position.coords.latitude},"lng":${position.coords.longitude}"`;
+          map.value.setCenter(location);
+          resolve();
+        },
+        (error) => {
+          console.error("위치 수집 여부 거절");
+          reject(error);
+        }
+      );
+    });
+  };
 
+  // 위치 수집 기다리기
+  await getLocation();
   await runningPathStore.getRunningPathList(curlocationToPost);
 
   if (runningPathList.value.length > 0) {
