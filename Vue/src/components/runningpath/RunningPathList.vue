@@ -2,30 +2,26 @@
   <div>
     <div class="bg-info-subtle rounded-1">가까운 코스</div>
     <hr />
+
     <div v-for="(runningPath, index) in currentPageRunningPathList" :key="runningPath.mapId">
-      >
-      <div class="path">
-        <div>
-          <RouterLink class="text-center text-black fs-3 fw-bold m-0 px-3 py-2" :to="`/path/${runningPath.mapId}`">{{
-            index + 1 + (currentPage - 1) * perPage + ". " + runningPath.title
-          }}</RouterLink>
-          <p class="text-black fs-4 fw-normal m-0 px-3 py-2">
-            약 {{ runningPath.calDist / 1000 }}km 내,
-            {{ (runningPath.distance / 1000).toFixed(2) }}km 코스
-          </p>
-          <p class="text-black fs-6 fw-normal m-0 px-3 py-2">
-            {{ runningPath.description }}
-          </p>
-          <RouterLink :to="`/path/${runningPath.mapId}`" class="text-black fs-6 fw-normal m-0 px-3 py-2">댓글 보기
-          </RouterLink>
-        </div>
-        <div class="favor">
-          <i style="font-size: 27px" class="bi bi-suit-heart" :class="{ like: runningPath.bookmark }"
-            @click="toggleLike(runningPath)"></i>
-          <p class="text-center text-black fs-6 fw-normal m-0 px-3 py-2">13</p>
+      <div class="path-container">
+        <div class="path">
+          <div class="path-details">
+            <RouterLink class="title fs-3 fw-bold" :to="`/path/${runningPath.mapId}`">
+              {{ index + 1 + (currentPage - 1) * perPage + ". " + runningPath.title }}
+            </RouterLink>
+            <p class="distance">
+              약 {{ runningPath.calDist / 1000 }}km 내, {{ (runningPath.distance / 1000).toFixed(2) }}km 코스
+            </p>
+            <p class="description">{{ runningPath.description }}</p>
+            <RouterLink :to="`/path/${runningPath.mapId}`" class="text-black fs-6 fw-normal m-0">댓글 보기</RouterLink>
+          </div>
+          <div class="favor">
+            <i style="font-size: 1.5rem" class="bi bi-suit-heart" :class="{ like: runningPath.bookmark }" @click="toggleLike(runningPath)"></i>
+            <p class="text-center text-black fs-6 fw-normal m-0">{{ runningPath.likes }}</p>
+          </div>
         </div>
       </div>
-      <hr />
     </div>
 
     <nav aria-label="Page navigation">
@@ -34,13 +30,10 @@
           <a class="page-link" :class="{ disabled: currentPage <= 1 }" href="#" @click.prevent="currentPage--">&lt;</a>
         </li>
         <li :class="{ active: currentPage === page }" v-for="page in pageCount" :key="page">
-          <a class="page-link" href="#" @click.prevent="clickPage(page)">{{
-            page
-          }}</a>
+          <a class="page-link" href="#" @click.prevent="clickPage(page)">{{ page }}</a>
         </li>
         <li class="page-item">
-          <a class="page-link" :class="{ disabled: currentPage >= pageCount }" href="#"
-            @click.prevent="currentPage++">&gt;</a>
+          <a class="page-link" :class="{ disabled: currentPage >= pageCount }" href="#" @click.prevent="currentPage++">&gt;</a>
         </li>
       </ul>
     </nav>
@@ -180,13 +173,42 @@ function tempDist(paths, mapId) {
   text-align: center;
 }
 
+.path-container {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 20px;
+  margin-left: 1vw;
+  margin-right: 1vw;
+}
+
 .path {
   display: flex;
-  margin-bottom: 2vh;
+  justify-content: space-between;
+}
+
+.path-details {
+  flex-grow: 1;
+  margin-right: 15px;
+}
+
+.title {
+  color: #3498db;
+}
+
+.distance {
+  color: #e74c3c;
+}
+
+.description {
+  margin-top: 10px;
+  color: #333;
 }
 
 .favor {
   display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 img {

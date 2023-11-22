@@ -6,11 +6,11 @@
           <div class="bg-info-subtle rounded-1">
             {{ store.runningPath.title }}
           </div>
-          <img class="img-fluid" src="@/assets/image/Favorite.png" />
+          <img src="@/assets/image/Favorite.png" />
           <p class="text-center text-black fs-6 fw-normal m-0 px-3 py-2">13</p>
         </div>
         <p class="text-black fs-4 fw-normal m-0 px-3 py-2">
-          약 {{ computedDistances[store.runningPath.mapId] }}km 내,
+          약 {{ store.runningPath.calDist }}km 내,
           {{ (store.runningPath.distance / 1000).toFixed(2) }}km 코스
         </p>
         <p class="text-end text-black fs-5 fw-normal m-0 px-3 py-2">
