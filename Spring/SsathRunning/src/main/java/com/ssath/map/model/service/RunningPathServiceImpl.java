@@ -25,8 +25,8 @@ public class RunningPathServiceImpl implements RunningPathService {
 	}
 	
 	@Override
-	public List<RunningPath> selectPaths(String location){
-		return runningPathDao.selectPaths(location);
+	public List<RunningPath> selectPaths(RunningPath runningPath){
+		return runningPathDao.selectPaths(runningPath);
 	}
 	
 	@Override
@@ -50,8 +50,8 @@ public class RunningPathServiceImpl implements RunningPathService {
 	}
 
 	@Override
-	public List<RunningPath> selectBookmarkedPaths(String userId) {
-		return runningPathDao.selectBookmarkedPaths(userId);
+	public List<RunningPath> selectBookmarkedPaths(RunningPath runningPath) {
+		return runningPathDao.selectBookmarkedPaths(runningPath);
 	}
 	
 }

@@ -12,31 +12,64 @@
 		<result column="distance" property="distance"/>
 		<result column="reg_date" property="regDate"/>
 		<result column="cal_dist" property="calDist"/>
+		<result column="bookmark" property="bookmark"/>
 	</resultMap>
 
 	<!-- 전체 경로 조회 -->
-	<select id="selectPaths" resultMap="runningPathMap" parameterType="String">
+	<select id="selectPaths" resultMap="runningPathMap" parameterType="runningPath">
 		SELECT
-			map_id, user_id, title, path, description, 
+			A.map_id, A.user_id, title, path, description, 
 			distance,
 			date_format(reg_date, '%Y-%M-%d') as regDate,
 			ceiling(ST_Distance_Sphere(
 				POINT(
-					SUBSTRING(#{location}, locate('lat', #{location})+5,locate(",",#{location})-locate(":",#{location})-1)-90,
-					SUBSTRING(#{location}, locate('lng', #{location})+5,length(#{location})-locate("lng",#{location}))-90
+					SUBSTRING(#{path}, locate('lat', #{path})+5,locate(",",#{path})-locate(":",#{path})-1)-90,
+					SUBSTRING(#{path}, locate('lng', #{path})+5,length(#{path})-locate("lng",#{path}))-90
 				),
 				POINT(
 					SUBSTRING(path, locate('lat', path)+5,locate(",",path)-locate(":",path)-1)-90,
 					SUBSTRING(path, locate('lng', path)+5,length(path)-locate("lng",path))-90
 				)
-			)) AS cal_dist
+			)) AS cal_dist,
+			marked bookmark
 		FROM
-			RunningPath
+			RunningPath A
+			LEFT JOIN
+			(SELECT * FROM bookmark WHERE user_id = #{userId}) B
+			ON A.map_id = B.map_id
 		ORDER BY
 			cal_dist
 		LIMIT 5;
 	</select>
-
+	
+	<!-- 전체 경로 조회 -->
+	<select id="selectBookmarkedPaths" resultMap="runningPathMap" parameterType="runningPath">
+		SELECT
+			A.map_id, A.user_id, title, path, description, 
+			distance,
+			date_format(reg_date, '%Y-%M-%d') as regDate,
+			ceiling(ST_Distance_Sphere(
+				POINT(
+					SUBSTRING(#{path}, locate('lat', #{path})+5,locate(",",#{path})-locate(":",#{path})-1)-90,
+					SUBSTRING(#{path}, locate('lng', #{path})+5,length(#{path})-locate("lng",#{path}))-90
+				),
+				POINT(
+					SUBSTRING(path, locate('lat', path)+5,locate(",",path)-locate(":",path)-1)-90,
+					SUBSTRING(path, locate('lng', path)+5,length(path)-locate("lng",path))-90
+				)
+			)) AS cal_dist,
+			marked bookmark
+		FROM
+			RunningPath A
+			LEFT JOIN
+			(SELECT * FROM bookmark WHERE user_id = #{userId}) B
+			ON A.map_id = B.map_id
+			WHERE marked IS NOT NULL
+		ORDER BY
+			cal_dist
+		LIMIT 5;
+	</select>
+	
 	<!-- 상세 경로 조회 -->
 	<select id="selectOnePath" resultMap="runningPathMap" parameterType="int">
 		SELECT *
@@ -86,18 +119,7 @@
 			dist
 		LIMIT 5;
 	</select>
-	
-	<select id="selectBookmarkedPaths" resultMap="runningPathMap" parameterType="String">
-		SELECT * FROM
-		runningPath A
-		WHERE A.map_id IN (SELECT map_id FROM marked WHERE user_id=#{userId} AND marked=1)
-	</select>
-	
-	
-	
-	
-	
-	
+
 	
 	
 

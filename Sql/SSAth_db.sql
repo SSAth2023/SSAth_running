@@ -2,6 +2,15 @@ CREATE DATABASE IF NOT EXISTS SSAth_DB;
 USE SSAth_DB;
 
 SELECT * FROM runningpath;
+SELECT * FROM USER;
+SELECT * FROM bookmark;
+SELECT * FROM COMMENT;
+
+DROP TABLE if exists bookmark;
+DROP TABLE if exists COMMENT;
+DROP TABLE if exists USER;
+DROP TABLE if exists runningpath;
+
 CREATE TABLE IF NOT EXISTS User (   
 	user_id VARCHAR(20) PRIMARY KEY,   
     name VARCHAR(8),   
@@ -16,7 +25,9 @@ CREATE TABLE IF NOT EXISTS RunningPath (
     `path` TEXT,   
     `description` VARCHAR(3000),
     distance INT,   
-    reg_date DATETIME 
+    reg_date DATETIME,
+    cal_dist int,
+    bookmark int
 );
 
 CREATE TABLE IF NOT EXISTS Comment (   

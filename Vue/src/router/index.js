@@ -4,6 +4,7 @@ import CommentView from "../views/CommentView.vue";
 import RunningPathCreate from "../components/runningpath/RunningPathCreate.vue";
 import RunningPathList from "../components/runningpath/RunningPathList.vue";
 import RunningPathDetail from "../components/runningpath/RunningPathDetail.vue";
+import RunningPathListBookmark from "../components/runningPath/RunningPathListBookmark.vue"
 import UserSignup from "../components/user/Signup.vue";
 import Login from "../components/user/Login.vue";
 import AllPath from "@/components/map/AllPath.vue";
@@ -49,7 +50,7 @@ const router = createRouter({
           name: "bookmarkedRunningPath",
           components: {
             default: BookmarkedPath,
-            sidebar: RunningPathDetail, //수정필요
+            sidebar: RunningPathListBookmark, //수정완료
           },
         },
         {

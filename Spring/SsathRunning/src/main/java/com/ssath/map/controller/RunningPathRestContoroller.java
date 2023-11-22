@@ -39,16 +39,20 @@ public class RunningPathRestContoroller {
 	
 	// 현재 위치에 기반하여 가까운 러닝 경로들 가져오기
 	@PostMapping("/path")
-	public ResponseEntity<?> list(@RequestBody String location) {
-		List<RunningPath> list = null;
-		try {
-			String deLocation = URLDecoder.decode(location,"UTF-8");
-			System.out.println(deLocation.substring(0, deLocation.length()-2));
-			list = runningPathService.selectPaths(deLocation.substring(0, deLocation.length()-2));
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-			System.out.println("오류는 아닌 것으로 판명");
-		}
+	public ResponseEntity<?> list(@RequestBody RunningPath runningPath) {
+		System.out.println(runningPath);
+		String location = runningPath.getPath();
+		String userId = runningPath.getUserId();
+		System.out.println(location+" "+userId);
+		List<RunningPath> list = runningPathService.selectPaths(runningPath);
+//		try {
+//			String deLocation = URLDecoder.decode(location,"UTF-8");
+//			System.out.println(deLocation.substring(0, deLocation.length()-2));
+//			list = runningPathService.selectPaths(deLocation.substring(0, deLocation.length()-2));
+//		} catch (UnsupportedEncodingException e) {
+//			e.printStackTrace();
+//			System.out.println("오류는 아닌 것으로 판명");
+//		}
 		System.out.println(list.get(0).getCalDist());
 		if(list == null || list.isEmpty()) return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		
@@ -104,9 +108,11 @@ public class RunningPathRestContoroller {
 	}
 	
 	// 좋아요 누른 러닝 경로 조회
-	@GetMapping("/path/bookmark/{userId}")
-	public ResponseEntity<?> bookmakredLists(@PathVariable String userId){
-		List<RunningPath> list = runningPathService.selectBookmarkedPaths(userId);
+	@PostMapping("/path/bookmark")
+	public ResponseEntity<?> bookmakredLists(@RequestBody RunningPath runningPath){
+		System.out.println("Book: "+runningPath);
+		List<RunningPath> list = runningPathService.selectBookmarkedPaths(runningPath);
+		System.out.println(list.toString());
 		if(list == null || list.isEmpty()) return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		
 		return new ResponseEntity<List<RunningPath>>(list, HttpStatus.OK);

@@ -5,13 +5,11 @@
     <!--검색-->
     <div class="input-group mb-3 input-search">
       <input type="text" class="form-control" @keyup.enter="search" v-model="searchInput"
-        placeholder="Enter building name" />
+        placeholder="검색하고 싶은 장소가 있으신가요?" />
       <button class="btn btn-outline-secondary" style="border: none" @click="search">
         검색
       </button>
     </div>
-    <!--경로 추가-->
-    <RouterLink class="btn btn-outline-secondary running-path-create" :to="`/path/create`">경로 추가</RouterLink>
     <!--현재 위치-->
     <button class="btn btn-outline-secondary current-location-button" @click="moveToCurrentLocation">
       현재 위치로 이동
@@ -32,6 +30,7 @@ const userStore = useUserStore();
 const map = ref(null);
 const searchInput = ref("");
 const infoWindow = ref(null);
+const curlocationToPost = ref({});
 const polylineOptions = ref({
   strokeColor: "#008000",
   strokeOpacity: 0.7,
@@ -47,6 +46,15 @@ const pathArrow = {
   scale: 3,
   strokeColor: "#FFFFHH",
   strokeWeight: 5,
+};
+
+const getRandomColor = () => {
+  const letters = "0123456789ABCDEF";
+  let color = "#";
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
 }
 
 const search = () => {
@@ -66,19 +74,26 @@ const search = () => {
           results[0].geometry.location
         ) {
           const location = results[0].geometry.location;
+          curlocationToPost.value = {
+            mapId: "",
+            path: JSON.stringify(location),
+            userId: userStore.userName["userId"]
+          }
+          console.log(curlocationToPost);
           map.value.setCenter(location);
         } else {
           console.error("장소를 찾을 수 없습니다.");
         }
       }
     );
+    runningPathStore.getBookmakredRunningPath(curlocationToPost);
   }
 };
 
 const runningPathList = computed(() => runningPathStore.bookmarkedRunningPath);
-console.log(runningPathStore.bookmarkedRunningPath);
 
 const moveToCurrentLocation = () => {
+  console.log(navigator.geolocation);
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
       (position) => {
@@ -86,7 +101,14 @@ const moveToCurrentLocation = () => {
           lat: position.coords.latitude,
           lng: position.coords.longitude,
         };
+        curlocationToPost.value = {
+          mapId: "",
+          path: `"lat":${position.coords.latitude},"lng":${position.coords.longitude}`,
+          userId: userStore.userName["userId"]
+        }
+        console.log(curlocationToPost);
         map.value.setCenter(location);
+        runningPathStore.getBookmakredRunningPath(curlocationToPost);
       },
       (error) => {
         console.error("위치 수집 여부 거절");
@@ -98,8 +120,6 @@ const moveToCurrentLocation = () => {
 };
 
 const addEvent = (polyline, runningPath) => {
-
-
   let count = 0;
   let interval;
 
@@ -115,7 +135,7 @@ const addEvent = (polyline, runningPath) => {
       lng: JSON.parse(runningPath.path)[0]["lng"],
     });
     infoWindow.value.setOptions({
-      disableAutoPan: true
+      disableAutoPan: true,
     });
     infoWindow.value.open(map.value);
     interval = setInterval(() => {
@@ -141,17 +161,16 @@ const addEvent = (polyline, runningPath) => {
       count += 0.02;
       if (count > 100) count = 0;
     }, 1);
-
   });
 
   google.maps.event.addListener(polyline, "mouseout", () => {
-    clearInterval(interval)
+    clearInterval(interval);
     polyline.setOptions({
       strokeColor: polylineOptions.value.strokeColor,
       strokeOpacity: polylineOptions.value.strokeOpacity,
       strokeWeight: polylineOptions.value.strokeWeight,
       icons: [],
-    })
+    });
     if (infoWindow.value) {
       infoWindow.value.close();
     }
@@ -174,29 +193,41 @@ onMounted(async () => {
     },
   });
 
-  await runningPathStore.getBookmakredRunningPath(userStore.userName["userId"]);
+  // 위치 수집 Promise 생성
+  const getLocation = () => {
+    return new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const location = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          };
+          curlocationToPost.value = {
+            mapId: "",
+            path: `"lat":${position.coords.latitude},"lng":${position.coords.longitude}`,
+            userId: userStore.userName["userId"]
+          }
+          map.value.setCenter(location);
+          resolve();
+        },
+        (error) => {
+          console.error("위치 수집 여부 거절");
+          reject(error);
+        }
+      );
+    });
+  };
 
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const location = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        };
-        map.value.setCenter(location);
-      },
-      (error) => {
-        console.error("위치 수집 여부 거절");
-      }
-    );
-  }
+  // 위치 수집 기다리기
+  await getLocation();
+  await runningPathStore.getBookmakredRunningPath(curlocationToPost);
 
   if (runningPathList.value.length > 0) {
     runningPathList.value.forEach((runningPath) => {
       if (map.value) {
         const polyline = new google.maps.Polyline({
           path: JSON.parse(runningPath.path),
-          strokeColor: polylineOptions.value.strokeColor,
+          strokeColor: getRandomColor(),
           strokeOpacity: polylineOptions.value.strokeOpacity,
           strokeWeight: polylineOptions.value.strokeWeight,
           map: map.value,
@@ -231,6 +262,15 @@ onMounted(async () => {
   background-color: white;
   border: 0cm;
   bottom: 25px;
+  right: 60px;
+  z-index: 1000;
+}
+
+.running-path-bookmarked {
+  position: absolute;
+  background-color: white;
+  border: 0cm;
+  bottom: 67px;
   right: 60px;
   z-index: 1000;
 }

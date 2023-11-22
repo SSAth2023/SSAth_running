@@ -81,7 +81,7 @@ onMounted(() => {
 });
 
 watch(
-  () => store.runningPathList,
+  () => store.bookmarkedRunningPath,
   (newRunningPathList) => {
     newRunningPathList.forEach((runningPath) => {
       tempDist(runningPath.path, runningPath.mapId);
@@ -98,7 +98,7 @@ const perPage = 3;
 const currentPage = ref(1);
 
 const pageCount = computed(() => {
-  return Math.ceil(store.runningPathList.length / perPage);
+  return Math.ceil(store.bookmarkedRunningPath.length / perPage);
 });
 
 const clickPage = function (page) {
@@ -106,7 +106,7 @@ const clickPage = function (page) {
 };
 
 const currentPageRunningPathList = computed(() => {
-  return store.runningPathList.slice(
+  return store.bookmarkedRunningPath.slice(
     (currentPage.value - 1) * perPage,
     currentPage.value * perPage
   );
