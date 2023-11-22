@@ -10,7 +10,8 @@ public class RunningPath {
 	private int distance;
 	private String regDate;
 	private int calDist;
-	
+	private int bookmark;
+
 	public RunningPath() {
 	}
 
@@ -84,6 +85,14 @@ public class RunningPath {
 
 	public void setCalDist(int calDist) {
 		this.calDist = calDist;
+	}	
+	
+	public int getBookmark() {
+		return bookmark;
+	}
+
+	public void setBookmark(int bookmark) {
+		this.bookmark = bookmark;
 	}
 
 	@Override

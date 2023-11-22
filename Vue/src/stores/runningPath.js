@@ -13,8 +13,6 @@ export const useRunningPathStore = defineStore("runningPath", () => {
     try {
       const res = await axios.post(REST_PATH_API, location.value);
       runningPathList.value = res.data;
-      console.log(res.data);
-      console.log(res.data[0].calDist);
     } catch (err) {
       console.error(err);
     }
@@ -66,11 +64,13 @@ export const useRunningPathStore = defineStore("runningPath", () => {
   };
 
   const bookmarkedRunningPath = ref([]);
-
   const getBookmakredRunningPath = async (userId) => {
+    console.log(userId.value);
     try {
-      const res = await axios.get(`${REST_PATH_API}/bookmark/${userId}`);
+      const res = await axios.post(`${REST_PATH_API}/bookmark`, userId.value);
       runningPath.value = res.data;
+      bookmarkedRunningPath.value = res.data
+      console.log(runningPath.value);
     } catch (err) {
       console.error(err);
     }
