@@ -63,6 +63,8 @@
               type="button"
               class="btn btn-primary"
               @click="createRunningPath"
+              data-bs-toggle="modal"
+              data-bs-target="#exampleModal"
             >
               등록
             </button>
