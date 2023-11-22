@@ -7,9 +7,10 @@ const REST_PATH_API = "http://localhost:8080/api/path";
 export const useRunningPathStore = defineStore("runningPath", () => {
   const runningPathList = ref([]);
 
-  const getRunningPathList = async () => {
+  const getRunningPathList = async (location) => {
+    console.log(location);
     try {
-      const res = await axios.get(REST_PATH_API);
+      const res = await axios.post(REST_PATH_API, location);
       runningPathList.value = res.data;
     } catch (err) {
       console.error(err);
@@ -81,6 +82,6 @@ export const useRunningPathStore = defineStore("runningPath", () => {
     updateRunningPath,
     searchRunningPathList,
     bookmarkedRunningPath,
-    getBookmakredRunningPath
+    getBookmakredRunningPath,
   };
 });

@@ -35,8 +35,9 @@ public class RunningPathRestContoroller {
 	}
 	
 	// 현재 위치에 기반하여 가까운 러닝 경로들 가져오기
-	@GetMapping("/path")
-	public ResponseEntity<?> list(String location) {
+	@PostMapping("/path")
+	public ResponseEntity<?> list(@RequestBody String location) {
+		System.out.println(location);
 		List<RunningPath> list = runningPathService.selectPaths(location);
 		
 		if(list == null || list.isEmpty()) return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);

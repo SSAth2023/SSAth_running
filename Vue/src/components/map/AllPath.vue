@@ -20,9 +20,17 @@
       </button>
     </div>
     <!--경로 추가-->
-    <RouterLink class="btn btn-outline-secondary running-path-create" :to="`/path/create`">경로 추가</RouterLink>
+    <RouterLink
+      v-if="userStore.userName != ''"
+      class="btn btn-outline-secondary running-path-create"
+      :to="`/path/create`"
+      >경로 추가</RouterLink
+    >
     <!--현재 위치-->
-    <button class="btn btn-outline-secondary current-location-button" @click="moveToCurrentLocation">
+    <button
+      class="btn btn-outline-secondary current-location-button"
+      @click="moveToCurrentLocation"
+    >
       현재 위치로 이동
     </button>
   </div>
@@ -31,14 +39,17 @@
 <script setup>
 import { ref, onMounted, computed } from "vue";
 import { useRunningPathStore } from "../../stores/runningPath";
+import { useUserStore } from "../../stores/user";
 import { mapStyle } from "../common/mapStyle";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
 const runningPathStore = useRunningPathStore();
+const userStore = useUserStore();
 const map = ref(null);
 const searchInput = ref("");
 const infoWindow = ref(null);
+const curlocationToPost = ref(null);
 const polylineOptions = ref({
   strokeColor: "#008000",
   strokeOpacity: 0.7,
@@ -54,7 +65,7 @@ const pathArrow = {
   scale: 3,
   strokeColor: "#FFFFHH",
   strokeWeight: 5,
-}
+};
 
 const search = () => {
   if (searchInput.value.trim() !== "") {
@@ -73,17 +84,19 @@ const search = () => {
           results[0].geometry.location
         ) {
           const location = results[0].geometry.location;
+          curlocationToPost.value = JSON.stringify(location);
+          console.log(curlocationToPost);
           map.value.setCenter(location);
         } else {
           console.error("장소를 찾을 수 없습니다.");
         }
       }
     );
+    runningPathStore.getRunningPathList(curlocationToPost);
   }
 };
 
 const runningPathList = computed(() => runningPathStore.runningPathList);
-console.log(runningPathStore.runningPathList);
 
 const moveToCurrentLocation = () => {
   if (navigator.geolocation) {
@@ -93,7 +106,10 @@ const moveToCurrentLocation = () => {
           lat: position.coords.latitude,
           lng: position.coords.longitude,
         };
+        curlocationToPost.value = `"lat":${position.coords.latitude},"lng":${position.coords.longitude}`;
+        console.log(curlocationToPost);
         map.value.setCenter(location);
+        runningPathStore.getRunningPathList(curlocationToPost);
       },
       (error) => {
         console.error("위치 수집 여부 거절");
@@ -105,14 +121,13 @@ const moveToCurrentLocation = () => {
 };
 
 const addEvent = (polyline, runningPath) => {
-
-
   let count = 0;
   let interval;
 
   google.maps.event.addListener(polyline, "mouseover", (event) => {
-    const contentString = `<div style="border: none"> 코스 : ${runningPath.title
-      }<br> 거리 : ${(runningPath.distance / 1000).toFixed(2)} km</div>`;
+    const contentString = `<div style="border: none"> 코스 : ${
+      runningPath.title
+    }<br> 거리 : ${(runningPath.distance / 1000).toFixed(2)} km</div>`;
     if (!infoWindow.value) {
       infoWindow.value = new google.maps.InfoWindow();
     }
@@ -122,7 +137,7 @@ const addEvent = (polyline, runningPath) => {
       lng: JSON.parse(runningPath.path)[0]["lng"],
     });
     infoWindow.value.setOptions({
-      disableAutoPan: true
+      disableAutoPan: true,
     });
     infoWindow.value.open(map.value);
     interval = setInterval(() => {
@@ -148,17 +163,16 @@ const addEvent = (polyline, runningPath) => {
       count += 0.02;
       if (count > 100) count = 0;
     }, 1);
-
   });
 
   google.maps.event.addListener(polyline, "mouseout", () => {
-    clearInterval(interval)
+    clearInterval(interval);
     polyline.setOptions({
       strokeColor: polylineOptions.value.strokeColor,
       strokeOpacity: polylineOptions.value.strokeOpacity,
       strokeWeight: polylineOptions.value.strokeWeight,
       icons: [],
-    })
+    });
     if (infoWindow.value) {
       infoWindow.value.close();
     }
@@ -181,8 +195,6 @@ onMounted(async () => {
     },
   });
 
-  await runningPathStore.getRunningPathList();
-
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
       (position) => {
@@ -190,6 +202,8 @@ onMounted(async () => {
           lat: position.coords.latitude,
           lng: position.coords.longitude,
         };
+        curlocationToPost.value = `"lat":${position.coords.latitude},"lng":${position.coords.longitude}`;
+        console.log(curlocationToPost);
         map.value.setCenter(location);
       },
       (error) => {
@@ -197,6 +211,8 @@ onMounted(async () => {
       }
     );
   }
+
+  await runningPathStore.getRunningPathList(curlocationToPost);
 
   if (runningPathList.value.length > 0) {
     runningPathList.value.forEach((runningPath) => {
