@@ -67,7 +67,7 @@
     <button
       v-if="userStore.userName['userId'] === runningPathDetail.userId"
       class="btn btn-outline-secondary running-path-delete"
-      @click="runnigPathDelete"
+      @click="runningPathDelete"
     >
       삭제
     </button>
@@ -142,14 +142,11 @@ const updateRunningPath = () => {
     });
 };
 
-const runnigPathDelete = () => {
+const runningPathDelete = () => {
   return new Promise((resolve, reject) => {
     if (confirm("정말 삭제하시겠습니까?")) {
       axios
         .delete(`http://localhost:8080/api/path/delete/${route.params.mapId}`)
-        .then(() => {
-          router.push({ name: "home" });
-        });
       resolve(); // 사용자가 확인을 선택한 경우 resolve 호출
     } else {
       reject(); // 사용자가 취소를 선택한 경우 reject 호출
