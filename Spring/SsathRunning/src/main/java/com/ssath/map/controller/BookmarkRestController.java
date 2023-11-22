@@ -26,8 +26,19 @@ public class BookmarkRestController {
 		this.bookmarkService = bookmarkService;
 	}
 	
+	@GetMapping({"/bookmark/check/{mapId}/{userId}"})
+	public ResponseEntity<Boolean> check(@PathVariable("mapId") String mapId, @PathVariable("userId") String userId){
+		System.out.println("check : "+mapId+" "+userId);
+		int result = bookmarkService.selectBookmark(mapId, userId);
+		System.out.println(result);
+		if(result>0)
+			return new ResponseEntity<Boolean>(true,HttpStatus.OK);
+		return new ResponseEntity<Boolean>(false,HttpStatus.NO_CONTENT);
+	}
+	
 	@GetMapping({"/bookmark/{mapId}/{userId}"})
 	public ResponseEntity<Integer> like(@PathVariable("mapId") String mapId, @PathVariable("userId") String userId){
+		System.out.println(mapId+" "+userId);
 		int result = 0;
 		if(bookmarkService.existsBookmark(mapId,userId)>0) {
 			bookmarkService.updateBookmark(mapId, userId);

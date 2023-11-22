@@ -29,7 +29,6 @@
 		SELECT COUNT(*) CNT
 		FROM BOOKMARK
 		WHERE map_id = #{mapId} AND user_id = #{userId}
-		GROUP BY map_id, user_id
 	</select>
 	
 	<!-- 좋아요 여부 확인 -->
