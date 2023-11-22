@@ -6,6 +6,7 @@
       v-for="(runningPath, index) in currentPageRunningPathList"
       :key="runningPath.mapId"
     >
+      >
       <div class="path">
         <div>
           <RouterLink
@@ -29,7 +30,11 @@
           >
         </div>
         <div class="favor">
-          <i style="font-size: 27px" class="bi bi-suit-heart" @click="like"></i>
+          <i
+            style="font-size: 27px"
+            class="bi bi-suit-heart"
+            @click="like(runningPath.mapId, userStore.userName['userId'])"
+          ></i>
           <p class="text-center text-black fs-6 fw-normal m-0 px-3 py-2">13</p>
         </div>
       </div>
@@ -81,12 +86,15 @@ const userStore = useUserStore();
 const bookmarkStore = useBookmarkStore();
 const computedDistances = reactive({});
 
-// const like = function()
+const like = function (mapId, userId) {
+  console.log(mapId, userId);
+  bookmarkStore.getBookmark(mapId, userId);
+};
 
 onMounted(() => {
   const storedDistances = localStorage.getItem("computedDistances");
 
-  store.getRunningPathList();
+  // store.getRunningPathList();
 
   if (storedDistances) {
     computedDistances.value = reactive(JSON.parse(storedDistances));
@@ -95,10 +103,10 @@ onMounted(() => {
       JSON.stringify(computedDistances.value)
     );
   } else {
-    store.getRunningPathList();
+    // store.getRunningPathList();
   }
 });
-
+console.log(store.runningPathList);
 watch(
   () => store.runningPathList,
   (newRunningPathList) => {
@@ -210,5 +218,9 @@ function tempDist(path, mapId) {
 img {
   width: 3.7425vw;
   height: 6.5104vh;
+}
+
+.like {
+  color: darkred;
 }
 </style>
