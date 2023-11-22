@@ -9,6 +9,7 @@ public class RunningPath {
 	private String description;
 	private int distance;
 	private String regDate;
+	private int calDist;
 	
 	public RunningPath() {
 	}
@@ -75,6 +76,14 @@ public class RunningPath {
 
 	public void setRegDate(String regDate) {
 		this.regDate = regDate;
+	}
+
+	public int getCalDist() {
+		return calDist;
+	}
+
+	public void setCalDist(int calDist) {
+		this.calDist = calDist;
 	}
 
 	@Override

@@ -43,12 +43,13 @@ public class RunningPathRestContoroller {
 		List<RunningPath> list = null;
 		try {
 			String deLocation = URLDecoder.decode(location,"UTF-8");
-			System.out.println(deLocation.substring(0, deLocation.length()-1));
-			list = runningPathService.selectPaths(location);
+			System.out.println(deLocation.substring(0, deLocation.length()-2));
+			list = runningPathService.selectPaths(deLocation.substring(0, deLocation.length()-2));
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
+			System.out.println("오류는 아닌 것으로 판명");
 		}
-		System.out.println(list);
+		System.out.println(list.get(0).getCalDist());
 		if(list == null || list.isEmpty()) return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		
 		return new ResponseEntity<List<RunningPath>>(list, HttpStatus.OK);

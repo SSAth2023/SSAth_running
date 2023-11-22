@@ -17,7 +17,7 @@
             }}</RouterLink
           >
           <p class="text-black fs-4 fw-normal m-0 px-3 py-2">
-            약 {{ computedDistances[runningPath.mapId] }}km 내,
+            약 {{ runningPath.calDist / 1000 }}km 내,
             {{ (runningPath.distance / 1000).toFixed(2) }}km 코스
           </p>
           <p class="text-black fs-6 fw-normal m-0 px-3 py-2">
@@ -165,16 +165,16 @@ function toRadians(degrees) {
   return degrees * (Math.PI / 180);
 }
 
-function tempDist(path, mapId) {
+function tempDist(paths, mapId) {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition((position) => {
       const location = {
         lat: position.coords.latitude,
         lng: position.coords.longitude,
       };
-
+      console.log(paths);
       const tmpPath = location;
-      const selectedPath = JSON.parse(path);
+      const selectedPath = JSON.parse(paths);
 
       const distance = getDistance(
         selectedPath[0].lat,
