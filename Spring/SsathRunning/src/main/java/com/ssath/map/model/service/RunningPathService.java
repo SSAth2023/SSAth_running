@@ -19,4 +19,6 @@ public interface RunningPathService {
 	
 	public List<RunningPath> searchRunningPath(SearchCondition location);
 	
+	public List<RunningPath> selectBookmarkedPaths(String userId);
+	
 }

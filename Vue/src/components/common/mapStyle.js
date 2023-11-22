@@ -22,7 +22,6 @@ export const mapStyle = [
   },
   {
     featureType: "poi",
-    elementType: "restaurant",
     stylers: [
       {
         visibility: "off",

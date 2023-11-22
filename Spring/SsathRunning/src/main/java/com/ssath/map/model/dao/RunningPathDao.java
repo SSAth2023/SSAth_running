@@ -24,5 +24,8 @@ public interface RunningPathDao {
 	
 	//러닝 경로 검색, 검색어와 가장 가까운 위치로 위도 경도를 이동 후 경로를 출력
 	public List<RunningPath> searchRunningPath(SearchCondition location);
+	
+	//좋아요 누른 경로 출력
+	public List<RunningPath> selectBookmarkedPaths(String userId);
 
 }

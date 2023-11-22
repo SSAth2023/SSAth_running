@@ -55,7 +55,6 @@ public class RunningPathRestContoroller {
 	// 러닝 경로 생성
 	@PostMapping("/path/create")
 	public ResponseEntity<?> create(@RequestBody RunningPath runningPath) {
-		System.out.println(runningPath);
 		int result = runningPathService.createRunningPath(runningPath);
 		
 		if(result == 0) 
@@ -77,7 +76,6 @@ public class RunningPathRestContoroller {
 	// 러닝 경로 수정
 	@PutMapping("/path/update")
 	public ResponseEntity<String> update(@RequestBody RunningPath runningPath) {
-		System.out.println(runningPath);
 		int result = runningPathService.updateRunningPath(runningPath);
 	
 		if(result == 0) return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
@@ -89,6 +87,15 @@ public class RunningPathRestContoroller {
 	@GetMapping("/path/search")
 	public ResponseEntity<?> select(@RequestBody SearchCondition location) {
 		List<RunningPath> list = runningPathService.searchRunningPath(location);
+		if(list == null || list.isEmpty()) return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+		
+		return new ResponseEntity<List<RunningPath>>(list, HttpStatus.OK);
+	}
+	
+	// 좋아요 누른 러닝 경로 조회
+	@GetMapping("/path/bookmark/{userId}")
+	public ResponseEntity<?> bookmakredLists(@PathVariable String userId){
+		List<RunningPath> list = runningPathService.selectBookmarkedPaths(userId);
 		if(list == null || list.isEmpty()) return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		
 		return new ResponseEntity<List<RunningPath>>(list, HttpStatus.OK);
