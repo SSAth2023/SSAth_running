@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <div class="recommend">R e c o m m e n d</div>
 
     <div
@@ -10,7 +9,7 @@
       <div class="path-container">
         <div class="path">
           <div class="path-details">
-            <RouterLink class="title" :to="`/path/${runningPath.mapId}`">
+            <RouterLink class="title a" :to="`/path/${runningPath.mapId}`">
               {{
                 index +
                 1 +
@@ -25,9 +24,7 @@
               {{ (runningPath.distance / 1000).toFixed(2) }}km
             </p>
             <p class="description">{{ runningPath.description }}</p>
-            <RouterLink
-              :to="`/path/${runningPath.mapId}`"
-              class="text-black fs-6 fw-normal m-0"
+            <RouterLink class="a" :to="`/path/${runningPath.mapId}`"
               >m o r e</RouterLink
             >
           </div>
@@ -238,7 +235,6 @@ function tempDist(paths, mapId) {
 }
 
 .title {
-  color: rgb(90, 90, 90);
   font-size: 18px;
   font-weight: 600;
   letter-spacing: 1.5px;
@@ -270,5 +266,13 @@ img {
 }
 .unlike {
   color: rgb(228, 227, 227);
+}
+
+.a {
+  color: #818181;
+}
+
+.a:hover {
+  color: #28bb65;
 }
 </style>

@@ -84,7 +84,10 @@ const back = () => {
 .btn {
   font-size: 18px;
   font-weight: 600;
-  color: #28bb65;
+  color: #818181;
   border: none;
+}
+.btn:hover {
+  color: #28bb65;
 }
 </style>
