@@ -7,19 +7,11 @@
     <div class="loading" v-if="isLoading">
       <div class="character img-fluid"></div>
       <p class="fs-1 fw-bolder">Loading...</p>
-      <div
-        class="progress bar2"
-        role="progressbar"
-        aria-label="Animated striped example"
-        aria-valuenow="20"
-        aria-valuemin="0"
-        aria-valuemax="100"
-      >
-        <div
-          class="progress-bar progress-bar-striped progress-bar-animated bg-warning text-dark te"
-          :style="{ width: progressBarWidth + '%' }"
-        >
-          신나게 달릴 준비 되셨나요?
+      <div class="progress bar2" role="progressbar" aria-label="Animated striped example" aria-valuenow="20"
+        aria-valuemin="0" aria-valuemax="100">
+        <div class="progress-bar progress-bar-striped progress-bar-animated bg-warning text-dark te"
+          :style="{ width: progressBarWidth + '%' }">
+          나만 알기 아까운 러닝 코스 공유하러 가기
         </div>
       </div>
     </div>
@@ -38,7 +30,7 @@ const isLoading = ref(true);
 const progressBarWidth = ref(0);
 
 onMounted(() => {
-  const duration = 1000;
+  const duration = 4000;
   const startTime = Date.now();
 
   const updateProgressBar = () => {
@@ -82,11 +74,10 @@ const checkLoginView = () => {
 }
 
 .character {
-  width: 30vw;
-  height: 60vh;
-  background: url("../assets/image/boy.png") center center no-repeat;
+  width: 15vw;
+  height: 50vh;
+  background: url("../assets/image/run_1.gif") center center no-repeat;
   background-size: cover;
-  animation: jump 1s infinite alternate;
   margin-top: 5vh;
 }
 

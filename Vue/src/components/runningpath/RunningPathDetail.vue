@@ -2,53 +2,46 @@
   <div class="sidebar">
     <div class="path">
       <div>
-        <div class="favor">
-          <div class="bg-success bg-gradient rounded-1">
+        <div class="favor" style="margin-bottom: 10%;">
+          <div class="title">
+            <span style="font-size: 10px;">코스 이름</span>
             {{ store.runningPath.title }}
           </div>
           <div>
             <div class="favor">
-              <i
-                style="font-size: 1.5rem"
-                class="bi bi-suit-heart-fill"
-                :class="{
-                  like: store.runningPath.bookmark,
-                  unlike: !store.runningPath.bookmark,
-                }"
-                @click="toggleLike(store.runningPath)"
-              ></i>
-              <p class="text-center text-black fs-6 fw-normal m-0">
+              <i style="font-size: 1.5rem" class="bi bi-suit-heart-fill" :class="{
+                like: store.runningPath.bookmark,
+                unlike: !store.runningPath.bookmark,
+              }" @click="toggleLike(store.runningPath)"></i>
+              <p class="title">
                 {{ store.runningPath.likes }}
               </p>
             </div>
           </div>
         </div>
-        <p class="text-black fs-4 fw-normal m-0 px-3 py-2">
-          {{ (store.runningPath.distance / 1000).toFixed(2) }}km Course
+        <p class="text-end text-success fs-4 fw-normal m-0 px-3 py-2">
+          <span style="font-size: 10px;">거리</span>
+          {{ (store.runningPath.distance / 1000).toFixed(2) }}km
         </p>
         <p class="text-end text-success fs-4 fw-normal m-0 px-3 py-2">
+          <span style="font-size: 10px; margin-right: 2%;">작성자</span>
           {{ store.runningPath.userId }}
         </p>
-        <p class="text-end text-black fs-6 fw-normal m-0 px-3 py-2">
+        <p class="text-end text-black px-3 py-2" style="font-size: 10px;=">
           {{ store.runningPath.regDate }}
         </p>
         <hr />
         <p class="de text-start text-black fs-6 m-0 px-3 py-2">
           Course description
         </p>
-        <div
-          class="p-3 bg-success-subtle bg-opacity-10 border border-success border-start-0 rounded-end"
-        >
+        <div class="p-3 bg-success-subtle bg-opacity-10 border border-success border-start-0 rounded-end">
           <p class="text-black fs-6 fw-normal m-0 px-3 py-2">
-            <i class="bi bi-tag"></i>
             {{ store.runningPath.description }}
           </p>
         </div>
         <hr />
-        <RouterLink
-          :to="`/comment/${store.runningPath.mapId}`"
-          class="text-black fs-6 fw-normal m-0 px-3 py-2"
-          >comments...
+        <RouterLink :to="`/comment/${store.runningPath.mapId}`" class="text-black fs-6 fw-normal m-0 px-3 py-2">
+          view comments
         </RouterLink>
       </div>
     </div>
@@ -120,9 +113,9 @@ function getDistance(lat1, lon1, lat2, lon2) {
   const a =
     Math.sin(dLat / 2) * Math.sin(dLat / 2) +
     Math.sin(dLon / 2) *
-      Math.sin(dLon / 2) *
-      Math.cos(lat1Rad) *
-      Math.cos(lat2Rad);
+    Math.sin(dLon / 2) *
+    Math.cos(lat1Rad) *
+    Math.cos(lat2Rad);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   const distance = R * c;
 
@@ -215,12 +208,26 @@ img {
 }
 
 .text-black {
-  color: #333;
+  color: #636262;
 }
+
 .like {
   color: red;
 }
+
 .unlike {
   color: rgb(228, 227, 227);
+}
+
+.title {
+  color: #28bb65;
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+}
+
+.wrap {
+  display: inline-block;
+  width: 200px;
 }
 </style>

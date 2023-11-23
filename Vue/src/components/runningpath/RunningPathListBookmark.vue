@@ -1,18 +1,12 @@
 <template>
   <div>
-    <div class="bg-success rounded-1 text-wrap">Bookmarked</div>
+    <div class="recommend">R e c o m m e n d</div>
     <hr />
-    <div
-      v-for="(runningPath, index) in currentPageRunningPathList"
-      :key="runningPath.mapId"
-    >
+    <div v-for="(runningPath, index) in currentPageRunningPathList" :key="runningPath.mapId">
       <div class="path-container">
         <div class="path">
           <div class="path-details">
-            <RouterLink
-              class="title fs-3 fw-bold"
-              :to="`/path/${runningPath.mapId}`"
-            >
+            <RouterLink class="title a" :to="`/path/${runningPath.mapId}`">
               {{
                 index +
                 1 +
@@ -22,30 +16,21 @@
               }}
             </RouterLink>
             <p class="distance">
-              start: {{ runningPath.calDist / 1000 }}km, Course:
+              위치: {{ runningPath.calDist / 1000 }}km
+              <br>거리:
               {{ (runningPath.distance / 1000).toFixed(2) }}km
             </p>
             <p class="description">{{ runningPath.description }}</p>
-            <RouterLink
-              :to="`/path/${runningPath.mapId}`"
-              class="t fs-6 fw-normal"
-              :class="{
-                like: runningPath.bookmark,
-                unlike: !runningPath.bookmark,
-              }"
-              >more...</RouterLink
-            >
+            <RouterLink :to="`/path/${runningPath.mapId}`" class="a" :class="{
+              like: runningPath.bookmark,
+              unlike: !runningPath.bookmark,
+            }">more...</RouterLink>
           </div>
           <div class="favor">
-            <i
-              style="font-size: 1.5rem"
-              class="bi bi-suit-heart-fill"
-              :class="{
-                like: runningPath.bookmark,
-                unlike: !runningPath.bookmark,
-              }"
-              @click="toggleLike(runningPath)"
-            ></i>
+            <i style="font-size: 1.5rem" class="bi bi-suit-heart-fill" :class="{
+              like: runningPath.bookmark,
+              unlike: !runningPath.bookmark,
+            }" @click="toggleLike(runningPath)"></i>
             <p class="text-center text-black fs-6 fw-normal">
               {{ runningPath.likes }}
             </p>
@@ -57,31 +42,16 @@
     <nav aria-label="Page navigation">
       <ul class="pagination d-flex justify-content-center">
         <li class="page-item">
-          <a
-            class="page-link"
-            :class="{ disabled: currentPage <= 1 }"
-            href="#"
-            @click.prevent="currentPage--"
-            >&lt;</a
-          >
+          <a class="page-link" :class="{ disabled: currentPage <= 1 }" href="#" @click.prevent="currentPage--">&lt;</a>
         </li>
-        <li
-          :class="{ active: currentPage === page }"
-          v-for="page in pageCount"
-          :key="page"
-        >
+        <li :class="{ cur: currentPage === page }" v-for="page in pageCount" :key="page">
           <a class="page-link" href="#" @click.prevent="clickPage(page)">
             {{ page }}
           </a>
         </li>
         <li class="page-item">
-          <a
-            class="page-link"
-            :class="{ disabled: currentPage >= pageCount }"
-            href="#"
-            @click.prevent="currentPage++"
-            >&gt;</a
-          >
+          <a class="page-link" :class="{ disabled: currentPage >= pageCount }" href="#"
+            @click.prevent="currentPage++">&gt;</a>
         </li>
       </ul>
     </nav>
@@ -166,9 +136,9 @@ function getDistance(lat1, lon1, lat2, lon2) {
   const a =
     Math.sin(dLat / 2) * Math.sin(dLat / 2) +
     Math.sin(dLon / 2) *
-      Math.sin(dLon / 2) *
-      Math.cos(lat1Rad) *
-      Math.cos(lat2Rad);
+    Math.sin(dLon / 2) *
+    Math.cos(lat1Rad) *
+    Math.cos(lat2Rad);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   const distance = R * c;
 
@@ -213,6 +183,11 @@ function tempDist(paths, mapId) {
 </script>
 
 <style scoped>
+.recommend {
+  font-weight: 600;
+  margin: 30px 0px 30px 20px;
+}
+
 .bg-success {
   width: 12vw;
   margin: 2vh;
@@ -242,7 +217,9 @@ function tempDist(paths, mapId) {
 }
 
 .title {
-  color: #28bb65;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
 }
 
 .title:hover {
@@ -250,7 +227,8 @@ function tempDist(paths, mapId) {
 }
 
 .distance {
-  color: #e74c3c;
+  margin-top: 10px;
+  color: #28bb65;
 }
 
 .description {
@@ -290,5 +268,27 @@ img {
 
 .t:hover {
   color: #000;
+}
+
+.a {
+  color: #818181;
+}
+
+.a:hover {
+  color: #28bb65;
+}
+
+.page-link {
+  color: #000;
+  background-color: #fff;
+  border: 1px solid #ccc;
+}
+
+.page-link:hover {
+  color: #000;
+}
+
+.cur a {
+  background-color: #9f9f9f40;
 }
 </style>

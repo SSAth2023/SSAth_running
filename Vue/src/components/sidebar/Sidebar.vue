@@ -10,21 +10,11 @@
       </div>
       <SidebarFooter style="width: 100%" />
     </div>
-    <button
-      class="btn toggle-button"
-      @click="toggleSlideBar"
-      :style="{ marginLeft: buttonMargin }"
-    >
-      <img
-        v-if="slideBarWidth !== '0px'"
-        src="../../assets/image/free-icon-right-arrow-271228.png"
-        alt="Open Slide Bar"
-      />
-      <img
-        v-if="slideBarWidth === '0px'"
-        src="../../assets/image/free-icon-left-arrow-271220.png"
-        alt="Open Slide Bar"
-      />
+    <button class="toggle-button" @click="toggleSlideBar" :style="{ marginLeft: buttonMargin }">
+      <i v-if="slideBarWidth !== '1px'" class="bi bi-filter-left"></i>
+      <!-- <img v-if="slideBarWidth !== '1px'" src="../../assets/image/free-icon-right-arrow-271228.png"
+        alt="Open Slide Bar" /> -->
+      <i v-if="slideBarWidth === '1px'" class="bi bi-list"></i>
     </button>
   </div>
 </template>
@@ -37,14 +27,14 @@ import SidebarHeader from "./SidebarHeader.vue";
 export default {
   data() {
     return {
-      slideBarWidth: "-22vw",
-      buttonMargin: "1vw",
+      slideBarWidth: "-21vw",
+      buttonMargin: "0.95vw",
     };
   },
   methods: {
     toggleSlideBar() {
-      this.slideBarWidth = this.slideBarWidth === "0px" ? "-22vw" : "0px";
-      this.buttonMargin = this.buttonMargin === "1vw" ? "22vw" : "1vw";
+      this.slideBarWidth = this.slideBarWidth === "1px" ? "-21vw" : "1px";
+      this.buttonMargin = this.buttonMargin === "0.95vw" ? "21.95vw" : "0.95vw";
     },
   },
   components: { SidebarHeader, RunningPathList, SidebarFooter },
@@ -63,8 +53,11 @@ body {
 }
 
 .slide-bar {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
   width: 22vw;
-  height: 100%;
+  margin: 1% 0 1% 0;
+  height: 95%;
   position: fixed;
   z-index: 1;
   top: 0;
@@ -72,8 +65,11 @@ body {
   background-color: white;
   border: 1px double #818181;
   overflow-x: hidden;
-  padding-top: 20px;
   transition: margin-left 0.5s;
+}
+
+.slide-bar::-webkit-scrollbar {
+  display: none;
 }
 
 .slide-bar a {
@@ -94,20 +90,25 @@ body {
 }
 
 .toggle-button {
+  background-color: white;
+  padding-top: 5px;
   position: fixed;
   top: 50%;
   margin-top: 1vw;
   transform: translateY(-50%);
   cursor: pointer;
-  opacity: 0.4;
-  border: none;
+  border-top: 1px solid;
+  border-right: 1px solid;
+  border-bottom: 1px solid;
+  border-left: 1px solid white;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
   outline: none;
   display: flex;
   align-items: center;
-  z-index: 2;
+  z-index: 3;
   transition: margin-left 0.5s;
-  /* margin-left: 1vw; */
-  width: 3vw;
+  width: 1.5vw;
   height: 6vh;
 }
 
@@ -116,6 +117,7 @@ body {
   min-height: 100%;
   padding-bottom: 15vh;
 }
+
 .toggle-button img {
   width: 2vw;
   height: 2vw;

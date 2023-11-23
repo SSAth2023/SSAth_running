@@ -3,10 +3,9 @@
     <div id="map" style="height: 100vh"></div>
 
     <!--검색-->
-    <div class="input-group mb-3 input-search">
-      <input type="text" class="form-control" @keyup.enter="search" v-model="searchInput"
-        placeholder="검색하고 싶은 장소가 있으신가요?" />
-      <button class="btn btn-outline-secondary" style="border: none" @click="search">
+    <div class="input-group border border-1 rounded-start-3 border-success mb-3 input-search">
+      <input type="text" class="form-control" @keyup.enter="search" v-model="searchInput" placeholder="Search" />
+      <button class="btn btn-outline-success" style="border: none " @click="search">
         검색
       </button>
     </div>
@@ -14,6 +13,18 @@
     <button class="btn btn-outline-secondary current-location-button" @click="moveToCurrentLocation">
       현재 위치로 이동
     </button>
+    <!-- 날씨 -->
+    <div class="weather">
+
+      <div class="weather-location">
+        <img class="running-logo" @click="back" src="../../assets/image/S S A T H.png" alt="Running Logo" /><br>
+        <img :src="`${weatherIconAdrs}`" style="height: 30px;">
+        {{ locationName }}
+      </div>
+      <div class="weather-temp">
+        <i class="bi bi-thermometer-half"></i> {{ temp }}
+      </div>
+    </div>
   </div>
 </template>
 
@@ -31,31 +42,27 @@ const map = ref(null);
 const searchInput = ref("");
 const infoWindow = ref(null);
 const curlocationToPost = ref({});
+let locationName = ref(null);
+let temp = ref(null);
+let weatherIconAdrs = ref(null);
+
 const polylineOptions = ref({
-  strokeColor: "#008000",
+  strokeColor: "#FF1330",
   strokeOpacity: 0.7,
   strokeWeight: 4,
 });
 const polylineOptionsOver = ref({
-  strokeColor: "#000080",
+  strokeColor: "#28bb65",
   strokeOpacity: 0.7,
   strokeWeight: 6,
 });
 const pathArrow = {
-  path: google.maps.SymbolPath.FORWARD_OPEN_ARROW,
-  scale: 3,
-  strokeColor: "#FFFFHH",
-  strokeWeight: 5,
+  path: google.maps.SymbolPath.CIRCLE,
+  scale: 5,
+  fillColor: "#000",
+  fillOpacity: 1,
+  strokeWeight: 0,
 };
-
-const getRandomColor = () => {
-  const letters = "0123456789ABCDEF";
-  let color = "#";
-  for (let i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
-  }
-  return color;
-}
 
 const search = () => {
   if (searchInput.value.trim() !== "") {
@@ -79,6 +86,13 @@ const search = () => {
             path: JSON.stringify(location),
             userId: userStore.userName["userId"]
           }
+          const str = JSON.stringify(location);
+          console.log(JSON.stringify(location));
+          console.log(str.slice(7, str.indexOf(",")));
+          const lat = str.slice(7, str.indexOf(","));
+          console.log(str.slice(str.indexOf("lng") + 5, str.length - 1));
+          const lng = str.slice(str.indexOf("lng") + 5, str.length - 1);
+          getWeather(lat, lng);
           console.log(curlocationToPost);
           map.value.setCenter(location);
         } else {
@@ -109,6 +123,7 @@ const moveToCurrentLocation = () => {
         console.log(curlocationToPost);
         map.value.setCenter(location);
         runningPathStore.getBookmakredRunningPath(curlocationToPost);
+        getWeather(position.coords.latitude, position.coords.longitude);
       },
       (error) => {
         console.error("위치 수집 여부 거절");
@@ -148,17 +163,9 @@ const addEvent = (polyline, runningPath) => {
             icon: pathArrow,
             offset: count + "%",
           },
-          {
-            icon: pathArrow,
-            offset: count + 1 + "%",
-          },
-          {
-            icon: pathArrow,
-            offset: count + 2 + "%",
-          },
         ],
       });
-      count += 0.02;
+      count += 0.05;
       if (count > 100) count = 0;
     }, 1);
   });
@@ -182,6 +189,23 @@ const addEvent = (polyline, runningPath) => {
       params: { mapId: runningPath.mapId },
     });
   });
+};
+
+const getWeather = async function (lat, lon) {
+  fetch(
+    `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=a1a2fe0dd5325059336133b7a25936e3&units=metric`
+  )
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (json) {
+      console.log(json);
+      temp.value = json.main.temp;
+      locationName.value = json.name;
+      const weatherIcon = json.weather[0].icon;
+      weatherIconAdrs = `https://openweathermap.org/img/wn/${weatherIcon}@2x.png`;
+      console.log(weatherIconAdrs)
+    });
 };
 
 onMounted(async () => {
@@ -209,6 +233,7 @@ onMounted(async () => {
           }
           map.value.setCenter(location);
           resolve();
+          getWeather(position.coords.latitude, position.coords.longitude);
         },
         (error) => {
           console.error("위치 수집 여부 거절");
@@ -227,7 +252,7 @@ onMounted(async () => {
       if (map.value) {
         const polyline = new google.maps.Polyline({
           path: JSON.parse(runningPath.path),
-          strokeColor: getRandomColor(),
+          strokeColor: polylineOptions.value.strokeColor,
           strokeOpacity: polylineOptions.value.strokeOpacity,
           strokeWeight: polylineOptions.value.strokeWeight,
           map: map.value,
@@ -276,12 +301,42 @@ onMounted(async () => {
 }
 
 .input-search {
+  border-top-right-radius: 7px;
+  border-bottom-right-radius: 7px;
   position: absolute;
   background-color: white;
   border: 0cm;
   top: 10px;
-  left: 43%;
+  left: 38%;
   width: 300px;
   z-index: 1000;
+}
+
+.weather {
+  width: 170px;
+  height: 85px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: absolute;
+  top: 8%;
+  right: 1%;
+  border: 1;
+  background-color: rgba(142, 141, 141, 0.36);
+  z-index: 1000s;
+}
+
+.weather-location {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-left: 5px;
+  border: none;
+}
+
+.weather-temp {
+  margin-top: 1%;
+  margin-left: 10px;
+  border: none;
 }
 </style>

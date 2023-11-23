@@ -11,12 +11,7 @@
         <div class="running-background"></div>
         <div class="running-card-content">
           <div class="running-header">
-            <img
-              class="running-logo"
-              @click="back"
-              src="../../assets/image/S S A T H.png"
-              alt="Running Logo"
-            />
+            <img class="running-logo" @click="back" src="../../assets/image/S S A T H.png" alt="Running Logo" />
             <h2 class="running-title">KEEP GOING</h2>
           </div>
           <form @submit.prevent="login" class="running-form">
@@ -26,23 +21,12 @@
             </div>
             <div class="running-form-group">
               <label for="password" class="running-label">Password</label>
-              <input
-                type="password"
-                id="password"
-                v-model="password"
-                class="running-input"
-              />
+              <input type="password" id="password" v-model="password" class="running-input" />
             </div>
-            <button
-              type="submit"
-              class="running-button primary"
-              :disabled="!isFormValid"
-            >
+            <button type="submit" class="running-button primary" :disabled="!isFormValid">
               Login
             </button>
-            <RouterLink to="/login/signup" class="running-link"
-              >회원가입</RouterLink
-            >
+            <RouterLink to="/login/signup" class="running-link">Sign Up</RouterLink>
           </form>
         </div>
       </div>

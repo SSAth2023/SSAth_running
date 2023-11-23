@@ -3,62 +3,36 @@
     <div id="map" style="height: 100vh"></div>
 
     <!--검색-->
-    <div
-      class="input-group border border-1 rounded-start-3 rounded-5 border-success mb-3 input-search"
-    >
-      <input
-        type="text"
-        class="form-control"
-        @keyup.enter="search"
-        v-model="searchInput"
-        placeholder="Search"
-      />
-      <button
-        class="btn btn-outline-success"
-        style="border: none"
-        @click="search"
-      >
+    <div class="input-group border border-1 rounded-start-3 border-success mb-3 input-search">
+      <input type="text" class="form-control" @keyup.enter="search" v-model="searchInput" placeholder="Search" />
+      <button class="btn btn-outline-success" style="border: none " @click="search">
         검색
       </button>
     </div>
     <!--좋아요 누른 경로만 보기-->
-    <RouterLink
-      v-if="userStore.userName != ''"
-      class="btn btn-outline-secondary running-path-bookmarked"
-      :to="`/path/bookmark`"
-    >
+    <RouterLink v-if="userStore.userName != ''" class="btn btn-outline-secondary running-path-bookmarked"
+      :to="`/path/bookmark`">
       <i class="bi bi-bookmarks-fill"></i>
     </RouterLink>
     <!--경로 추가-->
-    <RouterLink
-      v-if="userStore.userName != ''"
-      class="btn btn-outline-secondary running-path-create"
-      :to="`/path/create`"
-      >경로 추가</RouterLink
-    >
+    <RouterLink v-if="userStore.userName != ''" class="btn btn-outline-secondary running-path-create"
+      :to="`/path/create`">경로 추가</RouterLink>
     <!--현재 위치-->
-    <button
-      class="btn btn-outline-secondary current-location-button"
-      @click="moveToCurrentLocation"
-    >
+    <button class="btn btn-outline-secondary current-location-button" @click="moveToCurrentLocation">
       현재 위치로 이동
     </button>
     <!-- 날씨 -->
     <div class="weather">
+
       <div class="weather-location">
-        <i class="bi bi-compass"></i> {{ locationName }}
+        <img class="running-logo" @click="back" src="../../assets/image/S S A T H.png" alt="Running Logo" /><br>
+        <img :src="`${weatherIconAdrs}`" style="height: 30px;">
+        {{ locationName }}
       </div>
       <div class="weather-temp">
         <i class="bi bi-thermometer-half"></i> {{ temp }}
       </div>
     </div>
-
-    <img
-      class="running-logo"
-      @click="back"
-      src="../../assets/image/S S A T H.png"
-      alt="Running Logo"
-    />
   </div>
 </template>
 
@@ -78,31 +52,24 @@ const infoWindow = ref(null);
 const curlocationToPost = ref({});
 let locationName = ref(null);
 let temp = ref(null);
-console.log(locationName.value);
+let weatherIconAdrs = ref(null);
+
 const polylineOptions = ref({
-  strokeColor: "#008000",
+  strokeColor: "#FF1330",
   strokeOpacity: 0.7,
   strokeWeight: 4,
 });
 const polylineOptionsOver = ref({
-  strokeColor: "#000080",
+  strokeColor: "#28bb65",
   strokeOpacity: 0.7,
   strokeWeight: 6,
 });
 const pathArrow = {
-  path: google.maps.SymbolPath.FORWARD_OPEN_ARROW,
-  scale: 3,
-  strokeColor: "#FFFFHH",
-  strokeWeight: 5,
-};
-
-const getRandomColor = () => {
-  const letters = "0123456789ABCDEF";
-  let color = "#";
-  for (let i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
-  }
-  return color;
+  path: google.maps.SymbolPath.CIRCLE,
+  scale: 5,
+  fillColor: "#000",
+  fillOpacity: 1,
+  strokeWeight: 0,
 };
 
 const search = () => {
@@ -180,9 +147,8 @@ const addEvent = (polyline, runningPath) => {
   let interval;
 
   google.maps.event.addListener(polyline, "mouseover", (event) => {
-    const contentString = `<div style="border: none"> 코스 : ${
-      runningPath.title
-    }<br> 거리 : ${(runningPath.distance / 1000).toFixed(2)} km</div>`;
+    const contentString = `<div style="border: none"> 코스 : ${runningPath.title
+      }<br> 거리 : ${(runningPath.distance / 1000).toFixed(2)} km</div>`;
     if (!infoWindow.value) {
       infoWindow.value = new google.maps.InfoWindow();
     }
@@ -204,18 +170,10 @@ const addEvent = (polyline, runningPath) => {
           {
             icon: pathArrow,
             offset: count + "%",
-          },
-          {
-            icon: pathArrow,
-            offset: count + 1 + "%",
-          },
-          {
-            icon: pathArrow,
-            offset: count + 2 + "%",
-          },
+          }
         ],
       });
-      count += 0.02;
+      count += 0.05;
       if (count > 100) count = 0;
     }, 1);
   });
@@ -252,6 +210,9 @@ const getWeather = async function (lat, lon) {
       console.log(json);
       temp.value = json.main.temp;
       locationName.value = json.name;
+      const weatherIcon = json.weather[0].icon;
+      weatherIconAdrs = `https://openweathermap.org/img/wn/${weatherIcon}@2x.png`;
+      console.log(weatherIconAdrs)
     });
 };
 onMounted(async () => {
@@ -266,7 +227,7 @@ onMounted(async () => {
   const getLocation = async () => {
     return new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition(
-        async (position) => {
+        (position) => {
           const location = {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
@@ -278,7 +239,7 @@ onMounted(async () => {
           };
           map.value.setCenter(location);
           resolve();
-          await getWeather(position.coords.latitude, position.coords.longitude);
+          getWeather(position.coords.latitude, position.coords.longitude);
         },
         (error) => {
           console.error("위치 수집 여부 거절");
@@ -288,7 +249,6 @@ onMounted(async () => {
     });
   };
 
-  // 위치 수집 기다리기
   await getLocation();
   await runningPathStore.getRunningPathList(curlocationToPost);
 
@@ -297,7 +257,7 @@ onMounted(async () => {
       if (map.value) {
         const polyline = new google.maps.Polyline({
           path: JSON.parse(runningPath.path),
-          strokeColor: getRandomColor(),
+          strokeColor: polylineOptions.value.strokeColor,
           strokeOpacity: polylineOptions.value.strokeOpacity,
           strokeWeight: polylineOptions.value.strokeWeight,
           map: map.value,
@@ -321,11 +281,10 @@ onMounted(async () => {
 }
 
 .running-logo {
-  position: absolute;
-  width: 10vw;
+  width: 4vw;
+  margin: 5% 0 0 5%;
   border: 0cm;
   bottom: 25px;
-  right: 160px;
   z-index: 1000;
 }
 
@@ -353,37 +312,43 @@ onMounted(async () => {
   right: 60px;
   z-index: 1000;
 }
+
 .weather {
-  width: 100px;
-  height: 60px;
+  width: 170px;
+  height: 85px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   position: absolute;
-  top: 7%;
-  left: 92%;
+  top: 8%;
+  right: 1%;
   border: 1;
-  background-color: rgba(216, 216, 216, 0.603);
+  background-color: rgba(142, 141, 141, 0.36);
   z-index: 1000s;
 }
+
 .weather-location {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  margin-left: 10px;
+  margin-left: 5px;
   border: none;
 }
+
 .weather-temp {
+  margin-top: 1%;
   margin-left: 10px;
   border: none;
 }
 
 .input-search {
+  border-top-right-radius: 7px;
+  border-bottom-right-radius: 7px;
   position: absolute;
   background-color: white;
   border: 0cm;
   top: 10px;
-  left: 43%;
+  left: 38%;
   width: 300px;
   z-index: 1000;
 }

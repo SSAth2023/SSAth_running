@@ -1,44 +1,22 @@
 <template>
   <div>
-    <div
-      class="input-group border border-1 rounded-start-3 rounded-5 border-success mb-3 input-search"
-    >
-      <input
-        type="text"
-        class="form-control"
-        @keyup.enter="search"
-        v-model="searchInput"
-        placeholder="Search"
-      />
-      <button
-        class="btn btn-outline-secondary"
-        style="border: none"
-        @click="search"
-      >
+    <!--검색-->
+    <div class="input-group border border-1 rounded-start-3 border-success mb-3 input-search">
+      <input type="text" class="form-control" @keyup.enter="search" v-model="searchInput" placeholder="Search" />
+      <button class="btn btn-outline-success" style="border: none " @click="search">
         검색
       </button>
     </div>
     <div id="map" style="height: 100vh"></div>
     <!-- Modal -->
-    <div
-      class="modal fade"
-      id="exampleModal"
-      tabindex="-1"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
             <h1 class="modal-title fs-5" id="exampleModalLabel">
               러닝 경로 등록
             </h1>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
             <form>
@@ -54,20 +32,11 @@
             </form>
           </div>
           <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
               취소
             </button>
-            <button
-              type="button"
-              class="btn btn-success"
-              @click="createRunningPath"
-              data-bs-toggle="modal"
-              data-bs-target="#exampleModal"
-            >
+            <button type="button" class="btn btn-success" @click="createRunningPath" data-bs-toggle="modal"
+              data-bs-target="#exampleModal">
               등록
             </button>
           </div>
@@ -75,22 +44,14 @@
       </div>
     </div>
     <!-- Button trigger modal -->
-    <button
-      v-if="isDrawingComplete"
-      type="button"
-      class="btn btn-success btn-lg create-button"
-      data-bs-toggle="modal"
-      data-bs-target="#exampleModal"
-    >
+    <button v-if="isDrawingComplete" type="button" class="btn btn-success btn-lg create-button" data-bs-toggle="modal"
+      data-bs-target="#exampleModal" style="font-size: 15px;">
       경로 지정 완료
     </button>
-    <button v-else class="btn btn-secondary btn-lg create-button" disabled>
-      경로를 모두 그렸으면 마지막 지점을 한번 더 클릭하세요
+    <button v-else class="btn btn-secondary btn-lg create-button" disabled style="font-size: 15px;">
+      더블 클릭 시 그리기 종료
     </button>
-    <button
-      class="btn btn-outline-secondary current-location-button"
-      @click="moveToCurrentLocation"
-    >
+    <button class="btn btn-outline-secondary current-location-button" @click="moveToCurrentLocation">
       현재 위치로 이동
     </button>
   </div>
@@ -258,12 +219,15 @@ onMounted(() => {
   right: 60px;
   z-index: 1000;
 }
+
 .input-search {
+  border-top-right-radius: 7px;
+  border-bottom-right-radius: 7px;
   position: absolute;
   background-color: white;
   border: 0cm;
   top: 10px;
-  left: 43%;
+  left: 38%;
   width: 300px;
   z-index: 1000;
 }

@@ -1,10 +1,7 @@
 <template>
   <div class="header">
-    <div
-      v-if="userName !== ''"
-      class="welcome-message bg-success-subtle text-black"
-    >
-      <p class="mb-0">환영합니다, {{ userName.userId }}님!</p>
+    <div v-if="userName !== ''" style="text-align: right;">
+      <p style="color: #28bb65; margin:5%;">I'm {{ userName.userId }}</p>
     </div>
     <div class="button-head">
       <button class="btn" @click="back">b a c k</button>
@@ -38,7 +35,7 @@ const login = () => {
     .then(() => {
       router.push("/login");
     })
-    .catch(() => {});
+    .catch(() => { });
 };
 
 const logout = () => {
@@ -53,7 +50,7 @@ const logout = () => {
       sessionStorage.clear();
       userStore.userName = "";
     })
-    .catch(() => {});
+    .catch(() => { });
 };
 
 onMounted(() => {
@@ -73,13 +70,16 @@ const back = () => {
   display: flex;
   justify-content: space-between;
   text-align: center;
-  margin: 0px 20px 0px 20px;
+  margin: 15px 20px 0px 20px;
 }
+
 .header {
   background-color: white;
 }
 
 .welcome-message {
+  position: fixed, relative;
+  top: 0;
   padding: 1rem;
   border-radius: 0.25rem;
 }
@@ -90,6 +90,7 @@ const back = () => {
   color: #818181;
   border: none;
 }
+
 .btn:hover {
   color: #28bb65;
 }

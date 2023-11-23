@@ -1,8 +1,6 @@
 <template>
   <div>
-    <table
-      class="table table-success table-striped table-bordered table-hover text-center"
-    >
+    <table class="table table-success table-striped table-bordered table-hover text-center">
       <thead>
         <tr>
           <th scope="col"></th>
@@ -12,56 +10,36 @@
         </tr>
       </thead>
       <tbody class="table-group-divider">
-        <tr
-          v-for="(comment, index) in currentPageCommentList"
-          :key="comment.commentId"
-        >
+        <tr v-for="(comment, index) in currentPageCommentList" :key="comment.commentId">
           <th>{{ index + 1 + (currentPage - 1) * perPage }}</th>
           <th>
             {{ comment.userId }}
           </th>
           <th>
             {{ comment.content
-            }}<button
-              type="button"
-              class="btn btn-warning"
-              style="
-                margin: 1px;
-                --bs-btn-padding-y: 0.25rem;
-                --bs-btn-padding-x: 0.5rem;
-                --bs-btn-font-size: 0.75rem;
-              "
-              @click="modeChange(comment.commentId)"
-              v-if="comment.userId === userStore.userName['userId'] && !mode"
-            >
+            }}<button type="button" class="btn btn-warning" style="
+                    margin: 1px;
+                    --bs-btn-padding-y: 0.25rem;
+                    --bs-btn-padding-x: 0.5rem;
+                    --bs-btn-font-size: 0.75rem;
+                  " @click="modeChange(comment.commentId)"
+              v-if="comment.userId === userStore.userName['userId'] && !mode">
               수정
             </button>
-            <button
-              type="button"
-              class="btn btn-warning"
-              style="
-                margin: 1px;
-                --bs-btn-padding-y: 0.25rem;
-                --bs-btn-padding-x: 0.5rem;
-                --bs-btn-font-size: 0.75rem;
-              "
-              v-if="comment.userId === userStore.userName['userId'] && mode"
-              @click="mode = false"
-            >
+            <button type="button" class="btn btn-warning" style="
+                    margin: 1px;
+                    --bs-btn-padding-y: 0.25rem;
+                    --bs-btn-padding-x: 0.5rem;
+                    --bs-btn-font-size: 0.75rem;
+                  " v-if="comment.userId === userStore.userName['userId'] && mode" @click="mode = false">
               취소
             </button>
-            <button
-              type="button"
-              class="btn btn-danger"
-              style="
-                margin: 1px;
-                --bs-btn-padding-y: 0.25rem;
-                --bs-btn-padding-x: 0.5rem;
-                --bs-btn-font-size: 0.75rem;
-              "
-              v-if="comment.userId === userStore.userName['userId']"
-              @click="deleteComment(comment.commentId)"
-            >
+            <button type="button" class="btn btn-danger" style="
+                    margin: 1px;
+                    --bs-btn-padding-y: 0.25rem;
+                    --bs-btn-padding-x: 0.5rem;
+                    --bs-btn-font-size: 0.75rem;
+                  " v-if="comment.userId === userStore.userName['userId']" @click="deleteComment(comment.commentId)">
               삭제
             </button>
           </th>
@@ -72,31 +50,16 @@
     <nav aria-label="Page navigation">
       <ul class="pagination d-flex justify-content-center">
         <li class="page-item">
-          <a
-            class="page-link"
-            :class="{ disabled: currentPage <= 1 }"
-            href="#"
-            @click.prevent="currentPage--"
-            >&lt;</a
-          >
+          <a class="page-link" :class="{ disabled: currentPage <= 1 }" href="#" @click.prevent="currentPage--">&lt;</a>
         </li>
-        <li
-          :class="{ active: currentPage === page }"
-          v-for="page in pageCount"
-          :key="page"
-        >
+        <li :class="{ cur: currentPage === page }" v-for="page in pageCount" :key="page">
           <a class="page-link" href="#" @click.prevent="clickPage(page)">{{
             page
           }}</a>
         </li>
         <li class="page-item">
-          <a
-            class="page-link"
-            :class="{ disabled: currentPage >= pageCount }"
-            href="#"
-            @click.prevent="currentPage++"
-            >&gt;</a
-          >
+          <a class="page-link" :class="{ disabled: currentPage >= pageCount }" href="#"
+            @click.prevent="currentPage++">&gt;</a>
         </li>
       </ul>
     </nav>
@@ -196,4 +159,26 @@ const deleteComment = (commentId) => {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.a {
+  color: #818181;
+}
+
+.a:hover {
+  color: #28bb65;
+}
+
+.page-link {
+  color: #000;
+  background-color: #fff;
+  border: 1px solid #ccc;
+}
+
+.page-link:hover {
+  color: #000;
+}
+
+.cur a {
+  background-color: #9f9f9f40;
+}
+</style>
