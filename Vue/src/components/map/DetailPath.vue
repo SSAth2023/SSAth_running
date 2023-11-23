@@ -40,11 +40,8 @@
       수정
     </button>
     <!--삭제-->
-    <button
-      v-if="userStore.userName['userId'] === runningPathDetail.userId"
-      class="btn btn-outline-secondary running-path-delete"
-      @click="runningPathDelete"
-    >
+    <button v-if="userStore.userName['userId'] === runningPathDetail.userId"
+      class="btn btn-outline-secondary running-path-delete" @click="runningPathDelete">
       삭제
     </button>
   </div>
@@ -146,7 +143,12 @@ onMounted(async () => {
     },
   });
 
-  await runningPathStore.getRunningPath(route.params.mapId);
+  const curDataToPost = {
+    mapId: route.params.mapId,
+    userId: userStore.userName["userId"]
+  }
+
+  await runningPathStore.getRunningPath(curDataToPost);
   // runningPathList에 저장된 초기 경로를 지도에 표시
   if (runningPathDetail.value) {
     const location = {

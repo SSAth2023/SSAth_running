@@ -20,9 +20,9 @@ export const useRunningPathStore = defineStore("runningPath", () => {
 
   const runningPath = ref({});
 
-  const getRunningPath = async (mapId) => {
+  const getRunningPath = async (path) => {
     try {
-      const res = await axios.get(`${REST_PATH_API}/${mapId}`);
+      const res = await axios.post(`${REST_PATH_API}/${path.mapId}`, path);
       runningPath.value = res.data;
     } catch (err) {
       console.error(err);

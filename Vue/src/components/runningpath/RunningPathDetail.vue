@@ -7,10 +7,11 @@
             {{ store.runningPath.title }}
           </div>
           <div>
-            <img src="@/assets/image/Favorite.png" />
-            <p class="text-center text-black fs-6 fw-normal m-0 px-3 py-2">
-              13
-            </p>
+            <div class="favor">
+              <i style="font-size: 1.5rem" class="bi bi-suit-heart" :class="{ like: store.runningPath.bookmark }"
+                @click="toggleLike(store.runningPath)"></i>
+              <p class="text-center text-black fs-6 fw-normal m-0">{{ store.runningPath.likes }}</p>
+            </div>
           </div>
         </div>
         <p class="text-black fs-4 fw-normal m-0 px-3 py-2">
@@ -30,11 +31,8 @@
           </p>
         </div>
         <hr />
-        <RouterLink
-          :to="`/comment/${store.runningPath.mapId}`"
-          class="text-black fs-6 fw-normal m-0 px-3 py-2"
-          >댓글 보기</RouterLink
-        >
+        <RouterLink :to="`/comment/${store.runningPath.mapId}`" class="text-black fs-6 fw-normal m-0 px-3 py-2">댓글 보기
+        </RouterLink>
       </div>
     </div>
   </div>
@@ -42,17 +40,31 @@
 
 <script setup>
 import { useRunningPathStore } from "../../stores/runningPath";
+import { useUserStore } from "../../stores/user";
+import { useBookmarkStore } from "../../stores/bookmark";
 import { onMounted, reactive, watch } from "vue";
 import { useRoute } from "vue-router";
 
 const store = useRunningPathStore();
+const userStore = useUserStore();
+const bookmarkStore = useBookmarkStore();
 const computedDistances = reactive({});
 const route = useRoute();
 
+const toggleLike = function (runningPath) {
+  console.log(runningPath.mapId);
+  bookmarkStore.getBookmark(runningPath.mapId, userStore.userName['userId']);
+  runningPath.bookmark = !runningPath.bookmark;
+};
+
 onMounted(() => {
   const storedDistances = localStorage.getItem("computedDistances");
-  store.getRunningPathList();
-  store.getRunningPath(route.params.mapId);
+
+  const curDataToPost = {
+    mapId: route.params.mapId,
+    userId: userStore.userName["userId"]
+  }
+  store.getRunningPath(curDataToPost);
 
   if (storedDistances) {
     computedDistances.value = reactive(JSON.parse(storedDistances));
@@ -91,9 +103,9 @@ function getDistance(lat1, lon1, lat2, lon2) {
   const a =
     Math.sin(dLat / 2) * Math.sin(dLat / 2) +
     Math.sin(dLon / 2) *
-      Math.sin(dLon / 2) *
-      Math.cos(lat1Rad) *
-      Math.cos(lat2Rad);
+    Math.sin(dLon / 2) *
+    Math.cos(lat1Rad) *
+    Math.cos(lat2Rad);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   const distance = R * c;
 
@@ -167,8 +179,10 @@ function tempDist(path, mapId) {
 }
 
 img {
-  width: 50px; /* Adjust as needed */
-  height: 50px; /* Adjust as needed */
+  width: 50px;
+  /* Adjust as needed */
+  height: 50px;
+  /* Adjust as needed */
   margin-left: 10px;
 }
 
@@ -186,5 +200,9 @@ img {
 
 .text-black {
   color: #333;
+}
+
+.like {
+  color: darkred;
 }
 </style>

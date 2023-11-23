@@ -8,7 +8,7 @@ import com.ssath.map.model.dto.SearchCondition;
 public interface RunningPathDao {
 	
 	//러닝 경로 한 개 추출
-	public RunningPath selectOnePath(int mapId);
+	public RunningPath selectOnePath(RunningPath runningPath);
 	
 	//모든 러닝 경로 추출
 	public List<RunningPath> selectPaths(RunningPath runningPath);

@@ -20,8 +20,8 @@ public class RunningPathServiceImpl implements RunningPathService {
 	}
 	
 	@Override
-	public RunningPath selectOnePath(int mapId) {
-		return runningPathDao.selectOnePath(mapId);
+	public RunningPath selectOnePath(RunningPath runningPath) {
+		return runningPathDao.selectOnePath(runningPath);
 	}
 	
 	@Override

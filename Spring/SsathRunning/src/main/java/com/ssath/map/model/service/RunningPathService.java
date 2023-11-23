@@ -7,7 +7,7 @@ import com.ssath.map.model.dto.SearchCondition;
 
 public interface RunningPathService {
 	
-	public RunningPath selectOnePath(int mapId);
+	public RunningPath selectOnePath(RunningPath runningPath);
 	
 	public List<RunningPath> selectPaths(RunningPath runningPath);
 	
