@@ -1,20 +1,26 @@
 <template>
-  <div>
+  <div class="sidebar">
     <div class="path">
       <div>
         <div class="favor">
-          <div class="bg-info-subtle rounded-1">
+          <div class="bg-primary bg-gradient rounded-1">
             {{ store.runningPath.title }}
           </div>
-          <img src="@/assets/image/Favorite.png" />
-          <p class="text-center text-black fs-6 fw-normal m-0 px-3 py-2">13</p>
+          <div>
+            <img src="@/assets/image/Favorite.png" />
+            <p class="text-center text-black fs-6 fw-normal m-0 px-3 py-2">
+              13
+            </p>
+          </div>
         </div>
         <p class="text-black fs-4 fw-normal m-0 px-3 py-2">
-          약 {{ store.runningPath.calDist }}km 내,
-          {{ (store.runningPath.distance / 1000).toFixed(2) }}km 코스
+          총 {{ (store.runningPath.distance / 1000).toFixed(2) }}km 코스
         </p>
         <p class="text-end text-black fs-5 fw-normal m-0 px-3 py-2">
           등록인: {{ store.runningPath.userId }}
+        </p>
+        <p class="text-end text-black fs-5 fw-normal m-0 px-3 py-2">
+          등록 날짜: {{ store.runningPath.regDate }}
         </p>
         <hr />
         <p class="de text-start text-black fs-6 m-0 px-3 py-2">코스 설명</p>
@@ -130,30 +136,55 @@ function tempDist(path, mapId) {
 </script>
 
 <style scoped>
-.bg-info-subtle {
-  width: 15vw;
-  height: 5vh;
-  margin: 2vh;
-  font-family: "LINESeedKR-Bd";
-  font-size: xx-large;
-  text-align: center;
+.sidebar {
+  background-color: #f4f4f4;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .path {
   display: flex;
-  justify-content: center;
-  margin-bottom: 2vh;
+  flex-direction: column;
+  align-items: center;
 }
+
 .favor {
+  margin-top: 20px;
   display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.bg-gradient {
+  color: #ffffff;
+  padding: 10px;
+  border-radius: 5px;
+  font-family: "LINESeedKR-Bd";
+  font-size: 1.5rem;
+  text-align: center;
 }
 
 img {
-  width: 3.7425vw;
-  height: 6.5104vh;
+  width: 50px; /* Adjust as needed */
+  height: 50px; /* Adjust as needed */
+  margin-left: 10px;
+}
+
+.text-info {
+  color: #3498db;
 }
 
 .de {
   font-family: "LINESeedKR-Bd";
+}
+
+.border-warning-subtle {
+  border: 1px solid #f39c12;
+}
+
+.text-black {
+  color: #333;
 }
 </style>
