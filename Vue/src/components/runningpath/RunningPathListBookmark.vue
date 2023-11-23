@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="bg-info rounded-1">내가 찜한 코스</div>
+    <div class="bg-success rounded-1 text-wrap">Bookmarked</div>
     <hr />
     <div
       v-for="(runningPath, index) in currentPageRunningPathList"
@@ -22,18 +22,18 @@
               }}
             </RouterLink>
             <p class="distance">
-              약 {{ runningPath.calDist / 1000 }}km 내,
-              {{ (runningPath.distance / 1000).toFixed(2) }}km 코스
+              start: {{ runningPath.calDist / 1000 }}km, Course:
+              {{ (runningPath.distance / 1000).toFixed(2) }}km
             </p>
             <p class="description">{{ runningPath.description }}</p>
             <RouterLink
               :to="`/path/${runningPath.mapId}`"
-              class="text-black fs-6 fw-normal"
+              class="t fs-6 fw-normal"
               :class="{
                 like: runningPath.bookmark,
                 unlike: !runningPath.bookmark,
               }"
-              >댓글 보기</RouterLink
+              >more...</RouterLink
             >
           </div>
           <div class="favor">
@@ -70,9 +70,9 @@
           v-for="page in pageCount"
           :key="page"
         >
-          <a class="page-link" href="#" @click.prevent="clickPage(page)">{{
-            page
-          }}</a>
+          <a class="page-link" href="#" @click.prevent="clickPage(page)">
+            {{ page }}
+          </a>
         </li>
         <li class="page-item">
           <a
@@ -213,8 +213,8 @@ function tempDist(paths, mapId) {
 </script>
 
 <style scoped>
-.bg-info {
-  width: 7vw;
+.bg-success {
+  width: 12vw;
   margin: 2vh;
   font-family: "LINESeedKR-Bd";
   font-size: larger;
@@ -242,6 +242,10 @@ function tempDist(paths, mapId) {
 }
 
 .title {
+  color: #28bb65;
+}
+
+.title:hover {
   color: #3498db;
 }
 
@@ -256,6 +260,7 @@ function tempDist(paths, mapId) {
 
 .favor {
   display: flex;
+  cursor: pointer;
   flex-direction: column;
   align-items: center;
 }
@@ -264,10 +269,26 @@ img {
   width: 3.7425vw;
   height: 6.5104vh;
 }
+
 .like {
   color: red;
 }
+
 .unlike {
   color: rgb(228, 227, 227);
+}
+
+.page-link {
+  color: #000;
+  background-color: #fff;
+  border: 1px solid #ccc;
+}
+
+.t {
+  color: #504d4d;
+}
+
+.t:hover {
+  color: #000;
 }
 </style>

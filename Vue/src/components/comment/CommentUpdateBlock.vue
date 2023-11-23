@@ -1,6 +1,6 @@
 <template>
   <div class="bar">
-    <label>댓글 수정</label>
+    <label>Modify comment</label>
     <div class="input-group mb-3">
       <input
         type="text"
@@ -8,7 +8,7 @@
         v-model="store.comment.content"
         @keyup.enter="update"
       />
-      <button class="btn btn-outline-secondary" @click="update">완료</button>
+      <button class="btn btn-outline-success" @click="update">완료</button>
     </div>
   </div>
 </template>

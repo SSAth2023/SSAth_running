@@ -1,15 +1,15 @@
 <template>
   <div class="bar">
-    <label>댓글 달기</label>
+    <label>Comment</label>
     <div class="input-group mb-3">
       <input
         type="text"
         class="form-control"
         v-model="comment.content"
         @keyup.enter="submit"
-        placeholder="댓글을 입력해주세요."
+        placeholder="Insert your comment..."
       />
-      <button class="btn btn-outline-secondary" @click="submit">작성</button>
+      <button class="btn btn-outline-success" @click="submit">submit</button>
     </div>
   </div>
 </template>

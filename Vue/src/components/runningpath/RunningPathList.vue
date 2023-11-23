@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <div class="recommend">R e c o m m e n d</div>
 
     <div
@@ -258,6 +257,7 @@ function tempDist(paths, mapId) {
   display: flex;
   flex-direction: column;
   align-items: center;
+  cursor: pointer;
 }
 
 img {
@@ -270,5 +270,11 @@ img {
 }
 .unlike {
   color: rgb(228, 227, 227);
+}
+
+.page-link {
+  color: #000;
+  background-color: #fff;
+  border: 1px solid #ccc;
 }
 </style>

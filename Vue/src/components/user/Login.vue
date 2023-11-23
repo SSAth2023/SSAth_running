@@ -129,7 +129,7 @@ const back = () => {
 }
 
 .running-logo {
-  width: 60px;
+  width: 80px;
   height: auto;
   cursor: pointer;
 }

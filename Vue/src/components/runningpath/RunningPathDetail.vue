@@ -3,7 +3,7 @@
     <div class="path">
       <div>
         <div class="favor">
-          <div class="bg-primary bg-gradient rounded-1">
+          <div class="bg-success bg-gradient rounded-1">
             {{ store.runningPath.title }}
           </div>
           <div>
@@ -24,18 +24,23 @@
           </div>
         </div>
         <p class="text-black fs-4 fw-normal m-0 px-3 py-2">
-          총 {{ (store.runningPath.distance / 1000).toFixed(2) }}km 코스
+          {{ (store.runningPath.distance / 1000).toFixed(2) }}km Course
         </p>
-        <p class="text-end text-black fs-5 fw-normal m-0 px-3 py-2">
-          등록인: {{ store.runningPath.userId }}
+        <p class="text-end text-success fs-4 fw-normal m-0 px-3 py-2">
+          {{ store.runningPath.userId }}
         </p>
-        <p class="text-end text-black fs-5 fw-normal m-0 px-3 py-2">
-          등록 날짜: {{ store.runningPath.regDate }}
+        <p class="text-end text-black fs-6 fw-normal m-0 px-3 py-2">
+          {{ store.runningPath.regDate }}
         </p>
         <hr />
-        <p class="de text-start text-black fs-6 m-0 px-3 py-2">코스 설명</p>
-        <div class="border border-warning-subtle border-4">
+        <p class="de text-start text-black fs-6 m-0 px-3 py-2">
+          Course description
+        </p>
+        <div
+          class="p-3 bg-success-subtle bg-opacity-10 border border-success border-start-0 rounded-end"
+        >
           <p class="text-black fs-6 fw-normal m-0 px-3 py-2">
+            <i class="bi bi-tag"></i>
             {{ store.runningPath.description }}
           </p>
         </div>
@@ -43,7 +48,7 @@
         <RouterLink
           :to="`/comment/${store.runningPath.mapId}`"
           class="text-black fs-6 fw-normal m-0 px-3 py-2"
-          >댓글 보기
+          >comments...
         </RouterLink>
       </div>
     </div>
@@ -162,7 +167,7 @@ function tempDist(path, mapId) {
 <style scoped>
 .sidebar {
   background-color: #f4f4f4;
-  padding: 20px;
+  padding: 10px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
@@ -170,7 +175,6 @@ function tempDist(path, mapId) {
 .path {
   display: flex;
   flex-direction: column;
-  align-items: center;
 }
 
 .favor {
