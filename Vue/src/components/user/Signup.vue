@@ -108,6 +108,10 @@ const isPasswordValid = (pwd) => {
   return pwd.length >= 8 && /[!@#$%^&*(),.?":{}|<>]/g.test(pwd);
 };
 
+const onlyNumberAndEnglish = (str) => {
+  return /^[A-Za-z0-9][A-Za-z0-9]*$/.test(str);
+};
+
 const regist = () => {
   if (
     id.value === "" ||
@@ -129,14 +133,19 @@ const regist = () => {
     return;
   }
 
-  if (Array.isArray(users.value) && users.value.length > 0) {
-    const userExists = users.value.some((user) => user.userId === id.value);
-
-    if (userExists) {
-      alert("이미 존재하는 아이디입니다.");
-      return;
-    }
+  if (!onlyNumberAndEnglish(id)) {
+    alert("아이디는 숫자 혹은 영어로만 입력되어야 합니다.");
   }
+
+  if (id)
+    if (Array.isArray(users.value) && users.value.length > 0) {
+      const userExists = users.value.some((user) => user.userId === id.value);
+
+      if (userExists) {
+        alert("이미 존재하는 아이디입니다.");
+        return;
+      }
+    }
 
   const user = {
     userId: id.value,

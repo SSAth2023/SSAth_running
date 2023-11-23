@@ -6,7 +6,7 @@
       <RouterView name="sidebar" />
       <RouterView name="comment" />
       <hr />
-      <SidebarFooter />
+      <SidebarFooter style="width: 100%" />
     </div>
     <button
       class="btn toggle-button"
@@ -35,14 +35,14 @@ import SidebarHeader from "./SidebarHeader.vue";
 export default {
   data() {
     return {
-      slideBarWidth: "-30vw",
+      slideBarWidth: "-22vw",
       buttonMargin: "1vw",
     };
   },
   methods: {
     toggleSlideBar() {
-      this.slideBarWidth = this.slideBarWidth === "0px" ? "-30vw" : "0px";
-      this.buttonMargin = this.buttonMargin === "1vw" ? "30vw" : "1vw";
+      this.slideBarWidth = this.slideBarWidth === "0px" ? "-22vw" : "0px";
+      this.buttonMargin = this.buttonMargin === "1vw" ? "22vw" : "1vw";
     },
   },
   components: { SidebarHeader, RunningPathList, SidebarFooter },
@@ -62,7 +62,7 @@ body {
 
 .slide-bar {
   height: 100vh;
-  width: 30vw;
+  width: 22vw;
   position: fixed;
   z-index: 1;
   top: 0;
@@ -94,20 +94,17 @@ body {
 .toggle-button {
   position: fixed;
   top: 50%;
-  left: 1vw;
   margin-top: 1vw;
   transform: translateY(-50%);
   cursor: pointer;
-  background-color: #818181;
   opacity: 0.4;
-  padding: 1vw;
   border: none;
   outline: none;
   display: flex;
   align-items: center;
   z-index: 2;
   transition: margin-left 0.5s;
-  margin-left: 1vw;
+  /* margin-left: 1vw; */
   width: 3vw;
   height: 6vh;
 }

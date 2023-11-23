@@ -29,6 +29,10 @@
             <RouterLink
               :to="`/path/${runningPath.mapId}`"
               class="text-black fs-6 fw-normal"
+              :class="{
+                like: runningPath.bookmark,
+                unlike: !runningPath.bookmark,
+              }"
               >댓글 보기</RouterLink
             >
           </div>
