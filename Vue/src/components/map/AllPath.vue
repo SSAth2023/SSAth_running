@@ -3,16 +3,20 @@
     <div id="map" style="height: 100vh"></div>
 
     <!--검색-->
-    <div class="input-group mb-3 input-search">
+    <div
+      class="input-group border border-1 rounded-start-3 rounded-5 border-success mb-3 input-search"
+    >
       <input
         type="text"
         class="form-control"
         @keyup.enter="search"
         v-model="searchInput"
-        placeholder="검색하고 싶은 장소가 있으신가요?"
-      />
       <button
         class="btn btn-outline-secondary"
+        placeholder="Search"
+      />
+      <button
+        class="btn btn-outline-success"
         style="border: none"
         @click="search"
       >
@@ -50,6 +54,13 @@
         <i class="bi bi-thermometer-half"></i> {{ temp }}
       </div>
     </div>
+
+    <img
+      class="running-logo"
+      @click="back"
+      src="../../assets/image/S S A T H.png"
+      alt="Running Logo"
+    />
   </div>
 </template>
 
@@ -308,6 +319,15 @@ onMounted(async () => {
   border: 0cm;
   top: 10px;
   right: 60px;
+  z-index: 1000;
+}
+
+.running-logo {
+  position: absolute;
+  width: 10vw;
+  border: 0cm;
+  bottom: 25px;
+  right: 160px;
   z-index: 1000;
 }
 

@@ -16,15 +16,15 @@
               src="../../assets/image/S S A T H.png"
               alt="Running Logo"
             />
-            <h2 class="running-title">회원 가입</h2>
+            <h2 class="running-title">Sign up</h2>
           </div>
           <form @submit.prevent="regist" class="running-form">
             <div class="running-form-group">
-              <label for="id" class="running-label">아이디</label>
+              <label for="id" class="running-label">ID</label>
               <input type="text" id="id" v-model="id" class="running-input" />
             </div>
             <div class="running-form-group">
-              <label for="password" class="running-label">비밀번호</label>
+              <label for="password" class="running-label">Password</label>
               <input
                 type="password"
                 id="password"
@@ -33,7 +33,9 @@
               />
             </div>
             <div class="running-form-group">
-              <label for="password2" class="running-label">비밀번호 확인</label>
+              <label for="password2" class="running-label"
+                >Password confirmation</label
+              >
               <input
                 type="password"
                 id="password2"
@@ -42,7 +44,7 @@
               />
             </div>
             <div class="running-form-group">
-              <label for="name" class="running-label">이름</label>
+              <label for="name" class="running-label">Name</label>
               <input
                 type="text"
                 id="name"
@@ -51,7 +53,7 @@
               />
             </div>
             <div class="running-form-group">
-              <label for="age" class="running-label">나이</label>
+              <label for="age" class="running-label">Age</label>
               <input
                 type="number"
                 id="age"
@@ -64,7 +66,7 @@
               class="running-button primary"
               :disabled="!isFormValid"
             >
-              등록
+              Regist
             </button>
           </form>
         </div>
@@ -217,7 +219,7 @@ const back = () => {
 }
 
 .running-logo {
-  width: 60px;
+  width: 80px;
   height: auto;
   cursor: pointer;
 }

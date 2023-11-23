@@ -59,14 +59,14 @@
       v-if="userStore.userName['userId'] === runningPathDetail.userId"
       data-bs-toggle="modal"
       data-bs-target="#exampleModal"
-      class="btn btn-outline-secondary running-path-update"
+      class="btn btn-outline-warning running-path-update"
     >
       수정
     </button>
     <!--삭제-->
     <button
       v-if="userStore.userName['userId'] === runningPathDetail.userId"
-      class="btn btn-outline-secondary running-path-delete"
+      class="btn btn-outline-danger running-path-delete"
       @click="runningPathDelete"
     >
       삭제

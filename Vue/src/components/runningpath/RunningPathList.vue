@@ -254,6 +254,7 @@ function tempDist(paths, mapId) {
   display: flex;
   flex-direction: column;
   align-items: center;
+  cursor: pointer;
 }
 
 img {
@@ -274,5 +275,10 @@ img {
 
 .a:hover {
   color: #28bb65;
+
+.page-link {
+  color: #000;
+  background-color: #fff;
+  border: 1px solid #ccc;
 }
 </style>

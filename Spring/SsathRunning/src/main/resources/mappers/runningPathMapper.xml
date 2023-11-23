@@ -39,7 +39,7 @@
 			ON A.map_id = B.map_id
 		ORDER BY
 			cal_dist
-		LIMIT 5;
+		LIMIT 10;
 	</select>
 	
 	<!-- 좋아요 전체 경로 조회 -->

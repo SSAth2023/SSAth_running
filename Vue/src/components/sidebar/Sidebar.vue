@@ -1,11 +1,13 @@
 <template>
   <div id="app">
     <div class="slide-bar" :style="{ marginLeft: slideBarWidth }">
-      <SidebarHeader />
-      <hr />
-      <RouterView name="sidebar" />
-      <RouterView name="comment" />
-      <hr />
+      <div id="wrapper">
+        <SidebarHeader />
+        <hr />
+        <RouterView name="sidebar" />
+        <RouterView name="comment" />
+        <hr />
+      </div>
       <SidebarFooter style="width: 100%" />
     </div>
     <button
@@ -61,8 +63,8 @@ body {
 }
 
 .slide-bar {
-  height: 100vh;
   width: 22vw;
+  height: 100%;
   position: fixed;
   z-index: 1;
   top: 0;
@@ -109,6 +111,11 @@ body {
   height: 6vh;
 }
 
+#wrapper {
+  height: auto;
+  min-height: 100%;
+  padding-bottom: 15vh;
+}
 .toggle-button img {
   width: 2vw;
   height: 2vw;

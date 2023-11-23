@@ -1,6 +1,9 @@
 <template>
   <div class="header">
-    <div v-if="userName !== ''" class="welcome-message bg-info text-white">
+    <div
+      v-if="userName !== ''"
+      class="welcome-message bg-success-subtle text-black"
+    >
       <p class="mb-0">환영합니다, {{ userName.userId }}님!</p>
     </div>
     <div class="button-head">

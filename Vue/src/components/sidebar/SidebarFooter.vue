@@ -17,11 +17,17 @@
           href="https://github.com/SSAth2023/SSAth_running"
           target="_blank"
           class="boxitem"
+          title="SSAth GitHub"
         >
           <img class="img-fluid" src="@/assets/image/github.png" />
           <!-- <p class="m-0">GitHub</p> -->
         </a>
-        <a href="https://www.instagram.com/" target="_blank" class="boxitem">
+        <a
+          href="https://www.instagram.com/"
+          target="_blank"
+          class="boxitem"
+          title="SSAth Instagram"
+        >
           <img class="img-fluid" src="@/assets/image/instagram.png" />
           <!-- <p class="m-0">Instagram</p> -->
         </a>
@@ -29,6 +35,7 @@
           href="https://zircon-sage-fe0.notion.site/SSAth-Project-8633c2fa6ef94ed0bb7542534a48fc72"
           target="_blank"
           class="boxitem"
+          title="SSAth teamspace"
         >
           <img class="img-fluid" src="@/assets/image/notion.png" />
           <!-- <p class="m-0">Notion</p> -->
@@ -53,9 +60,10 @@
 }
 
 .footer {
+  height: 15vh;
   padding: 0;
-  position: absolute;
-  bottom: 0;
+  position: relative;
+  transform: translateY(-100%);
 }
 .boxitem {
   width: 33%;
