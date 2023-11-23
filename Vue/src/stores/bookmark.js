@@ -6,6 +6,8 @@ import axios from "axios";
 const REST_COMMENT_API = "http://localhost:8080/api/bookmark";
 
 export const useBookmarkStore = defineStore("bookmark", () => {
+  const bookmarks = ref({});
+
   const checkBookmark = (mapId, userId) => {
     console.log(mapId, userId);
     axios.get(`${REST_COMMENT_API}/check/${mapId}/${userId}`).then((res) => {
@@ -15,6 +17,7 @@ export const useBookmarkStore = defineStore("bookmark", () => {
   };
 
   const bookmark = ref(0);
+
   const getBookmark = (mapId, userId) => {
     axios.get(`${REST_COMMENT_API}/${mapId}/${userId}`).then((res) => {
       bookmark.value = res.data;
@@ -23,6 +26,7 @@ export const useBookmarkStore = defineStore("bookmark", () => {
   };
 
   const bookmarkCnt = ref(0);
+
   const getBookmarkCnt = (mapId) => {
     axios.get(`${REST_COMMENT_API}/list/${mapId}`).then((res) => {
       bookmarkCnt.value = res.data;
@@ -30,6 +34,7 @@ export const useBookmarkStore = defineStore("bookmark", () => {
   };
 
   return {
+    bookmarks,
     checkBookmark,
     bookmark,
     getBookmark,

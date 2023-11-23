@@ -14,7 +14,6 @@
 		SELECT COUNT(*) CNT 
 		FROM BOOKMARK
 		WHERE map_id = ${mapId} AND marked = true
-		GROUP BY map_id
 	</select>
 	
 	<!-- 좋아요 업데이트 -->
