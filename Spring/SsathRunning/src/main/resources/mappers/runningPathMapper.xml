@@ -64,7 +64,7 @@
 			LEFT JOIN
 			(SELECT * FROM bookmark WHERE user_id = #{userId}) B
 			ON A.map_id = B.map_id
-			WHERE marked IS NOT NULL
+			WHERE marked>0
 		ORDER BY
 			cal_dist
 		LIMIT 5;

@@ -4,22 +4,12 @@
       <p class="mb-0">환영합니다, {{ userName.userId }}님!</p>
     </div>
     <div class="button-head">
-      <button class="btn btn-secondary" @click="back">이전화면으로</button>
-      <button
-        v-if="userName === ''"
-        type="button"
-        class="btn btn-outline-warning btn-lg"
-        @click="login"
-      >
-        Login
+      <button class="btn" @click="back">b a c k</button>
+      <button v-if="userName === ''" type="button" class="btn" @click="login">
+        L o g i n
       </button>
-      <button
-        v-if="userName !== ''"
-        type="button"
-        class="btn btn-outline-warning btn-lg"
-        @click="logout"
-      >
-        Logout
+      <button v-if="userName !== ''" type="button" class="btn" @click="logout">
+        L o g o u t
       </button>
     </div>
   </div>
@@ -78,9 +68,9 @@ const back = () => {
 <style scoped>
 .button-head {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   text-align: center;
-  margin-top: 3vh;
+  margin: 0px 20px 0px 20px;
 }
 .header {
   background-color: white;
@@ -89,5 +79,12 @@ const back = () => {
 .welcome-message {
   padding: 1rem;
   border-radius: 0.25rem;
+}
+
+.btn {
+  font-size: 18px;
+  font-weight: 600;
+  color: #28bb65;
+  border: none;
 }
 </style>

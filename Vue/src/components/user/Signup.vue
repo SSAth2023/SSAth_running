@@ -5,7 +5,12 @@
         <div class="running-background"></div>
         <div class="running-card-content">
           <div class="running-header">
-            <img class="running-logo" @click="back" src="../../assets/image/S S A T H.png" alt="Running Logo" />
+            <img
+              class="running-logo"
+              @click="back"
+              src="../../assets/image/S S A T H.png"
+              alt="Running Logo"
+            />
             <h2 class="running-title">회원 가입</h2>
           </div>
           <form @submit.prevent="regist" class="running-form">
@@ -15,19 +20,39 @@
             </div>
             <div class="running-form-group">
               <label for="password" class="running-label">비밀번호</label>
-              <input type="password" id="password" v-model="password" class="running-input" />
+              <input
+                type="password"
+                id="password"
+                v-model="password"
+                class="running-input"
+              />
             </div>
             <div class="running-form-group">
               <label for="password2" class="running-label">비밀번호 확인</label>
-              <input type="password" id="password2" v-model="password2" class="running-input" />
+              <input
+                type="password"
+                id="password2"
+                v-model="password2"
+                class="running-input"
+              />
             </div>
             <div class="running-form-group">
               <label for="name" class="running-label">이름</label>
-              <input type="text" id="name" v-model="name" class="running-input" />
+              <input
+                type="text"
+                id="name"
+                v-model="name"
+                class="running-input"
+              />
             </div>
             <div class="running-form-group">
               <label for="age" class="running-label">나이</label>
-              <input type="number" id="age" v-model="age" class="running-input" />
+              <input
+                type="number"
+                id="age"
+                v-model="age"
+                class="running-input"
+              />
             </div>
             <button type="submit" class="running-button primary">등록</button>
           </form>
@@ -63,8 +88,17 @@ const isPasswordValid = (pwd) => {
   return pwd.length >= 8 && /[!@#$%^&*(),.?":{}|<>]/g.test(pwd);
 };
 
+const onlyNumberAndEnglish = (str) => {
+  return /^[A-Za-z0-9][A-Za-z0-9]*$/.test(str);
+};
+
 const regist = () => {
-  if (id.value === "" || password.value === "" || name.value === "" || age.value === "") {
+  if (
+    id.value === "" ||
+    password.value === "" ||
+    name.value === "" ||
+    age.value === ""
+  ) {
     alert("모든 내용을 입력해주세요");
     return;
   }
@@ -79,14 +113,19 @@ const regist = () => {
     return;
   }
 
-  if (Array.isArray(users.value) && users.value.length > 0) {
-    const userExists = users.value.some((user) => user.userId === id.value);
-
-    if (userExists) {
-      alert("이미 존재하는 아이디입니다.");
-      return;
-    }
+  if (!onlyNumberAndEnglish(id)) {
+    alert("아이디는 숫자 혹은 영어로만 입력되어야 합니다.");
   }
+
+  if (id)
+    if (Array.isArray(users.value) && users.value.length > 0) {
+      const userExists = users.value.some((user) => user.userId === id.value);
+
+      if (userExists) {
+        alert("이미 존재하는 아이디입니다.");
+        return;
+      }
+    }
 
   const user = {
     userId: id.value,
@@ -100,7 +139,11 @@ const regist = () => {
 
 const back = () => {
   return new Promise((resolve, reject) => {
-    if (confirm("이전화면으로 돌아가시겠습니까?\n(작성한 정보는 저장되지 않습니다.)")) {
+    if (
+      confirm(
+        "이전화면으로 돌아가시겠습니까?\n(작성한 정보는 저장되지 않습니다.)"
+      )
+    ) {
       resolve();
     } else {
       reject();
@@ -109,7 +152,7 @@ const back = () => {
     .then(() => {
       router.push("/");
     })
-    .catch(() => { });
+    .catch(() => {});
 };
 </script>
 
@@ -120,7 +163,7 @@ const back = () => {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url('https://img.freepik.com/free-photo/sunset-on-the-aegean-sea-coast-ship-and-land-in-the-distance-water-greece_1268-16901.jpg?w=1380&t=st=1700672640~exp=1700673240~hmac=e9f88b9c5e62170f068b88bc803747758821ec036211ee225d5868e3d18405de');
+  background-image: url("https://img.freepik.com/free-photo/sunset-on-the-aegean-sea-coast-ship-and-land-in-the-distance-water-greece_1268-16901.jpg?w=1380&t=st=1700672640~exp=1700673240~hmac=e9f88b9c5e62170f068b88bc803747758821ec036211ee225d5868e3d18405de");
   background-size: cover;
   background-position: center;
   opacity: 0.5;

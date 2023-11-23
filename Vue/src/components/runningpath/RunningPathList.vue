@@ -1,24 +1,48 @@
 <template>
   <div>
-    <div class="bg-info-subtle rounded-1">가까운 코스</div>
-    <hr />
+    <div class="recommend">R e c o m m e n d</div>
 
-    <div v-for="(runningPath, index) in currentPageRunningPathList" :key="runningPath.mapId">
+    <div
+      v-for="(runningPath, index) in currentPageRunningPathList"
+      :key="runningPath.mapId"
+    >
       <div class="path-container">
         <div class="path">
           <div class="path-details">
-            <RouterLink class="title fs-3 fw-bold" :to="`/path/${runningPath.mapId}`">
-              {{ index + 1 + (currentPage - 1) * perPage + ". " + runningPath.title }}
+            <RouterLink class="title" :to="`/path/${runningPath.mapId}`">
+              {{
+                index +
+                1 +
+                (currentPage - 1) * perPage +
+                ". " +
+                runningPath.title
+              }}
             </RouterLink>
             <p class="distance">
-              약 {{ runningPath.calDist / 1000 }}km 내, {{ (runningPath.distance / 1000).toFixed(2) }}km 코스
+              Start: {{ runningPath.calDist / 1000 }}km
+              <span style="margin-left: 20px; margin-right: 20px"></span>Course:
+              {{ (runningPath.distance / 1000).toFixed(2) }}km
             </p>
             <p class="description">{{ runningPath.description }}</p>
-            <RouterLink :to="`/path/${runningPath.mapId}`" class="text-black fs-6 fw-normal m-0">댓글 보기</RouterLink>
+            <RouterLink
+              :to="`/path/${runningPath.mapId}`"
+              class="text-black fs-6 fw-normal m-0"
+              >m o r e</RouterLink
+            >
           </div>
           <div class="favor">
-            <i style="font-size: 1.5rem" class="bi bi-suit-heart" :class="{ like: runningPath.bookmark }" @click="toggleLike(runningPath)"></i>
-            <p class="text-center text-black fs-6 fw-normal m-0">{{ runningPath.likes }}</p>
+            <i
+              style="font-size: 1.5rem"
+              class="bi bi-suit-heart-fill"
+              :class="{
+                like: runningPath.bookmark,
+                unlike: !runningPath.bookmark,
+              }"
+              @click="toggleLike(runningPath)"
+            ></i>
+            <p class="text-center text-black fs-6 fw-normal m-0">
+              {{ runningPath.likes }}
+            </p>
           </div>
         </div>
       </div>
@@ -27,13 +51,31 @@
     <nav aria-label="Page navigation">
       <ul class="pagination d-flex justify-content-center">
         <li class="page-item">
-          <a class="page-link" :class="{ disabled: currentPage <= 1 }" href="#" @click.prevent="currentPage--">&lt;</a>
+          <a
+            class="page-link"
+            :class="{ disabled: currentPage <= 1 }"
+            href="#"
+            @click.prevent="currentPage--"
+            >&lt;</a
+          >
         </li>
-        <li :class="{ active: currentPage === page }" v-for="page in pageCount" :key="page">
-          <a class="page-link" href="#" @click.prevent="clickPage(page)">{{ page }}</a>
+        <li
+          :class="{ active: currentPage === page }"
+          v-for="page in pageCount"
+          :key="page"
+        >
+          <a class="page-link" href="#" @click.prevent="clickPage(page)">{{
+            page
+          }}</a>
         </li>
         <li class="page-item">
-          <a class="page-link" :class="{ disabled: currentPage >= pageCount }" href="#" @click.prevent="currentPage++">&gt;</a>
+          <a
+            class="page-link"
+            :class="{ disabled: currentPage >= pageCount }"
+            href="#"
+            @click.prevent="currentPage++"
+            >&gt;</a
+          >
         </li>
       </ul>
     </nav>
@@ -45,15 +87,19 @@ import { useRunningPathStore } from "../../stores/runningPath";
 import { useUserStore } from "../../stores/user";
 import { useBookmarkStore } from "../../stores/bookmark";
 import { onMounted, computed, ref, reactive, watch } from "vue";
+import { useRouter } from "vue-router";
 
 const store = useRunningPathStore();
 const userStore = useUserStore();
 const bookmarkStore = useBookmarkStore();
 const computedDistances = reactive({});
+const router = useRouter();
 
 const toggleLike = function (runningPath) {
-  console.log(runningPath.mapId);
-  bookmarkStore.getBookmark(runningPath.mapId, userStore.userName['userId']);
+  if (userStore.userName == "") {
+    router.push({ name: "login" });
+  }
+  bookmarkStore.getBookmark(runningPath.mapId, userStore.userName["userId"]);
   runningPath.bookmark = !runningPath.bookmark;
 };
 
@@ -99,6 +145,7 @@ const clickPage = function (page) {
 };
 
 const currentPageRunningPathList = computed(() => {
+  console.log(store.runningPathList);
   return store.runningPathList.slice(
     (currentPage.value - 1) * perPage,
     currentPage.value * perPage
@@ -118,9 +165,9 @@ function getDistance(lat1, lon1, lat2, lon2) {
   const a =
     Math.sin(dLat / 2) * Math.sin(dLat / 2) +
     Math.sin(dLon / 2) *
-    Math.sin(dLon / 2) *
-    Math.cos(lat1Rad) *
-    Math.cos(lat2Rad);
+      Math.sin(dLon / 2) *
+      Math.cos(lat1Rad) *
+      Math.cos(lat2Rad);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   const distance = R * c;
 
@@ -165,14 +212,10 @@ function tempDist(paths, mapId) {
 </script>
 
 <style scoped>
-.bg-info-subtle {
-  width: 7vw;
-  margin: 2vh;
-  font-family: "LINESeedKR-Bd";
-  font-size: larger;
-  text-align: center;
+.recommend {
+  font-weight: 600;
+  margin: 30px 0px 30px 20px;
 }
-
 .path-container {
   border: 1px solid #ccc;
   border-radius: 10px;
@@ -191,13 +234,20 @@ function tempDist(paths, mapId) {
   flex-grow: 1;
   margin-right: 15px;
 }
+.text-black:hover {
+  color: #28bb65; /* Change to the desired color when hovering */
+}
 
 .title {
-  color: #3498db;
+  color: rgb(90, 90, 90);
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
 }
 
 .distance {
-  color: #e74c3c;
+  margin-top: 10px;
+  color: #28bb65;
 }
 
 .description {
@@ -217,6 +267,9 @@ img {
 }
 
 .like {
-  color: darkred;
+  color: red;
+}
+.unlike {
+  color: rgb(228, 227, 227);
 }
 </style>

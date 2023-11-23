@@ -1,56 +1,81 @@
 <template>
-    <footer class="footer mt-auto py-3 bg-body-secondary">
-      <div class="container">
-        <div class="row align-items-center">
-          <div class="col-md-4 text-center">
-            <img class="logo2 img-fluid img-thumbnail border border-dark-subtle" src="@/assets/image/S S A T H.png" />
-          </div>
-          <div class="col-md-4 box">
-            <a href="https://github.com/SSAth2023/SSAth_running" target="_blank">
-              <img class="img-fluid" src="@/assets/image/github.png" />
-            </a>
-            <p class="m-0">GitHub</p>
-            <a href="https://www.instagram.com/" target="_blank">
-              <img class="img-fluid" src="@/assets/image/instagram.png" />
-            </a>
-            <p class="m-0">Instagram</p>
-            <a href="https://zircon-sage-fe0.notion.site/SSAth-Project-8633c2fa6ef94ed0bb7542534a48fc72" target="_blank">
-                <img class="img-fluid" src="@/assets/image/notion.png" />
-              </a>
-              <p class="m-0">Notion</p>
-          </div>
-          <div class="col-md-4 text-center">
-            <p class="p2 text-muted fw-bolder border-top border-bottom bg-light-subtle">
-              박영규 | 이민형
-            </p>
-            <p class="text-muted small m-0 mt-2">
-              &copy; 2023 Your Company. All rights reserved.
-            </p>
-          </div>
+  <footer class="footer mt-auto py-3 bg-body-secondary">
+    <div class="container flex-center">
+      <div class="col align-items-center">
+        <div class="text-center">
+          <p class="p2 text-muted">박영규 | 이민형</p>
+          <p
+            class="copy text-muted small m-0 mt-2"
+            style="font-size: 13px; opacity: 0.5"
+          >
+            &copy; 2023 Your Company. All rights reserved.
+          </p>
         </div>
       </div>
-    </footer>
+      <div class="box">
+        <a
+          href="https://github.com/SSAth2023/SSAth_running"
+          target="_blank"
+          class="boxitem"
+        >
+          <img class="img-fluid" src="@/assets/image/github.png" />
+          <!-- <p class="m-0">GitHub</p> -->
+        </a>
+        <a href="https://www.instagram.com/" target="_blank" class="boxitem">
+          <img class="img-fluid" src="@/assets/image/instagram.png" />
+          <!-- <p class="m-0">Instagram</p> -->
+        </a>
+        <a
+          href="https://zircon-sage-fe0.notion.site/SSAth-Project-8633c2fa6ef94ed0bb7542534a48fc72"
+          target="_blank"
+          class="boxitem"
+        >
+          <img class="img-fluid" src="@/assets/image/notion.png" />
+          <!-- <p class="m-0">Notion</p> -->
+        </a>
+      </div>
+    </div>
+  </footer>
 </template>
 
 <style scoped>
-    .p2 {
-        margin: 0;
-        text-align: center;
-    }
+.p2 {
+  margin: 0;
+  text-align: center;
+  font-size: 14px;
+}
 
-    .box {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-bottom: 1vh;
-    }
+.box {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1vh;
+  margin-top: 1vh;
+}
 
-    .footer {
-        padding: 0;
-    }
+.footer {
+  padding: 0;
+  position: absolute;
+  bottom: 0;
+}
+.boxitem {
+  width: 33%;
+}
 
-    .logo2 {
-        width: 10vw;
-        height: auto;
-    }
+a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 3px;
+}
+
+img {
+  width: 25px;
+}
+.flex-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 </style>

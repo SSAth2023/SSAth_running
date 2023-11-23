@@ -2,22 +2,53 @@
   <div>
     <div class="bg-info-subtle rounded-1">내가 찜한 코스</div>
     <hr />
-    <div v-for="(runningPath, index) in currentPageRunningPathList" :key="runningPath.mapId">
+    <div
+      v-for="(runningPath, index) in currentPageRunningPathList"
+      :key="runningPath.mapId"
+    >
       <div class="path-container">
         <div class="path">
           <div class="path-details">
-            <RouterLink class="title fs-3 fw-bold" :to="`/path/${runningPath.mapId}`">
-              {{ index + 1 + (currentPage - 1) * perPage + ". " + runningPath.title }}
+            <RouterLink
+              class="title fs-3 fw-bold"
+              :to="`/path/${runningPath.mapId}`"
+            >
+              {{
+                index +
+                1 +
+                (currentPage - 1) * perPage +
+                ". " +
+                runningPath.title
+              }}
             </RouterLink>
             <p class="distance">
-              약 {{ runningPath.calDist / 1000 }}km 내, {{ (runningPath.distance / 1000).toFixed(2) }}km 코스
+              약 {{ runningPath.calDist / 1000 }}km 내,
+              {{ (runningPath.distance / 1000).toFixed(2) }}km 코스
             </p>
             <p class="description">{{ runningPath.description }}</p>
-            <RouterLink :to="`/path/${runningPath.mapId}`" class="text-black fs-6 fw-normal">댓글 보기</RouterLink>
+            <RouterLink
+              :to="`/path/${runningPath.mapId}`"
+              class="text-black fs-6 fw-normal"
+              :class="{
+                like: runningPath.bookmark,
+                unlike: !runningPath.bookmark,
+              }"
+              >댓글 보기</RouterLink
+            >
           </div>
           <div class="favor">
-            <i style="font-size: 1.5rem" class="bi bi-suit-heart" :class="{ like: runningPath.bookmark }" @click="toggleLike(runningPath)"></i>
-            <p class="text-center text-black fs-6 fw-normal">{{ runningPath.likes }}</p>
+            <i
+              style="font-size: 1.5rem"
+              class="bi bi-suit-heart-fill"
+              :class="{
+                like: runningPath.bookmark,
+                unlike: !runningPath.bookmark,
+              }"
+              @click="toggleLike(runningPath)"
+            ></i>
+            <p class="text-center text-black fs-6 fw-normal">
+              {{ runningPath.likes }}
+            </p>
           </div>
         </div>
       </div>
@@ -26,13 +57,31 @@
     <nav aria-label="Page navigation">
       <ul class="pagination d-flex justify-content-center">
         <li class="page-item">
-          <a class="page-link" :class="{ disabled: currentPage <= 1 }" href="#" @click.prevent="currentPage--">&lt;</a>
+          <a
+            class="page-link"
+            :class="{ disabled: currentPage <= 1 }"
+            href="#"
+            @click.prevent="currentPage--"
+            >&lt;</a
+          >
         </li>
-        <li :class="{ active: currentPage === page }" v-for="page in pageCount" :key="page">
-          <a class="page-link" href="#" @click.prevent="clickPage(page)">{{ page }}</a>
+        <li
+          :class="{ active: currentPage === page }"
+          v-for="page in pageCount"
+          :key="page"
+        >
+          <a class="page-link" href="#" @click.prevent="clickPage(page)">{{
+            page
+          }}</a>
         </li>
         <li class="page-item">
-          <a class="page-link" :class="{ disabled: currentPage >= pageCount }" href="#" @click.prevent="currentPage++">&gt;</a>
+          <a
+            class="page-link"
+            :class="{ disabled: currentPage >= pageCount }"
+            href="#"
+            @click.prevent="currentPage++"
+            >&gt;</a
+          >
         </li>
       </ul>
     </nav>
@@ -52,7 +101,7 @@ const computedDistances = reactive({});
 
 const toggleLike = function (runningPath) {
   console.log(runningPath.mapId);
-  bookmarkStore.getBookmark(runningPath.mapId, userStore.userName['userId']);
+  bookmarkStore.getBookmark(runningPath.mapId, userStore.userName["userId"]);
   runningPath.bookmark = !runningPath.bookmark;
 };
 
@@ -117,9 +166,9 @@ function getDistance(lat1, lon1, lat2, lon2) {
   const a =
     Math.sin(dLat / 2) * Math.sin(dLat / 2) +
     Math.sin(dLon / 2) *
-    Math.sin(dLon / 2) *
-    Math.cos(lat1Rad) *
-    Math.cos(lat2Rad);
+      Math.sin(dLon / 2) *
+      Math.cos(lat1Rad) *
+      Math.cos(lat2Rad);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   const distance = R * c;
 
@@ -216,6 +265,9 @@ img {
 }
 
 .like {
-  color: darkred;
+  color: red;
+}
+.unlike {
+  color: rgb(228, 227, 227);
 }
 </style>
