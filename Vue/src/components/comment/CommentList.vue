@@ -1,14 +1,14 @@
 <template>
   <div>
     <table
-      class="table table-warning table-striped table-bordered table-hover text-center"
+      class="table table-success table-striped table-bordered table-hover text-center"
     >
       <thead>
         <tr>
           <th scope="col"></th>
-          <th scope="col">작성자</th>
-          <th scope="col">내용</th>
-          <th scope="col">작성 시각</th>
+          <th scope="col">Writer</th>
+          <th scope="col">Content</th>
+          <th scope="col">Time</th>
         </tr>
       </thead>
       <tbody class="table-group-divider">

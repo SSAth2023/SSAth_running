@@ -1,12 +1,14 @@
 <template>
   <div>
-    <div class="input-group mb-3 input-search">
+    <div
+      class="input-group border border-1 rounded-start-3 rounded-5 border-success mb-3 input-search"
+    >
       <input
         type="text"
         class="form-control"
         @keyup.enter="search"
         v-model="searchInput"
-        placeholder="검색하고 싶은 장소가 있으신가요?"
+        placeholder="Search"
       />
       <button
         class="btn btn-outline-secondary"
@@ -61,7 +63,7 @@
             </button>
             <button
               type="button"
-              class="btn btn-primary"
+              class="btn btn-success"
               @click="createRunningPath"
               data-bs-toggle="modal"
               data-bs-target="#exampleModal"

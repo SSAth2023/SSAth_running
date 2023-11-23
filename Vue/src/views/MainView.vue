@@ -83,7 +83,7 @@ const checkLoginView = () => {
 
 .character {
   width: 30vw;
-  height: 50vh;
+  height: 60vh;
   background: url("../assets/image/boy.png") center center no-repeat;
   background-size: cover;
   animation: jump 1s infinite alternate;
@@ -94,7 +94,7 @@ const checkLoginView = () => {
   position: fixed;
   z-index: 100;
   left: 25vw;
-  bottom: 20vh;
+  bottom: 10vh;
   width: 50vw;
   height: 5vh;
 }
@@ -112,4 +112,5 @@ const checkLoginView = () => {
   100% {
     transform: translateY(-20px);
   }
-}</style>
+}
+</style>
