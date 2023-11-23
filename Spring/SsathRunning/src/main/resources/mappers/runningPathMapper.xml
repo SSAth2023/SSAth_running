@@ -42,7 +42,7 @@
 		LIMIT 5;
 	</select>
 	
-	<!-- 전체 경로 조회 -->
+	<!-- 좋아요 전체 경로 조회 -->
 	<select id="selectBookmarkedPaths" resultMap="runningPathMap" parameterType="runningPath">
 		SELECT
 			A.map_id, A.user_id, title, path, description, 
@@ -71,10 +71,13 @@
 	</select>
 	
 	<!-- 상세 경로 조회 -->
-	<select id="selectOnePath" resultMap="runningPathMap" parameterType="int">
-		SELECT *
-		FROM RunningPath
-		WHERE map_id = #{mapId}
+	<select id="selectOnePath" resultMap="runningPathMap" parameterType="RunningPath">
+		SELECT A.*, marked bookmark
+		FROM RunningPath A
+		LEFT JOIN
+		(SELECT * FROM bookmark WHERE user_id = #{userId}) B
+		ON A.map_id = B.map_id
+		WHERE A.map_id = #{mapId}
 	</select>
 
 	<!-- 경로 등록 -->

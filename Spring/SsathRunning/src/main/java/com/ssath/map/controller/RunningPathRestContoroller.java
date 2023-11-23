@@ -60,11 +60,12 @@ public class RunningPathRestContoroller {
 	}
 	
 	// 한 개의 러닝 경로 가져오기
-	@GetMapping("/path/{mapId}")
-	public ResponseEntity<RunningPath> detail(@PathVariable int mapId) {
-		RunningPath runningPath = runningPathService.selectOnePath(mapId);
+	@PostMapping("/path/{mapId}")
+	public ResponseEntity<RunningPath> detail(@RequestBody RunningPath runningPath) {
+		System.out.println("한 개의 러닝 경로 가져오기 "+runningPath);
+		RunningPath path = runningPathService.selectOnePath(runningPath);
 		
-		return new ResponseEntity<RunningPath>(runningPath, HttpStatus.OK);
+		return new ResponseEntity<RunningPath>(path, HttpStatus.OK);
 	}
 	
 	// 러닝 경로 생성
