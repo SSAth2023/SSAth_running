@@ -1,5 +1,6 @@
 <template>
   <div>
+
     <div class="recommend">R e c o m m e n d</div>
 
     <div
@@ -105,8 +106,6 @@ const toggleLike = function (runningPath) {
 
 onMounted(() => {
   const storedDistances = localStorage.getItem("computedDistances");
-
-  // store.getRunningPathList();
 
   if (storedDistances) {
     computedDistances.value = reactive(JSON.parse(storedDistances));

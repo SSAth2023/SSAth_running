@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +20,6 @@ import com.ssath.map.model.service.UserService;
 import com.ssath.map.util.JwtUtil;
 
 import io.swagger.annotations.Api;
-import springfox.documentation.annotations.ApiIgnore;
-
 @RestController
 @Api(tags="유저 컨트롤러")
 @RequestMapping("/api")

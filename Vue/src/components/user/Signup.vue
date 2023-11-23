@@ -1,5 +1,10 @@
 <template>
   <div class="running-page">
+    <div class="head">
+      <div class="running-button2 d-flex" @click="back">
+        <p>B a c k</p>
+      </div>
+    </div>
     <div class="running-container">
       <div class="running-card">
         <div class="running-background"></div>
@@ -54,14 +59,18 @@
                 class="running-input"
               />
             </div>
-            <button type="submit" class="running-button primary">등록</button>
+            <button
+              type="submit"
+              class="running-button primary"
+              :disabled="!isFormValid"
+            >
+              등록
+            </button>
           </form>
-          <div class="running-footer">
-            <button class="running-button secondary" @click="back">이전</button>
-          </div>
         </div>
       </div>
     </div>
+    <div class="foot"></div>
   </div>
 </template>
 
@@ -77,11 +86,22 @@ const id = ref("");
 const password = ref("");
 const password2 = ref("");
 const name = ref("");
-const age = ref(0);
+const age = ref(null);
 const users = computed(() => userStore.users);
 
 onMounted(() => {
   userStore.setUsers();
+});
+
+const isFormValid = computed(() => {
+  // 필요한 경우 다른 유효성 검사 로직을 추가하세요
+  return (
+    id.value !== "" &&
+    password.value !== "" &&
+    password2.value !== "" &&
+    name.value !== "" &&
+    age.value !== null
+  );
 });
 
 const isPasswordValid = (pwd) => {
@@ -150,7 +170,7 @@ const back = () => {
     }
   })
     .then(() => {
-      router.push("/");
+      router.go(-1);
     })
     .catch(() => {});
 };
@@ -163,7 +183,7 @@ const back = () => {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url("https://img.freepik.com/free-photo/sunset-on-the-aegean-sea-coast-ship-and-land-in-the-distance-water-greece_1268-16901.jpg?w=1380&t=st=1700672640~exp=1700673240~hmac=e9f88b9c5e62170f068b88bc803747758821ec036211ee225d5868e3d18405de");
+  background-image: url("../../assets/image/forest.jpg");
   background-size: cover;
   background-position: center;
   opacity: 0.5;
@@ -243,8 +263,20 @@ const back = () => {
   transition: background-color 0.3s ease-in-out;
 }
 
+.running-button[disabled] {
+  height: 35px;
+  width: 100%;
+  border: none;
+  border-radius: 5px;
+  opacity: 0.5; /* 비활성화된 상태에는 투명도를 적용하여 시각적으로 구분 */
+  cursor: not-allowed;
+  font-size: 1em;
+  font-weight: bold;
+  transition: background-color 0.3s ease-in-out;
+}
+
 .running-button.primary {
-  background-color: #3498db;
+  background-color: #28bb65;
   color: #fff;
 }
 
@@ -273,5 +305,44 @@ const back = () => {
   position: relative;
   opacity: 0.9;
   z-index: 1;
+}
+
+.head {
+  background-color: black;
+  width: 100vw;
+  height: 8vh;
+  position: fixed;
+  top: 0;
+  z-index: 10;
+  opacity: 0.8;
+}
+
+.foot {
+  background-color: black;
+  width: 100vw;
+  height: 8vh;
+  position: fixed;
+  bottom: 0;
+  z-index: 10;
+  opacity: 0.8;
+}
+
+.running-button2 {
+  width: 10vw;
+  height: 5vh;
+  padding: 10px;
+  margin-top: 2.5vh;
+  margin-left: 2vw;
+  cursor: pointer;
+  font-size: 1.1em;
+  font-weight: bold;
+  background-color: black;
+  z-index: 100;
+  color: #fff;
+}
+
+.running-button2:hover {
+  color: #2ecc71; /* 바꿀 색상으로 수정하세요 */
+  transition: background-color 0.3s ease-in-out;
 }
 </style>

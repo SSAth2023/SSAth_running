@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="bg-info-subtle rounded-1">내가 찜한 코스</div>
+    <div class="bg-info rounded-1">내가 찜한 코스</div>
     <hr />
     <div
       v-for="(runningPath, index) in currentPageRunningPathList"
@@ -213,12 +213,13 @@ function tempDist(paths, mapId) {
 </script>
 
 <style scoped>
-.bg-info-subtle {
+.bg-info {
   width: 7vw;
   margin: 2vh;
   font-family: "LINESeedKR-Bd";
   font-size: larger;
   text-align: center;
+  color: white;
 }
 
 .path-container {
@@ -263,7 +264,6 @@ img {
   width: 3.7425vw;
   height: 6.5104vh;
 }
-
 .like {
   color: red;
 }
