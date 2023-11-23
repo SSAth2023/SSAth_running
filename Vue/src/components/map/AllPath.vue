@@ -11,8 +11,6 @@
         class="form-control"
         @keyup.enter="search"
         v-model="searchInput"
-      <button
-        class="btn btn-outline-secondary"
         placeholder="Search"
       />
       <button

@@ -275,7 +275,7 @@ img {
 
 .a:hover {
   color: #28bb65;
-
+}
 .page-link {
   color: #000;
   background-color: #fff;
