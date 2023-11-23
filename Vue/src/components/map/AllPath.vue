@@ -11,6 +11,8 @@
         class="form-control"
         @keyup.enter="search"
         v-model="searchInput"
+      <button
+        class="btn btn-outline-secondary"
         placeholder="Search"
       />
       <button
@@ -43,6 +45,15 @@
     >
       현재 위치로 이동
     </button>
+    <!-- 날씨 -->
+    <div class="weather">
+      <div class="weather-location">
+        <i class="bi bi-compass"></i> {{ locationName }}
+      </div>
+      <div class="weather-temp">
+        <i class="bi bi-thermometer-half"></i> {{ temp }}
+      </div>
+    </div>
 
     <img
       class="running-logo"
@@ -67,6 +78,9 @@ const map = ref(null);
 const searchInput = ref("");
 const infoWindow = ref(null);
 const curlocationToPost = ref({});
+let locationName = ref(null);
+let temp = ref(null);
+console.log(locationName.value);
 const polylineOptions = ref({
   strokeColor: "#008000",
   strokeOpacity: 0.7,
@@ -115,6 +129,13 @@ const search = () => {
             path: JSON.stringify(location),
             userId: userStore.userName["userId"],
           };
+          const str = JSON.stringify(location);
+          console.log(JSON.stringify(location));
+          console.log(str.slice(7, str.indexOf(",")));
+          const lat = str.slice(7, str.indexOf(","));
+          console.log(str.slice(str.indexOf("lng") + 5, str.length - 1));
+          const lng = str.slice(str.indexOf("lng") + 5, str.length - 1);
+          getWeather(lat, lng);
           console.log(curlocationToPost);
           map.value.setCenter(location);
         } else {
@@ -145,6 +166,7 @@ const moveToCurrentLocation = () => {
         console.log(curlocationToPost);
         map.value.setCenter(location);
         runningPathStore.getRunningPathList(curlocationToPost);
+        getWeather(position.coords.latitude, position.coords.longitude);
       },
       (error) => {
         console.error("위치 수집 여부 거절");
@@ -221,6 +243,19 @@ const addEvent = (polyline, runningPath) => {
   });
 };
 
+const getWeather = async function (lat, lon) {
+  fetch(
+    `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=a1a2fe0dd5325059336133b7a25936e3&units=metric`
+  )
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (json) {
+      console.log(json);
+      temp.value = json.main.temp;
+      locationName.value = json.name;
+    });
+};
 onMounted(async () => {
   map.value = new google.maps.Map(document.getElementById("map"), {
     center: { lat: 6.009, lng: 116.008 },
@@ -230,11 +265,10 @@ onMounted(async () => {
     },
   });
 
-  // 위치 수집 Promise 생성
-  const getLocation = () => {
+  const getLocation = async () => {
     return new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition(
-        (position) => {
+        async (position) => {
           const location = {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
@@ -246,6 +280,7 @@ onMounted(async () => {
           };
           map.value.setCenter(location);
           resolve();
+          await getWeather(position.coords.latitude, position.coords.longitude);
         },
         (error) => {
           console.error("위치 수집 여부 거절");
@@ -319,6 +354,30 @@ onMounted(async () => {
   bottom: 67px;
   right: 60px;
   z-index: 1000;
+}
+.weather {
+  width: 100px;
+  height: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: absolute;
+  top: 7%;
+  left: 92%;
+  border: 1;
+  background-color: rgba(216, 216, 216, 0.603);
+  z-index: 1000s;
+}
+.weather-location {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-left: 10px;
+  border: none;
+}
+.weather-temp {
+  margin-left: 10px;
+  border: none;
 }
 
 .input-search {
