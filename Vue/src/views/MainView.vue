@@ -7,8 +7,20 @@
     <div class="loading" v-if="isLoading">
       <div class="character img-fluid"></div>
       <p class="fs-1 fw-bolder">Loading...</p>
-      <div class="progress bar2" role="progressbar" aria-label="Animated striped example" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-        <div class="progress-bar progress-bar-striped progress-bar-animated bg-warning text-dark te" :style="{width: progressBarWidth + '%'}">신나게 달릴 준비 되셨나요?</div>
+      <div
+        class="progress bar2"
+        role="progressbar"
+        aria-label="Animated striped example"
+        aria-valuenow="20"
+        aria-valuemin="0"
+        aria-valuemax="100"
+      >
+        <div
+          class="progress-bar progress-bar-striped progress-bar-animated bg-warning text-dark te"
+          :style="{ width: progressBarWidth + '%' }"
+        >
+          신나게 달릴 준비 되셨나요?
+        </div>
       </div>
     </div>
   </div>
@@ -26,7 +38,7 @@ const isLoading = ref(true);
 const progressBarWidth = ref(0);
 
 onMounted(() => {
-  const duration = 5000;
+  const duration = 1000;
   const startTime = Date.now();
 
   const updateProgressBar = () => {
@@ -70,9 +82,9 @@ const checkLoginView = () => {
 }
 
 .character {
-  width: 25vw;
+  width: 30vw;
   height: 50vh;
-  background: url('../assets/image/boy.png') center center no-repeat;
+  background: url("../assets/image/boy.png") center center no-repeat;
   background-size: cover;
   animation: jump 1s infinite alternate;
   margin-top: 5vh;
