@@ -38,7 +38,7 @@ const isLoading = ref(true);
 const progressBarWidth = ref(0);
 
 onMounted(() => {
-  const duration = 1000;
+  const duration = 3000;
   const startTime = Date.now();
 
   const updateProgressBar = () => {
