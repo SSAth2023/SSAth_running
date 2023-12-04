@@ -10,12 +10,7 @@
         <div class="running-background"></div>
         <div class="running-card-content">
           <div class="running-header">
-            <img
-              class="running-logo"
-              @click="back"
-              src="../../assets/image/S S A T H.png"
-              alt="Running Logo"
-            />
+            <img class="running-logo" @click="back" src="../../assets/image/S S A T H.png" alt="Running Logo" />
             <h2 class="running-title">Sign up</h2>
           </div>
           <form @submit.prevent="regist" class="running-form">
@@ -25,47 +20,21 @@
             </div>
             <div class="running-form-group">
               <label for="password" class="running-label">Password</label>
-              <input
-                type="password"
-                id="password"
-                v-model="password"
-                class="running-input"
-              />
+              <input type="password" id="password" v-model="password" class="running-input" />
             </div>
             <div class="running-form-group">
-              <label for="password2" class="running-label"
-                >Password confirmation</label
-              >
-              <input
-                type="password"
-                id="password2"
-                v-model="password2"
-                class="running-input"
-              />
+              <label for="password2" class="running-label">Password confirmation</label>
+              <input type="password" id="password2" v-model="password2" class="running-input" />
             </div>
             <div class="running-form-group">
               <label for="name" class="running-label">Name</label>
-              <input
-                type="text"
-                id="name"
-                v-model="name"
-                class="running-input"
-              />
+              <input type="text" id="name" v-model="name" class="running-input" />
             </div>
             <div class="running-form-group">
               <label for="age" class="running-label">Age</label>
-              <input
-                type="number"
-                id="age"
-                v-model="age"
-                class="running-input"
-              />
+              <input type="number" id="age" v-model="age" class="running-input" />
             </div>
-            <button
-              type="submit"
-              class="running-button primary"
-              :disabled="!isFormValid"
-            >
+            <button type="submit" class="running-button primary" :disabled="!isFormValid">
               Regist
             </button>
           </form>
@@ -135,8 +104,9 @@ const regist = () => {
     return;
   }
 
-  if (!onlyNumberAndEnglish(id)) {
+  if (!onlyNumberAndEnglish(id.value)) {
     alert("아이디는 숫자 혹은 영어로만 입력되어야 합니다.");
+    return;
   }
 
   if (id)
@@ -174,7 +144,7 @@ const back = () => {
     .then(() => {
       router.go(-1);
     })
-    .catch(() => {});
+    .catch(() => { });
 };
 </script>
 
@@ -270,7 +240,8 @@ const back = () => {
   width: 100%;
   border: none;
   border-radius: 5px;
-  opacity: 0.5; /* 비활성화된 상태에는 투명도를 적용하여 시각적으로 구분 */
+  opacity: 0.5;
+  /* 비활성화된 상태에는 투명도를 적용하여 시각적으로 구분 */
   cursor: not-allowed;
   font-size: 1em;
   font-weight: bold;
@@ -344,7 +315,8 @@ const back = () => {
 }
 
 .running-button2:hover {
-  color: #2ecc71; /* 바꿀 색상으로 수정하세요 */
+  color: #2ecc71;
+  /* 바꿀 색상으로 수정하세요 */
   transition: background-color 0.3s ease-in-out;
 }
 </style>

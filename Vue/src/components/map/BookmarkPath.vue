@@ -193,7 +193,7 @@ const addEvent = (polyline, runningPath) => {
 
 const getWeather = async function (lat, lon) {
   fetch(
-    `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=a1a2fe0dd5325059336133b7a25936e3&units=metric`
+    `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=yourKey&units=metric`
   )
     .then(function (response) {
       return response.json();
