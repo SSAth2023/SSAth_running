@@ -3,6 +3,6 @@
 <br>
 <br>
 <h5>OpenWeather, Maps JavaScript API Key는 별도 등록이 필요합니다.</h5><br>
-<h5>형성 관리: Github</h5>
+<h5>형상 관리: Github</h5>
 <h5>기술 스택: Springboot, Mybatis, Mysql, Vue, ajax</h5>
 <h5>개발 툴: STS, Maven, Github, Visual Studio Code, Window 10</h5>
