@@ -6,3 +6,5 @@
 <h5>형상 관리: Github</h5>
 <h5>기술 스택: Springboot, Mybatis, Mysql, Vue, ajax</h5>
 <h5>개발 툴: STS, Maven, Github, Visual Studio Code, Window 10</h5>
+
+#### [Notion page](https://www.notion.so/SSAth-Project-8633c2fa6ef94ed0bb7542534a48fc72)
